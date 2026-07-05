@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Municipal Risk Forensics — Forensic Pharmacy-Benefit Audits for Louisiana Public Employers</title>
+<meta name="description" content="Municipal Risk Forensics helps Louisiana parishes, school boards, and municipalities find money quietly leaking from their health plans' pharmacy benefits — with a no-cost forensic review. Paid only from money you actually recover.">
+<style>
+  :root{
+    --navy:#0e1c30; --navy2:#16283f; --ink:#1c2a3a; --paper:#f7f5f0;
+    --gold:#c9a227; --gold-dk:#a8861d; --muted:#5d6b7c; --line:#e3ded3;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:Georgia,'Times New Roman',serif;color:var(--ink);background:var(--paper);line-height:1.65}
+  .sans{font-family:-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif}
+  .wrap{max-width:1040px;margin:0 auto;padding:0 24px}
+
+  /* header */
+  header{background:var(--navy);color:#fff;padding:18px 0;position:sticky;top:0;z-index:10;border-bottom:3px solid var(--gold)}
+  .hrow{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  .mark{font-family:-apple-system,'Segoe UI',Roboto,sans-serif;font-weight:800;letter-spacing:.14em;font-size:15px;text-transform:uppercase}
+  .mark span{color:var(--gold)}
+  nav a{color:#cfd8e3;text-decoration:none;font-size:13.5px;margin-left:22px;font-family:-apple-system,'Segoe UI',Roboto,sans-serif;letter-spacing:.04em}
+  nav a:hover{color:#fff}
+  nav a.cta{background:var(--gold);color:var(--navy);padding:8px 16px;border-radius:3px;font-weight:700}
+  nav a.cta:hover{background:#dab536;color:var(--navy)}
+
+  /* hero */
+  .hero{background:linear-gradient(160deg,var(--navy) 0%,var(--navy2) 100%);color:#fff;padding:84px 0 72px}
+  .kicker{font-family:-apple-system,'Segoe UI',Roboto,sans-serif;font-size:12.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:18px}
+  h1{font-size:clamp(30px,4.6vw,46px);line-height:1.16;font-weight:400;max-width:21ch}
+  .hero p.lede{margin-top:22px;font-size:19px;color:#c9d4e0;max-width:58ch}
+  .hero .btns{margin-top:34px;display:flex;gap:14px;flex-wrap:wrap}
+  .btn{display:inline-block;text-decoration:none;font-family:-apple-system,'Segoe UI',Roboto,sans-serif;font-weight:700;font-size:15px;padding:14px 26px;border-radius:3px}
+  .btn-gold{background:var(--gold);color:var(--navy)} .btn-gold:hover{background:#dab536}
+  .btn-ghost{border:1px solid #4d6076;color:#dbe4ee} .btn-ghost:hover{border-color:#8fa3b8;color:#fff}
+
+  /* precedent band */
+  .band{background:#fff;border-bottom:1px solid var(--line);padding:44px 0}
+  .band h2{font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);font-family:-apple-system,'Segoe UI',Roboto,sans-serif;text-align:center;margin-bottom:30px;font-weight:600}
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:26px;text-align:center}
+  .stat .n{font-size:34px;color:var(--navy);font-weight:700;font-family:Georgia,serif}
+  .stat .n em{font-style:normal;color:var(--gold-dk)}
+  .stat .d{font-size:13.5px;color:var(--muted);margin-top:6px;font-family:-apple-system,'Segoe UI',Roboto,sans-serif;line-height:1.5}
+  .band .foot{text-align:center;margin-top:28px;font-size:14px;color:var(--muted);font-style:italic}
+
+  /* sections */
+  section{padding:72px 0}
+  .sec-k{font-family:-apple-system,'Segoe UI',Roboto,sans-serif;font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold-dk);margin-bottom:12px;font-weight:700}
+  h2.big{font-size:clamp(24px,3.4vw,34px);font-weight:400;line-height:1.25;max-width:26ch}
+  .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:34px;margin-top:44px}
+  .step .num{font-family:Georgia,serif;font-size:44px;color:var(--gold);line-height:1}
+  .step h3{font-size:19px;margin:12px 0 10px;font-weight:700}
+  .step p{font-size:15.5px;color:#3d4c5e}
+  .step p b{color:var(--navy)}
+
+  /* why now */
+  .why{background:var(--navy);color:#fff}
+  .why h2.big{color:#fff}
+  .why .cols p{color:#c2cedb}
+  .why .cols h3{color:var(--gold)}
+  .law{border-left:3px solid var(--gold);padding-left:18px}
+  .law h3{font-size:17px;margin-bottom:8px;font-family:-apple-system,'Segoe UI',Roboto,sans-serif}
+  .law p{font-size:15px}
+
+  /* about + lane */
+  .about-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:48px;margin-top:36px}
+  @media(max-width:760px){.about-grid{grid-template-columns:1fr}}
+  .about p{font-size:16.5px;margin-bottom:16px;color:#33424f}
+  .lane{background:#fff;border:1px solid var(--line);border-top:3px solid var(--navy);padding:26px;font-size:14.5px;color:#4a5a6b}
+  .lane h3{font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--navy);font-family:-apple-system,'Segoe UI',Roboto,sans-serif;margin-bottom:12px}
+  .lane p{margin-bottom:10px}
+
+  /* contact */
+  .contact{background:#fff;border-top:1px solid var(--line)}
+  .contact .card{background:var(--navy);color:#fff;padding:48px;border-radius:4px;display:grid;grid-template-columns:1.3fr 1fr;gap:36px;align-items:center}
+  @media(max-width:760px){.contact .card{grid-template-columns:1fr;padding:34px}}
+  .contact h2{font-size:clamp(22px,3vw,30px);font-weight:400;line-height:1.3}
+  .contact .how{font-family:-apple-system,'Segoe UI',Roboto,sans-serif}
+  .contact .how a{display:block;color:#fff;text-decoration:none;font-size:17px;margin-bottom:14px;border-bottom:1px solid #2c405a;padding-bottom:14px}
+  .contact .how a b{color:var(--gold);display:block;font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;margin-bottom:4px}
+  .contact .how a:hover{color:var(--gold)}
+  .contact p.small{margin-top:16px;font-size:14px;color:#b9c6d4}
+
+  footer{padding:34px 0 44px;font-size:13px;color:var(--muted);font-family:-apple-system,'Segoe UI',Roboto,sans-serif}
+  .frow{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap hrow">
+    <div class="mark">Municipal <span>Risk</span> Forensics</div>
+    <nav class="sans">
+      <a href="#precedent">The Precedent</a>
+      <a href="#how">How It Works</a>
+      <a href="#whynow">Why Now</a>
+      <a href="#about">About</a>
+      <a class="cta" href="#contact">Request the Free Review</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <div class="kicker">Forensic Pharmacy-Benefit Audits &middot; Louisiana Public Employers</div>
+    <h1>Your health plan's pharmacy bill has a number in it that nobody checks.</h1>
+    <p class="lede">Parishes, school boards, and municipalities across Louisiana self-fund their employee
+    health plans — and pay whatever the pharmacy middleman bills. We re-price every claim against the
+    federal government's own drug-cost benchmark and show you, line by line, what your plan actually
+    should have paid. The review costs you nothing.</p>
+    <div class="btns">
+      <a class="btn btn-gold" href="#contact">Request the No-Cost Review</a>
+      <a class="btn btn-ghost" href="#precedent">See the Precedent</a>
+    </div>
+  </div>
+</div>
+
+<div class="band" id="precedent">
+  <div class="wrap">
+    <h2>The methodology is proven — by government auditors, at national scale</h2>
+    <div class="stats">
+      <div class="stat">
+        <div class="n">$615<em>M</em></div>
+        <div class="d">Overcharge found in the federal employee health plan by the U.S. OPM Inspector
+        General's audit of CVS Caremark (2018&ndash;2021, report released 2026)</div>
+      </div>
+      <div class="stat">
+        <div class="n">$224.8<em>M</em></div>
+        <div class="d">One year of hidden pharmacy "spread" found by the Ohio State Auditor (2018)
+        &mdash; 31% margins on generic drugs</div>
+      </div>
+      <div class="stat">
+        <div class="n">$45<em>M</em></div>
+        <div class="d">Louisiana's own Attorney General settlement with CVS/Caremark
+        (February 2026)</div>
+      </div>
+      <div class="stat">
+        <div class="n">$7.3<em>B</em></div>
+        <div class="d">Specialty-drug markups above acquisition cost found by the Federal Trade
+        Commission across the three largest pharmacy middlemen (2017&ndash;2022)</div>
+      </div>
+    </div>
+    <p class="foot">Every figure above is from a published government report or settlement.
+    The same benchmark-based method those auditors used is the one we apply to your plan.</p>
+  </div>
+</div>
+
+<section id="how">
+  <div class="wrap">
+    <div class="sec-k">How It Works</div>
+    <h2 class="big">Three steps. No cost, no obligation, no disruption to your plan.</h2>
+    <div class="cols">
+      <div class="step">
+        <div class="num">1</div>
+        <h3>The complimentary review</h3>
+        <p>We analyze your plan's published financials, contracts, and &mdash; at your election &mdash;
+        claims data your plan is entitled to request from its own vendors. Every drug claim is re-priced
+        against <b>NADAC</b>, the federal survey of what pharmacies actually pay for drugs.</p>
+      </div>
+      <div class="step">
+        <div class="num">2</div>
+        <h3>Findings for you and your counsel</h3>
+        <p>You receive a written findings summary — what was overpaid, where, and the statutes that
+        apply — built for your board and <b>your own attorney</b>. We provide forensic data analysis,
+        not legal advice; every decision stays with you and your counsel.</p>
+      </div>
+      <div class="step">
+        <div class="num">3</div>
+        <h3>You recover. Then we're paid.</h3>
+        <p>If you choose to pursue recovery, we support your team through it. Our compensation comes
+        <b>only from money your plan actually receives</b> — if you recover nothing, you owe nothing.
+        That is the whole arrangement.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="why" id="whynow">
+  <div class="wrap">
+    <div class="sec-k">Why Now</div>
+    <h2 class="big">Louisiana just rewrote the rules in your plan's favor.</h2>
+    <div class="cols">
+      <div class="law">
+        <h3>Act 474 of 2025</h3>
+        <p>Louisiana banned pharmacy "spread pricing" and mandated 100% pass-through of drug-maker
+        rebates to plans — with enforcement provisions taking effect January 1, 2027. Money kept from
+        your plan in ways the state has now outlawed is exactly what a forensic review surfaces.</p>
+      </div>
+      <div class="law">
+        <h3>LDI Directive 257 (2026)</h3>
+        <p>Louisiana's Department of Insurance declared that pharmacy reimbursement below the federal
+        acquisition-cost benchmark plus $9.00 is per se not fair and reasonable — a regulator-endorsed
+        version of the exact benchmark we audit against.</p>
+      </div>
+      <div class="law">
+        <h3>Federal transparency law</h3>
+        <p>Federal law now prohibits contract clauses that block a plan from seeing its own claims
+        data — including "once a year only" audit limits. Your plan is entitled to the data that
+        proves what it paid. We help you use that right.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="wrap">
+    <div class="sec-k">Our Mission</div>
+    <h2 class="big">Independent, Louisiana-based, and on exactly one side: the plan's.</h2>
+    <div class="about-grid">
+      <div class="about">
+        <p><b>Municipal Risk Forensics helps public employers strengthen fiduciary oversight of
+        their employee health plans</b> — by identifying financial leakage, improving transparency,
+        and providing independent analysis that supports responsible stewardship of taxpayer
+        resources. With increasing scrutiny around healthcare costs and fiduciary accountability,
+        our goal is to help organizations uncover savings opportunities while strengthening
+        governance and decision-making.</p>
+        <p>We are an independent forensic audit firm built for one client:
+        the self-funded public employer. We take no commissions from insurers, brokers, or pharmacy
+        benefit managers — the vendors we review — and we sell nothing but the analysis itself.</p>
+        <p>The firm is led by <b>Isiah Edwards</b>, a licensed life &amp; health insurance professional
+        with multi-state licensure and deep experience in how employer health plans are actually priced,
+        sold, and serviced. That industry background is the point: we know where the money moves because
+        we come from the rooms where it moves.</p>
+        <p>Our audit platform re-prices every pharmacy claim against public federal benchmarks, verifies
+        every finding against the statute that makes it actionable, and produces work built to withstand
+        scrutiny — by your board, your counsel, and the vendors themselves.</p>
+      </div>
+      <div class="lane">
+        <h3>Our Lane — Stated Plainly</h3>
+        <p>Municipal Risk Forensics is a forensic data-analysis firm, not a law firm, and provides no
+        legal advice or legal services.</p>
+        <p>Our findings are factual and analytical. Any demand, claim, or recovery action based on them
+        is the decision of your entity, acting through its own legal counsel.</p>
+        <p>Findings are delivered confidentially to you and your counsel.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="wrap">
+    <div class="card">
+      <div>
+        <h2>Ask us to look. It costs nothing, and you'll know — either way.</h2>
+        <p class="small">Tell us the entity and roughly how many employees are on the plan.
+        We'll tell you what a review would examine and what the public record already shows.
+        No cost, no obligation, and you can stop at any time.</p>
+      </div>
+      <div class="how">
+        <a href="mailto:audit.records@municipalriskforensics.com">
+          <b>Email</b> audit.records@municipalriskforensics.com</a>
+        <a href="tel:+13374860076"><b>Phone</b> (337) 486-0076</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap frow">
+    <div>&copy; 2026 Municipal Risk Forensics, LLC &middot; New Iberia, Louisiana</div>
+    <div>Forensic data analysis — not legal advice. Not a law firm.</div>
+  </div>
+</footer>
+
+</body>
+</html>
