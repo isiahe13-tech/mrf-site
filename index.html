@@ -1,1 +1,515 @@
-undefined
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Municipal Risk Forensics — Forensic Pharmacy-Benefit Audits for Louisiana Public Employers</title>
+<meta name="description" content="Municipal Risk Forensics helps Louisiana parishes, school boards, and municipalities find money quietly leaking from their health plans' pharmacy benefits — with a no-cost forensic review. Paid only from money you actually recover.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='8' fill='%230e1c30'/%3E%3Ctext x='32' y='44' font-family='Georgia,serif' font-size='34' font-weight='bold' fill='%23c9a227' text-anchor='middle'%3EM%3C/text%3E%3C/svg%3E">
+<meta name="theme-color" content="#0e1c30">
+<link rel="canonical" href="https://municipalriskforensics.com/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://municipalriskforensics.com/">
+<meta property="og:title" content="Municipal Risk Forensics — Forensic Pharmacy-Benefit Audits for Louisiana Public Employers">
+<meta property="og:description" content="Your health plan's pharmacy bill has a number in it that nobody checks. No-cost forensic review for Louisiana parishes, school boards, and municipalities — paid only from money your plan actually recovers.">
+<meta name="twitter:card" content="summary">
+<style>
+  :root{
+    --navy:#0e1c30; --navy2:#16283f; --ink:#1c2a3a; --paper:#f7f5f0;
+    --gold:#c9a227; --gold-dk:#a8861d; --muted:#5d6b7c; --line:#e3ded3;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:Georgia,'Times New Roman',serif;color:var(--ink);background:var(--paper);line-height:1.65}
+  .sans{font-family:-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif}
+  .wrap{max-width:1040px;margin:0 auto;padding:0 24px}
+
+  /* header */
+  header{background:var(--navy);color:#fff;padding:18px 0;position:sticky;top:0;z-index:10;border-bottom:3px solid var(--gold)}
+  .hrow{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  .mark{font-family:-apple-system,'Segoe UI',Roboto,sans-serif;font-weight:800;letter-spacing:.14em;font-size:15px;text-transform:uppercase}
+  .mark span{color:var(--gold)}
+  nav{display:flex;flex-wrap:wrap;align-items:center;gap:8px 22px}
+  nav a{color:#cfd8e3;text-decoration:none;font-size:13.5px;font-family:-apple-system,'Segoe UI',Roboto,sans-serif;letter-spacing:.04em;white-space:nowrap}
+  nav a:hover{color:#fff}
+  nav a.cta{background:var(--gold);color:var(--navy);padding:8px 16px;border-radius:3px;font-weight:700}
+  nav a.cta:hover{background:#dab536;color:var(--navy)}
+
+  /* hero */
+  .hero{background:linear-gradient(160deg,var(--navy) 0%,var(--navy2) 100%);color:#fff;padding:84px 0 72px}
+  .kicker{font-family:-apple-system,'Segoe UI',Roboto,sans-serif;font-size:12.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:18px}
+  h1{font-size:clamp(30px,4.6vw,46px);line-height:1.16;font-weight:400;max-width:21ch}
+  .hero p.lede{margin-top:22px;font-size:19px;color:#c9d4e0;max-width:58ch}
+  .hero .btns{margin-top:34px;display:flex;gap:14px;flex-wrap:wrap}
+  .btn{display:inline-block;text-decoration:none;font-family:-apple-system,'Segoe UI',Roboto,sans-serif;font-weight:700;font-size:15px;padding:14px 26px;border-radius:3px}
+  .btn-gold{background:var(--gold);color:var(--navy)} .btn-gold:hover{background:#dab536}
+  .btn-ghost{border:1px solid #4d6076;color:#dbe4ee} .btn-ghost:hover{border-color:#8fa3b8;color:#fff}
+
+  /* precedent band */
+  .band{background:#fff;border-bottom:1px solid var(--line);padding:44px 0}
+  .band h2{font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);font-family:-apple-system,'Segoe UI',Roboto,sans-serif;text-align:center;margin-bottom:30px;font-weight:600}
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:26px;text-align:center}
+  .stat .n{font-size:34px;color:var(--navy);font-weight:700;font-family:Georgia,serif}
+  .stat .n em{font-style:normal;color:var(--gold-dk)}
+  .stat .d{font-size:13.5px;color:var(--muted);margin-top:6px;font-family:-apple-system,'Segoe UI',Roboto,sans-serif;line-height:1.5}
+  .band .foot{text-align:center;margin-top:28px;font-size:14px;color:var(--muted);font-style:italic}
+
+  /* estimator */
+  .est{background:var(--paper)}
+  .est-card{margin-top:40px;display:grid;grid-template-columns:1fr 1.15fr;gap:0;border:1px solid var(--line);border-top:3px solid var(--gold);border-radius:4px;overflow:hidden;background:#fff}
+  @media(max-width:820px){.est-card{grid-template-columns:1fr}}
+  .est-in{padding:34px 30px}
+  .est-in label{display:block;font-family:-apple-system,'Segoe UI',Roboto,sans-serif;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--navy);font-weight:700;margin:18px 0 7px}
+  .est-in label:first-child{margin-top:0}
+  .est-in input,.est-in select{width:100%;padding:12px 14px;font-size:16px;font-family:Georgia,serif;border:1px solid #cfc9ba;border-radius:3px;background:var(--paper);color:var(--ink)}
+  .est-in input:focus,.est-in select:focus{outline:2px solid var(--gold);border-color:var(--gold)}
+  .est-in .hint{font-size:13px;color:var(--muted);margin-top:6px;font-family:-apple-system,'Segoe UI',Roboto,sans-serif;line-height:1.5}
+  .est-out{background:var(--navy);color:#fff;padding:34px 30px;display:flex;flex-direction:column;justify-content:center}
+  .est-out .lbl{font-family:-apple-system,'Segoe UI',Roboto,sans-serif;font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+  .est-out .rng{font-size:clamp(28px,3.6vw,40px);font-family:Georgia,serif;margin:10px 0 2px;line-height:1.15}
+  .est-out .per{font-size:14px;color:#9fb0c2;font-family:-apple-system,'Segoe UI',Roboto,sans-serif}
+  .est-out .three{margin-top:16px;font-size:16.5px;color:#dbe4ee}
+  .est-out .three b{color:var(--gold)}
+  .est-out .say{margin-top:16px;font-size:15px;color:#c2cedb;line-height:1.6}
+  .est-out .btns{margin-top:22px;display:flex;gap:12px;flex-wrap:wrap}
+  .est-out .btn{font-size:14px;padding:12px 20px}
+  .est-meth{grid-column:1 / -1;padding:16px 30px 18px;border-top:1px solid var(--line);font-family:-apple-system,'Segoe UI',Roboto,sans-serif;font-size:12.5px;color:var(--muted);line-height:1.6;background:#fbfaf7}
+  /* estimator: calculate button + gated lead-capture form */
+  [hidden]{display:none !important}
+  #est-calc{margin-top:20px;width:100%;cursor:pointer;border:none;font-family:-apple-system,'Segoe UI',Roboto,sans-serif;font-weight:700;font-size:15px;padding:13px 20px;border-radius:3px;background:var(--navy);color:#fff}
+  #est-calc:hover{background:var(--navy2)}
+  .est-idle{color:#9fb0c2;font-size:15.5px;line-height:1.65;font-family:-apple-system,'Segoe UI',Roboto,sans-serif}
+  .est-idle b{color:#dbe4ee}
+  .est-ready{font-family:-apple-system,'Segoe UI',Roboto,sans-serif}
+  .est-ready .rdy-k{font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:700}
+  .est-ready h3{font-size:21px;font-weight:400;margin:8px 0 4px;font-family:Georgia,serif;color:#fff}
+  .est-ready .rdy-sum{font-size:12.5px;color:#9fb0c2;margin-bottom:6px;line-height:1.5}
+  .est-form label{display:block;font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:#c2cedb;font-weight:700;margin:12px 0 5px;font-family:-apple-system,'Segoe UI',Roboto,sans-serif}
+  .est-form input{width:100%;padding:10px 12px;font-size:15px;font-family:Georgia,serif;border:1px solid #3a4d63;border-radius:3px;background:#0a1524;color:#fff}
+  .est-form input:focus{outline:2px solid var(--gold);border-color:var(--gold)}
+  .est-form input::placeholder{color:#6d7f92}
+  .est-form .req{color:var(--gold)}
+  .est-submit{margin-top:20px;width:100%;cursor:pointer;border:none;font-family:-apple-system,'Segoe UI',Roboto,sans-serif;font-weight:700;font-size:15px;padding:14px 20px;border-radius:3px;background:var(--gold);color:var(--navy)}
+  .est-submit:hover{background:#dab536}
+  .est-submit:disabled{opacity:.6;cursor:default}
+  .est-priv{margin-top:12px;font-size:11.5px;color:#8fa1b4;line-height:1.55;font-family:-apple-system,'Segoe UI',Roboto,sans-serif}
+  .est-err{color:#ffcaba;font-size:13px;margin-top:10px;font-family:-apple-system,'Segoe UI',Roboto,sans-serif;line-height:1.5}
+  .est-hp{position:absolute !important;left:-9999px;height:0;width:0;overflow:hidden}
+
+  /* sections */
+  section{padding:72px 0}
+  .sec-k{font-family:-apple-system,'Segoe UI',Roboto,sans-serif;font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold-dk);margin-bottom:12px;font-weight:700}
+  h2.big{font-size:clamp(24px,3.4vw,34px);font-weight:400;line-height:1.25;max-width:26ch}
+  .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:34px;margin-top:44px}
+  .step .num{font-family:Georgia,serif;font-size:44px;color:var(--gold);line-height:1}
+  .step h3{font-size:19px;margin:12px 0 10px;font-weight:700}
+  .step p{font-size:15.5px;color:#3d4c5e}
+  .step p b{color:var(--navy)}
+
+  /* why now */
+  .why{background:var(--navy);color:#fff}
+  .why h2.big{color:#fff}
+  .why .cols p{color:#c2cedb}
+  .why .cols h3{color:var(--gold)}
+  .law{border-left:3px solid var(--gold);padding-left:18px}
+  .law h3{font-size:17px;margin-bottom:8px;font-family:-apple-system,'Segoe UI',Roboto,sans-serif}
+  .law p{font-size:15px}
+
+  /* about + lane */
+  .about-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:48px;margin-top:36px}
+  @media(max-width:760px){.about-grid{grid-template-columns:1fr}}
+  .about p{font-size:16.5px;margin-bottom:16px;color:#33424f}
+  .lane{background:#fff;border:1px solid var(--line);border-top:3px solid var(--navy);padding:26px;font-size:14.5px;color:#4a5a6b}
+  .lane h3{font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--navy);font-family:-apple-system,'Segoe UI',Roboto,sans-serif;margin-bottom:12px}
+  .lane p{margin-bottom:10px}
+
+  /* contact */
+  .contact{background:#fff;border-top:1px solid var(--line)}
+  .contact .card{background:var(--navy);color:#fff;padding:48px;border-radius:4px;display:grid;grid-template-columns:1.3fr 1fr;gap:36px;align-items:center}
+  @media(max-width:760px){.contact .card{grid-template-columns:1fr;padding:34px}}
+  .contact h2{font-size:clamp(22px,3vw,30px);font-weight:400;line-height:1.3}
+  .contact .how{font-family:-apple-system,'Segoe UI',Roboto,sans-serif}
+  .contact .how a{display:block;color:#fff;text-decoration:none;font-size:17px;margin-bottom:14px;border-bottom:1px solid #2c405a;padding-bottom:14px}
+  .contact .how a b{color:var(--gold);display:block;font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;margin-bottom:4px}
+  .contact .how a:hover{color:var(--gold)}
+  .contact p.small{margin-top:16px;font-size:14px;color:#b9c6d4}
+
+  footer{padding:34px 0 44px;font-size:13px;color:var(--muted);font-family:-apple-system,'Segoe UI',Roboto,sans-serif}
+  .frow{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap hrow">
+    <div class="mark">Municipal <span>Risk</span> Forensics</div>
+    <nav class="sans">
+      <a href="#precedent">The Precedent</a>
+      <a href="#estimate">Estimator</a>
+      <a href="#how">How It Works</a>
+      <a href="#whynow">Why Now</a>
+      <a href="#about">About</a>
+      <a class="cta" href="#contact">Request the No-Cost Review</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <div class="kicker">Forensic Pharmacy-Benefit Audits &middot; Louisiana Public Employers</div>
+    <h1>Your health plan's pharmacy bill has a number in it that nobody checks.</h1>
+    <p class="lede">Parishes, school boards, and municipalities across Louisiana self-fund their employee
+    health plans — and pay whatever the pharmacy middleman bills. We re-price every claim against the
+    federal government's own drug-cost benchmark and show you, line by line, what your plan actually
+    should have paid. The review costs you nothing.</p>
+    <div class="btns">
+      <a class="btn btn-gold" href="#contact">Request the No-Cost Review</a>
+      <a class="btn btn-ghost" href="#precedent">See the Precedent</a>
+    </div>
+  </div>
+</div>
+
+<div class="band" id="precedent">
+  <div class="wrap">
+    <h2>The methodology is proven — by government auditors, at national scale</h2>
+    <div class="stats">
+      <div class="stat">
+        <div class="n">$615<em>M</em></div>
+        <div class="d">Overcharge found in the federal employee health plan by the U.S. OPM Inspector
+        General's audit of CVS Caremark (2018&ndash;2021, report released 2026)</div>
+      </div>
+      <div class="stat">
+        <div class="n">$224.8<em>M</em></div>
+        <div class="d">One year of hidden pharmacy "spread" found by the Ohio State Auditor (2018)
+        &mdash; 31% margins on generic drugs</div>
+      </div>
+      <div class="stat">
+        <div class="n">$45<em>M</em></div>
+        <div class="d">Louisiana's own Attorney General settlement with CVS/Caremark
+        (February 2026)</div>
+      </div>
+      <div class="stat">
+        <div class="n">$7.3<em>B</em></div>
+        <div class="d">Specialty generic-drug markups above acquisition cost at the three largest
+        pharmacy middlemen's own affiliated pharmacies, found by the Federal Trade
+        Commission (2017&ndash;2022)</div>
+      </div>
+    </div>
+    <p class="foot">Every figure above is from a published government report or settlement.
+    The same benchmark-based method those auditors used is the one we apply to your plan.</p>
+  </div>
+</div>
+
+<section class="est" id="estimate">
+  <div class="wrap">
+    <div class="sec-k">The Estimator</div>
+    <h2 class="big">Run your plan's numbers — right now, on your side of the table.</h2>
+    <p style="margin-top:14px;max-width:62ch;font-size:16px;color:#3d4c5e">This applies a leakage rate a
+    state auditor actually documented — the Ohio Auditor of State's landmark claims-level pharmacy
+    audit — to a plan of your size. It's a model, not a finding. The point is the size of the question
+    mark sitting in your budget, and that answering it costs you nothing.</p>
+
+    <div class="est-card">
+      <div class="est-in">
+        <label for="est-entity">Type of entity</label>
+        <select id="est-entity">
+          <option>Parish / consolidated government</option>
+          <option>School board</option>
+          <option>Municipality</option>
+          <option>Sheriff's office / other public entity</option>
+          <option>State-level plan</option>
+        </select>
+
+        <label for="est-emp">Employees covered on the plan</label>
+        <input id="est-emp" type="text" inputmode="numeric" placeholder="e.g. 1,200" autocomplete="off">
+
+        <label for="est-rx">Annual pharmacy spend, if you know it</label>
+        <input id="est-rx" type="text" inputmode="numeric" placeholder="Optional — e.g. $4,000,000" autocomplete="off">
+        <p class="hint">Leave blank and we model it at a deliberately conservative $3,000 per covered
+        employee per year. Your plan's actual pharmacy figure — the number on your TPA or CFO report —
+        tightens this instantly.</p>
+
+        <button type="button" id="est-calc">Calculate my estimate &rarr;</button>
+        <p class="est-err" id="est-calc-err" hidden>Enter your covered-employee count — or your annual pharmacy spend — to run the model.</p>
+      </div>
+
+      <div class="est-out" aria-live="polite">
+
+        <div id="est-idle" class="est-idle">
+          Enter your plan details and select <b>Calculate my estimate</b>. Your modeled annual
+          exposure range appears here.
+        </div>
+
+        <div id="est-form-wrap" hidden>
+          <div class="est-ready">
+            <div class="rdy-k">Your estimate is ready</div>
+            <h3>One step to see it.</h3>
+            <div class="rdy-sum" id="est-ready-sum"></div>
+          </div>
+          <form class="est-form" id="est-form" autocomplete="on">
+            <label for="lead-name">Your name <span class="req">*</span></label>
+            <input id="lead-name" name="name" type="text" required autocomplete="name">
+            <label for="lead-org">Public entity / employer <span class="req">*</span></label>
+            <input id="lead-org" name="organization" type="text" required placeholder="e.g. Iberia Parish School Board" autocomplete="organization">
+            <label for="lead-title">Your title <span class="req">*</span></label>
+            <input id="lead-title" name="title" type="text" required autocomplete="organization-title">
+            <label for="lead-email">Work email <span class="req">*</span></label>
+            <input id="lead-email" name="email" type="email" required autocomplete="email">
+            <label for="lead-phone">Direct phone <span class="req">*</span></label>
+            <input id="lead-phone" name="phone" type="tel" required autocomplete="tel">
+            <input class="est-hp" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+            <button type="submit" class="est-submit" id="est-submit">Reveal my estimate &amp; email me a copy</button>
+            <p class="est-priv">Used only to send your estimate and, if you want it, to discuss a
+            no-cost review. No newsletters; we don't share your information. This is a modeled
+            estimate — not an audit finding about your plan.</p>
+          </form>
+        </div>
+
+        <div id="est-result" hidden>
+          <div class="lbl">Modeled annual exposure range</div>
+          <div class="rng" id="est-range">&mdash;</div>
+          <div class="per" id="est-per"></div>
+          <div class="three">Over a three-year period: <b id="est-three-n"></b></div>
+          <p class="say">That range is what a forensic re-pricing of your claims would either surface —
+          or rule out. Either answer is worth having, and the review costs your plan nothing.</p>
+          <div class="btns">
+            <a class="btn btn-gold" href="#contact">Request the full no-cost review</a>
+          </div>
+          <p class="est-err" id="est-fallback" hidden></p>
+        </div>
+
+      </div>
+
+      <div class="est-meth" id="est-meth">
+        <b>How the model works:</b> your annual pharmacy spend &times; 2.9% to 8.8%. The 8.8% ceiling is
+        the overall spread rate the Ohio Auditor of State documented in its 2018 claims-level audit of
+        that state's Medicaid managed-care pharmacy program — which found $224.8&nbsp;million retained in
+        a single year, and roughly 31% margins on generic drugs. The floor assumes a plan leaking at just
+        one-third of that documented rate. This is a modeled estimate based on published government
+        findings — not an audit finding about your plan, and not a statement about any specific vendor.
+        Actual results require a claims-level review.
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  var LEAD_ENDPOINT = 'https://formsubmit.co/ajax/audit.records@municipalriskforensics.com';
+  var RATE_HI = 0.088, RATE_LO = 0.029, RX_PER_EMP = 3000;
+  var $ = function(id){ return document.getElementById(id); };
+  function num(v){
+    var s = String(v).replace(/\..*/, '').replace(/[^0-9]/g, '');
+    var n = parseInt(s, 10); return isNaN(n) ? 0 : n;
+  }
+  function fmt(x){
+    if (x >= 1000000) return '$' + (x/1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+    if (x >= 1000) return '$' + (Math.round(x/1000)*1000).toLocaleString('en-US');
+    return '$' + Math.round(x).toLocaleString('en-US');
+  }
+  var calc = null;
+
+  function compute(){
+    var emp = num($('est-emp').value), rxIn = num($('est-rx').value);
+    if (!emp && !rxIn) return null;
+    var rx = rxIn > 0 ? rxIn : emp * RX_PER_EMP;
+    var lo = rx * RATE_LO, hi = rx * RATE_HI;
+    return {
+      entity: $('est-entity').value, emp: emp, rx: rx, modeled: rxIn <= 0,
+      spendShort: (rxIn > 0 ? fmt(rxIn) : fmt(rx)),
+      rangeYr: fmt(lo) + ' – ' + fmt(hi),
+      range3: fmt(lo*3) + ' – ' + fmt(hi*3)
+    };
+  }
+
+  function onCalc(){
+    var c = compute();
+    if (!c){ $('est-calc-err').hidden = false; return; }
+    $('est-calc-err').hidden = true;
+    calc = c;
+    $('est-idle').hidden = true;
+    $('est-result').hidden = true;
+    $('est-ready-sum').textContent = c.entity +
+      (c.emp ? ' · ' + c.emp.toLocaleString('en-US') + ' covered employees' : '') +
+      ' · ' + c.spendShort + (c.modeled ? ' estimated' : '') + ' pharmacy spend';
+    $('est-form-wrap').hidden = false;
+  }
+
+  function reveal(){
+    $('est-form-wrap').hidden = true;
+    $('est-idle').hidden = true;
+    $('est-range').textContent = calc.rangeYr;
+    $('est-per').textContent = 'per year, modeled on ' + calc.spendShort + ' of ' +
+      (calc.modeled ? 'estimated ' : '') + 'annual pharmacy spend';
+    $('est-three-n').textContent = calc.range3;
+    $('est-result').hidden = false;
+  }
+
+  function onSubmit(e){
+    e.preventDefault();
+    if (!calc) return;
+    var name = $('lead-name').value.trim(), org = $('lead-org').value.trim(),
+        title = $('lead-title').value.trim(), email = $('lead-email').value.trim(),
+        phone = $('lead-phone').value.trim();
+    if (!name || !org || !title || !email || !phone) return;
+
+    var btn = $('est-submit'); btn.disabled = true; btn.textContent = 'Sending…';
+
+    var fd = new FormData();
+    fd.append('_subject', 'New estimator lead — ' + org);
+    fd.append('_template', 'table');
+    fd.append('_captcha', 'false');
+    fd.append('Name', name);
+    fd.append('Public entity / employer', org);
+    fd.append('Title', title);
+    fd.append('Work email', email);
+    fd.append('Phone', phone);
+    fd.append('Entity type', calc.entity);
+    fd.append('Covered employees', calc.emp ? calc.emp.toLocaleString('en-US') : '(not provided)');
+    fd.append('Annual pharmacy spend', calc.spendShort + (calc.modeled ? ' (estimated from employee count)' : ' (reported by plan)'));
+    fd.append('Modeled exposure - per year', calc.rangeYr);
+    fd.append('Modeled exposure - three-year', calc.range3);
+    fd.append('Model note', 'Modeled from published government audit rates. Not an audit finding about this plan and not a statement about any specific vendor.');
+    fd.append('_honey', '');
+
+    reveal();
+
+    fetch(LEAD_ENDPOINT, { method: 'POST', headers: { 'Accept': 'application/json' }, body: fd })
+      .then(function(r){ return r.json(); })
+      .then(function(d){ if (!d || String(d.success) !== 'true') throw new Error('send failed'); })
+      .catch(function(){
+        var b = 'Name: ' + name + '\r\nEntity: ' + org + '\r\nTitle: ' + title +
+          '\r\nPhone: ' + phone + '\r\n\r\nPlease send my pharmacy estimate and details on the no-cost review.';
+        var link = 'mailto:audit.records@municipalriskforensics.com?subject=' +
+          encodeURIComponent('Estimate request - ' + org) + '&body=' + encodeURIComponent(b);
+        var err = $('est-fallback');
+        err.innerHTML = 'Your estimate is shown above. So your request reaches us directly, please ' +
+          '<a href="' + link + '" style="color:#ffd76a;text-decoration:underline">email it here</a>.';
+        err.hidden = false;
+      });
+  }
+
+  $('est-calc').addEventListener('click', onCalc);
+  $('est-form').addEventListener('submit', onSubmit);
+})();
+</script>
+
+<section id="how">
+  <div class="wrap">
+    <div class="sec-k">How It Works</div>
+    <h2 class="big">Three steps. No cost, no obligation, no disruption to your plan.</h2>
+    <div class="cols">
+      <div class="step">
+        <div class="num">1</div>
+        <h3>The complimentary review</h3>
+        <p>We analyze your plan's published financials, contracts, and &mdash; at your election &mdash;
+        claims data your plan is entitled to request from its own vendors. Every drug claim is re-priced
+        against <b>NADAC</b>, the federal survey of what pharmacies actually pay for drugs.</p>
+      </div>
+      <div class="step">
+        <div class="num">2</div>
+        <h3>Findings for you and your counsel</h3>
+        <p>You receive a written findings summary — what was overpaid, where, and the statutes that
+        apply — built for your board and <b>your own attorney</b>. We provide forensic data analysis,
+        not legal advice; every decision stays with you and your counsel.</p>
+      </div>
+      <div class="step">
+        <div class="num">3</div>
+        <h3>You recover. Then we're paid.</h3>
+        <p>If you choose to pursue recovery, we support your team through it. Our compensation comes
+        <b>only from money your plan actually receives</b> — if you recover nothing, you owe nothing.
+        That is the whole arrangement.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="why" id="whynow">
+  <div class="wrap">
+    <div class="sec-k">Why Now</div>
+    <h2 class="big">Louisiana just rewrote the rules in your plan's favor.</h2>
+    <div class="cols">
+      <div class="law">
+        <h3>Act 474 of 2025</h3>
+        <p>Louisiana banned pharmacy "spread pricing" and mandated 100% pass-through of drug-maker
+        rebates to plans — with enforcement provisions taking effect January 1, 2027. Money kept from
+        your plan in ways the state has now outlawed is exactly what a forensic review surfaces.</p>
+      </div>
+      <div class="law">
+        <h3>LDI Directive 257 (2026)</h3>
+        <p>Louisiana's Department of Insurance declared that pharmacy reimbursement below the federal
+        acquisition-cost benchmark plus $9.00 is per se not fair and reasonable — a regulator-endorsed
+        version of the exact benchmark we audit against.</p>
+      </div>
+      <div class="law">
+        <h3>Federal transparency law</h3>
+        <p>Federal law now prohibits contract clauses that block a plan from seeing its own claims
+        data — including "once a year only" audit limits. Your plan is entitled to the data that
+        proves what it paid. We help you use that right.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="wrap">
+    <div class="sec-k">Our Mission</div>
+    <h2 class="big">Independent, Louisiana-based, and on exactly one side: the plan's.</h2>
+    <div class="about-grid">
+      <div class="about">
+        <p><b>Municipal Risk Forensics helps public employers strengthen fiduciary oversight of
+        their employee health plans</b> — by identifying financial leakage, improving transparency,
+        and providing independent analysis that supports responsible stewardship of taxpayer
+        resources. With increasing scrutiny around healthcare costs and fiduciary accountability,
+        our goal is to help organizations uncover savings opportunities while strengthening
+        governance and decision-making.</p>
+        <p>We are an independent forensic audit firm built for one client:
+        the self-funded public employer. We take no commissions from insurers, brokers, or pharmacy
+        benefit managers — the vendors we review — and we sell nothing but the analysis itself.</p>
+        <p>The firm is led by <b>Isiah Edwards</b>, a licensed life &amp; health insurance professional
+        with multi-state licensure and deep experience in how employer health plans are actually priced,
+        sold, and serviced. That industry background is the point: we know where the money moves because
+        we come from the rooms where it moves.</p>
+        <p>Our audit platform re-prices every pharmacy claim against public federal benchmarks, verifies
+        every finding against the statute that makes it actionable, and produces work built to withstand
+        scrutiny — by your board, your counsel, and the vendors themselves.</p>
+      </div>
+      <div class="lane">
+        <h3>Our Lane — Stated Plainly</h3>
+        <p>Municipal Risk Forensics is a forensic data-analysis firm, not a law firm, and provides no
+        legal advice or legal services.</p>
+        <p>Our findings are factual and analytical. Any demand, claim, or recovery action based on them
+        is the decision of your entity, acting through its own legal counsel.</p>
+        <p>Findings are delivered confidentially to you and your counsel.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="wrap">
+    <div class="card">
+      <div>
+        <h2>Ask us to look. It costs nothing, and you'll know — either way.</h2>
+        <p class="small">Tell us the entity and roughly how many employees are on the plan.
+        We'll tell you what a review would examine and what the public record already shows.
+        No cost, no obligation, and you can stop at any time.</p>
+      </div>
+      <div class="how">
+        <a href="mailto:audit.records@municipalriskforensics.com">
+          <b>Email</b> audit.records@municipalriskforensics.com</a>
+        <a href="tel:+13374860076"><b>Phone</b> (337) 486-0076</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap frow">
+    <div>&copy; 2026 Municipal Risk Forensics, LLC &middot; New Iberia, Louisiana</div>
+    <div>Forensic data analysis — not legal advice. Not a law firm.</div>
+  </div>
+</footer>
+
+</body>
+</html>
