@@ -96,6 +96,39 @@
   .est-err{color:#ffcaba;font-size:13px;margin-top:10px;font-family:-apple-system,'Segoe UI',Roboto,sans-serif;line-height:1.5}
   .est-hp{position:absolute !important;left:-9999px;height:0;width:0;overflow:hidden}
 
+  /* film — animated briefing */
+  .film{background:linear-gradient(160deg,var(--navy) 0%,var(--navy2) 100%);color:#fff}
+  .film .sec-k{color:var(--gold);text-align:center}
+  .film .film-h{text-align:center;font-size:clamp(20px,3vw,28px);font-weight:400;color:#fff;max-width:26ch;margin:0 auto 26px;line-height:1.3}
+  .stage{position:relative;max-width:900px;margin:0 auto;aspect-ratio:16/9;min-height:260px;background:#0a1524;border:1px solid #24384f;border-top:3px solid var(--gold);border-radius:6px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.35);cursor:pointer}
+  @media(max-width:680px){.stage{aspect-ratio:4/5}}
+  .scene{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:6% 8%;opacity:0;transition:opacity .8s ease;pointer-events:none}
+  .scene.on{opacity:1;pointer-events:auto}
+  .stage.reduced .scene{transition:none}
+  .bignum{font-family:Georgia,serif;font-weight:700;color:var(--gold);font-size:clamp(34px,7vw,72px);line-height:1;letter-spacing:-.01em}
+  .subline{margin-top:20px;font-family:Georgia,serif;font-size:clamp(15px,2.2vw,20px);color:#dbe4ee;max-width:30ch;line-height:1.5}
+  .fline{font-family:Georgia,serif;font-size:clamp(17px,2.6vw,26px);color:#eef3f8;max-width:26ch;line-height:1.4;margin:0 auto}
+  .fline.dim{font-size:clamp(14px,2vw,18px);color:#9fb0c2;margin-top:16px}
+  .fline em{font-style:normal;color:var(--gold)}
+  .trip{display:flex;flex-direction:column;gap:16px}
+  .trip .row{display:flex;align-items:baseline;justify-content:center;gap:14px;flex-wrap:wrap}
+  .trip .rn{font-family:Georgia,serif;font-weight:700;color:var(--gold);font-size:clamp(22px,3.8vw,38px);min-width:2.4em;text-align:right}
+  .trip .rl{font-family:-apple-system,'Segoe UI',Roboto,sans-serif;font-size:clamp(11px,1.6vw,14px);color:#c2cedb;text-align:left;max-width:22ch;line-height:1.4}
+  .cta-scene .mark2{font-family:-apple-system,'Segoe UI',Roboto,sans-serif;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#fff;font-size:clamp(15px,2.6vw,22px)}
+  .cta-scene .mark2 span{color:var(--gold)}
+  .cta-scene .u{margin-top:10px;color:#c2cedb;font-family:-apple-system,'Segoe UI',Roboto,sans-serif;font-size:clamp(12px,1.7vw,14px);max-width:32ch}
+  .cta-scene .btn{margin-top:22px}
+  .poster{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;gap:16px;background:radial-gradient(ellipse at center,rgba(14,28,48,.25),rgba(10,21,36,.9));z-index:3}
+  .stage.idle .poster{display:flex}
+  .poster .play{width:74px;height:74px;border-radius:50%;background:var(--gold);color:var(--navy);display:flex;align-items:center;justify-content:center;font-size:26px;padding-left:5px;border:none;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.4)}
+  .poster .play:hover{background:#dab536}
+  .poster .pl{font-family:-apple-system,'Segoe UI',Roboto,sans-serif;font-size:14px;letter-spacing:.06em;color:#e7edf3}
+  .film-prog-wrap{position:absolute;left:0;right:0;bottom:0;height:4px;background:rgba(255,255,255,.08);z-index:4}
+  #film-prog{display:block;height:100%;width:0;background:var(--gold)}
+  .replay{position:absolute;left:14px;bottom:14px;display:none;z-index:4;background:rgba(10,21,36,.72);color:#fff;border:1px solid #3a4d63;border-radius:3px;font-family:-apple-system,'Segoe UI',Roboto,sans-serif;font-size:12px;padding:7px 12px;cursor:pointer}
+  .stage.ended .replay{display:inline-block}
+  .replay:hover{border-color:var(--gold);color:var(--gold)}
+
   /* sections */
   section{padding:72px 0}
   .sec-k{font-family:-apple-system,'Segoe UI',Roboto,sans-serif;font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold-dk);margin-bottom:12px;font-weight:700}
@@ -144,6 +177,7 @@
   <div class="wrap hrow">
     <div class="mark">Municipal <span>Risk</span> Forensics</div>
     <nav class="sans">
+      <a href="#briefing">Watch</a>
       <a href="#precedent">The Precedent</a>
       <a href="#estimate">Estimator</a>
       <a href="#how">How It Works</a>
@@ -169,6 +203,119 @@
   </div>
 </div>
 
+<section class="film" id="briefing">
+  <div class="wrap">
+    <div class="sec-k">The 90-Second Briefing</div>
+    <h2 class="film-h">The receipts are public. Here is what they say.</h2>
+    <div class="stage idle" id="stage" aria-label="Animated briefing: what pharmacy middlemen cost public health plans, and what Municipal Risk Forensics does about it">
+
+      <div class="scene" data-scene="0">
+        <div class="bignum" data-count="615000000">$615,000,000</div>
+        <div class="subline">One pharmacy middleman. One health plan. One overcharge &mdash; found by a federal audit this year.</div>
+      </div>
+
+      <div class="scene" data-scene="1">
+        <div class="fline">It wasn't dramatic fraud. It was the <em>quiet</em> kind.</div>
+        <div class="fline dim">Discounts negotiated but never passed through. Credits kept. Prices never checked against what the drugs actually cost.</div>
+      </div>
+
+      <div class="scene" data-scene="2">
+        <div class="trip">
+          <div class="row"><span class="rn">$224.8M</span><span class="rl">hidden pharmacy "spread," in a single year &mdash; Ohio Auditor of State</span></div>
+          <div class="row"><span class="rn">$45M</span><span class="rl">Louisiana's own Attorney General settlement, 2026</span></div>
+          <div class="row"><span class="rn">$7.3B</span><span class="rl">markups at the three largest middlemen &mdash; FTC</span></div>
+        </div>
+      </div>
+
+      <div class="scene" data-scene="3">
+        <div class="fline">Every parish, school board, and municipality in Louisiana pays whatever the pharmacy middleman bills.</div>
+        <div class="fline dim">That bill has a number in it that, in most plans, <em>no one ever checks.</em></div>
+      </div>
+
+      <div class="scene" data-scene="4">
+        <div class="fline">We re-price every claim against the federal government's own drug-cost benchmark &mdash;</div>
+        <div class="fline dim">and show you, line by line, what your plan should have paid.</div>
+      </div>
+
+      <div class="scene" data-scene="5">
+        <div class="fline"><em>Act 474.</em> Louisiana just outlawed the practices that hide that money.</div>
+        <div class="fline dim">For once, the law is on your plan's side.</div>
+      </div>
+
+      <div class="scene" data-scene="6">
+        <div class="fline">No cost to look. Paid only from what your plan recovers.</div>
+        <div class="fline dim">If there's nothing there, you'll know &mdash; and it cost nothing to find out.</div>
+      </div>
+
+      <div class="scene cta-scene" data-scene="7">
+        <div class="mark2">Municipal <span>Risk</span> Forensics</div>
+        <div class="u">Independent forensic review of public pharmacy spend &middot; municipalriskforensics.com</div>
+        <a class="btn btn-gold" href="#contact">Request the no-cost review</a>
+      </div>
+
+      <div class="poster">
+        <button class="play" id="film-play" aria-label="Play the briefing" type="button">&#9654;</button>
+        <div class="pl">Watch the 90-second briefing</div>
+      </div>
+      <button class="replay" id="film-replay" type="button">&#8635; Replay</button>
+      <div class="film-prog-wrap"><span id="film-prog"></span></div>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  var stage=document.getElementById('stage'); if(!stage) return;
+  var scenes=[].slice.call(stage.querySelectorAll('.scene'));
+  var durs=[9000,9000,13000,10000,9000,9000,9000,8000];
+  var starts=[],acc=0; for(var d=0;d<durs.length;d++){starts.push(acc);acc+=durs[d];} var total=acc;
+  var prog=document.getElementById('film-prog');
+  var playBtn=document.getElementById('film-play');
+  var replayBtn=document.getElementById('film-replay');
+  var reduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(reduced) stage.classList.add('reduced');
+  var raf=null,t0=null,current=-1,playing=false,ended=false;
+
+  function fmt(n){return '$'+Math.round(n).toLocaleString('en-US');}
+  function countUp(el){
+    if(el.__c)return; el.__c=true;
+    var target=parseFloat(el.getAttribute('data-count'));
+    if(reduced){el.textContent=fmt(target);return;}
+    var dur=1500,s=null;
+    function step(ts){if(s===null)s=ts;var p=Math.min((ts-s)/dur,1);el.textContent=fmt(target*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(step);}
+    requestAnimationFrame(step);
+  }
+  function showScene(i){
+    for(var k=0;k<scenes.length;k++)scenes[k].classList.toggle('on',k===i);
+    var c=scenes[i]&&scenes[i].querySelector('[data-count]'); if(c)countUp(c);
+  }
+  function state(cls){stage.classList.remove('idle','running','ended');stage.classList.add(cls);}
+  function loop(ts){
+    if(t0===null)t0=ts; var e=ts-t0;
+    var i=0; for(var k=0;k<starts.length;k++){if(e>=starts[k])i=k;}
+    if(i!==current){current=i;showScene(i);}
+    if(prog)prog.style.width=Math.min(e/total*100,100)+'%';
+    if(e<total){raf=requestAnimationFrame(loop);}
+    else{playing=false;ended=true;state('ended');}
+  }
+  function play(){
+    if(playing)return; if(raf)cancelAnimationFrame(raf);
+    playing=true;ended=false;current=-1;t0=null;
+    for(var k=0;k<scenes.length;k++){var c=scenes[k].querySelector('[data-count]');if(c)c.__c=false;}
+    state('running'); raf=requestAnimationFrame(loop);
+  }
+  if(playBtn)playBtn.addEventListener('click',function(e){e.stopPropagation();play();});
+  if(replayBtn)replayBtn.addEventListener('click',function(e){e.stopPropagation();play();});
+  stage.addEventListener('click',function(e){if(e.target.closest('a')||e.target.closest('button'))return; if(!playing)play();});
+
+  state('idle');
+  if(!reduced && 'IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(en){en.forEach(function(x){if(x.isIntersecting&&!playing&&!ended){play();io.disconnect();}});},{threshold:0.55});
+    io.observe(stage);
+  }
+})();
+</script>
+
 <div class="band" id="precedent">
   <div class="wrap">
     <h2>The methodology is proven — by government auditors, at national scale</h2>
@@ -180,7 +327,7 @@
       </div>
       <div class="stat">
         <div class="n">$224.8<em>M</em></div>
-        <div class="d">One year of hidden pharmacy "spread" found by the Ohio State Auditor (2018)
+        <div class="d">One year of hidden pharmacy "spread" found by the Ohio Auditor of State (2018)
         &mdash; 31% margins on generic drugs</div>
       </div>
       <div class="stat">
