@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Medicaid Nutrition Funding & SDOH Tool</title>
+  <meta name="description" content="Funding, cohort economics, account qualification and SDOH decision support for Medicaid nutrition programs.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="hero"><div class="wrap">
+  <p class="kicker">CookUnity Medicaid Market Intelligence</p>
+  <h1>Funding, Cohort Economics & SDOH Decision Tool</h1>
+  <p class="lede">Compare Louisiana with North Carolina, identify funding routes, model high-cost nutrition-sensitive cohorts, create an account brief, resolve SDOH ambiguity and save reusable scenarios for the team.</p>
+  <p class="caution">Planning tool only. Outputs are transparent estimates—not audited claims, guaranteed savings, legal advice or confirmation that a funding authority applies.</p>
+</div></header>
+<nav class="nav"><div class="wrap tabs">
+  <button class="tab active" data-panel="funding">Funding</button>
+  <button class="tab" data-panel="economics">Cohort Economics</button>
+  <button class="tab" data-panel="readiness">Market Readiness</button>
+  <button class="tab" data-panel="sdoh">SDOH Resolver</button>
+  <button class="tab" data-panel="brief">AE Brief Builder</button>
+  <button class="tab" data-panel="saved">Saved Library</button>
+  <button class="tab" data-panel="sources">Sources</button>
+</div></nav>
+<main class="wrap">
+<section id="funding" class="panel active">
+  <div class="grid two">
+    <article class="card"><h2>State Funding Navigator</h2><p class="muted">A route is usable only after population, service, budget, authority, procurement and reporting are confirmed.</p><label>State</label><select id="fundState"><option value="LA">Louisiana</option><option value="NC">North Carolina</option></select><div id="stateSummary" class="callout"></div></article>
+    <article class="card"><h2>Qualification Gate</h2><ol class="checklist"><li>Is the target member eligible?</li><li>Is the service allowable?</li><li>Who owns budget and authorization?</li><li>What contracting or credentialing is required?</li><li>What evidence unlocks renewal or scale?</li></ol></article>
+  </div>
+  <div id="fundingCards" class="grid two topgap"></div>
+</section>
+<section id="economics" class="panel">
+  <div class="grid split">
+    <article class="card"><h2>Cohort Cost & Savings Model</h2><p class="muted">Sourced starter assumptions are editable so an MCO can replace them with claims data.</p>
+      <div class="grid two"><div><label>State</label><select id="econState"><option value="LA">Louisiana</option><option value="NC">North Carolina</option></select></div><div><label>Cohort</label><select id="cohort"></select></div></div>
+      <div class="grid two"><div><label>Estimated affected adults</label><input id="affected" type="number" min="0"></div><div><label>Annual excess cost / person</label><input id="annualCost" type="number" min="0"></div></div>
+      <div class="grid two"><div><label>High-risk targetable share (%)</label><input id="targetRate" type="number" min="0" max="100" step="0.1"></div><div><label>Pilot members</label><input id="pilotMembers" type="number" min="1"></div></div>
+      <div class="grid three"><div><label>Weeks</label><input id="weeks" type="number" min="1"></div><div><label>Meals / week</label><input id="mealsWeek" type="number" min="1"></div><div><label>Cost / meal</label><input id="mealCost" type="number" min="0" step="0.01"></div></div>
+      <div class="grid two"><div><label>Savings method</label><select id="savingsMode"><option value="pmpm">Gross savings per member / month</option><option value="rate">Percent of attributable cost</option></select></div><div id="pmpmWrap"><label>Gross savings PMPM</label><input id="pmpm" type="number" min="0"></div><div id="rateWrap" hidden><label>Savings rate (%)</label><input id="savingRate" type="number" min="0" max="100" step="0.1"></div></div>
+      <div id="evidenceNote" class="callout amber"></div><div class="buttons"><button id="calculate" class="primary">Calculate</button><button id="saveScenario" class="gold">Save Scenario</button></div>
+    </article>
+    <div><div class="grid two"><div class="stat dark"><span>Modeled state burden</span><strong id="burdenOut">$0</strong><small>Do not add overlapping cohorts.</small></div><div class="stat dark"><span>Targetable burden</span><strong id="targetOut">$0</strong><small>Selected high-risk share.</small></div></div><div class="grid two topgap"><div class="stat"><span>Pilot cost</span><strong id="programOut">$0</strong></div><div class="stat"><span>Gross modeled savings</span><strong id="grossOut">$0</strong></div><div class="stat"><span>Net modeled savings</span><strong id="netOut">$0</strong></div><div class="stat"><span>Modeled ROI</span><strong id="roiOut">0.00x</strong></div></div><div class="callout danger topgap"><b>Decision rule:</b> Statewide burden creates urgency. Member-level claims and an agreed attribution method establish the MCO business case.</div></div>
+  </div>
+  <article class="card topgap"><h2>Three Priority Cohorts</h2><div class="tablewrap"><table><thead><tr><th>Cohort</th><th>Cost logic</th><th>Nutrition fit</th><th>First buyer question</th></tr></thead><tbody id="cohortTable"></tbody></table></div></article>
+</section>
+<section id="readiness" class="panel"><div class="grid split"><article class="card"><h2>Market Readiness Score</h2><label>State</label><select id="readyState"><option value="LA">Louisiana</option><option value="NC">North Carolina</option></select><div id="readinessQuestions"></div><div class="buttons"><button id="scoreReadiness" class="primary">Score Market</button><button id="saveReadiness" class="gold">Save Scorecard</button></div></article><article class="card"><h2>Result</h2><div id="readinessResult" class="empty">Complete the qualification questions.</div></article></div></section>
+<section id="sdoh" class="panel"><div class="grid split"><article class="card"><h2>SDOH Ambiguity Resolver</h2><p class="muted">Turn recurring uncertainty into a reusable decision card.</p><label>State</label><select id="sdohState"><option value="LA">Louisiana</option><option value="NC">North Carolina</option></select><label>Domain</label><select id="sdohDomain"></select><label>Question</label><select id="sdohQuestion"></select><label>Local notes / confirmed facts</label><textarea id="sdohNotes" placeholder="Add confirmed local facts, open questions or partner notes."></textarea><div class="buttons"><button id="resolve" class="primary">Resolve</button><button id="saveKnowledge" class="gold">Save Knowledge Card</button></div></article><article class="card"><h2>Decision Answer</h2><div id="sdohAnswer" class="empty">Choose a domain and question.</div></article></div></section>
+<section id="brief" class="panel"><div class="grid split"><article class="card"><h2>AE Account Brief Builder</h2><label>Account / MCO</label><input id="briefAccount" placeholder="Example: Louisiana Medicaid MCO"><label>State</label><select id="briefState"><option value="LA">Louisiana</option><option value="NC">North Carolina</option></select><label>Priority cohort</label><select id="briefCohort"></select><label>Known relationship or trigger</label><textarea id="briefTrigger" placeholder="RFP, quality gap, avoidable utilization, executive introduction, state priority..."></textarea><label>Confirmed facts</label><textarea id="briefFacts"></textarea><label>Open questions</label><textarea id="briefQuestions"></textarea><div class="buttons"><button id="buildBrief" class="primary">Build Brief</button><button id="saveBrief" class="gold">Save Brief</button></div></article><article class="card"><h2>CRM-Ready Brief</h2><pre id="briefOutput" class="briefout">Complete the fields to build a discovery brief.</pre><div class="buttons"><button id="copyBrief" class="ghost">Copy</button><button id="downloadBrief" class="ghost">Download .txt</button></div></article></div></section>
+<section id="saved" class="panel"><div class="grid two"><article class="card"><h2>Saved Scenarios & Scorecards</h2><div id="savedScenarios"></div></article><article class="card"><h2>Saved Knowledge & Briefs</h2><div id="savedKnowledge"></div></article></div><article class="card topgap"><h2>Backup & Restore</h2><div class="buttons"><button id="exportData" class="primary">Export JSON</button><label class="filebtn">Import JSON<input id="importData" type="file" accept="application/json" hidden></label><button id="clearData" class="dangerbtn">Clear Saved Data</button></div></article></section>
+<section id="sources" class="panel"><article class="card"><h2>Source & Assumption Registry</h2><p class="muted">Each value includes source, year, scope and confidence. Refresh flags support future team maintenance.</p><div class="tablewrap"><table><thead><tr><th>Source</th><th>Supports</th><th>Year</th><th>Confidence</th><th>Refresh</th><th>Link</th></tr></thead><tbody id="sourceTable"></tbody></table></div></article></section>
+</main>
+<footer><div class="wrap">Medicaid Nutrition Funding & SDOH Decision Tool · Built as a reusable commercial intelligence asset for strategy, marketing and AE enablement.</div></footer>
+<script src="data.js"></script><script src="app.js"></script>
+</body></html>
