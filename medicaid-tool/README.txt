@@ -442,3 +442,37 @@ Integrated from the "Winning a State Medicaid RFP" operating manual:
   secret-shopper surveys by 2029; Medicaid/CHIP QRS) - the compliance
   burden plans are bracing for, and a fluency marker in any plan meeting.
 - ITN/BAFO vehicle nuance added to the state-procurement opportunity type.
+
+
+V12.1 ADDENDUM - LOUISIANA COMPLIANCE ARCHITECTURE (July 17, 2026)
+==================================================================
+Integrated from the "Legally Compliant SDOH Screening and Closed-Loop
+Referral Tool for Louisiana" operating manual:
+
+FIELD SCREENER UPGRADES
+- Compliance section rebuilt as the real production architecture:
+  operate INSIDE HIPAA as a Business Associate of physician/FQHC
+  partners (never a standalone consumer app - the FTC Health Breach
+  Notification Rule expansion covers non-HIPAA health apps); BAA with
+  every provider partner; layered 45 CFR 164.508 patient authorization
+  for any disclosure to a community-based organization (most CBOs are
+  NOT HIPAA-covered - consent-per-referral, findhelp-style, plus a
+  data-use agreement); 42 CFR Part 2 note (form asks no SUD questions
+  by design; enforcement live Feb 16, 2026); Louisiana breach law
+  timelines (La. R.S. 51:3071: consumer notice <=60 days, AG within 10
+  days of consumer notice).
+- Louisiana mandatory-reporter guidance added to the safety section
+  (DCFS 1-855-452-5437; Elderly Protective Services 1-800-898-4910).
+- Instrument-licensing note: AHC-HRSN (LOINC 96777-8) + Hunger Vital
+  Sign are free/public - deliberately chosen over PRAPARE, which
+  requires a NACHC vendor license for digital builds.
+
+REG WATCH BASELINE ADDITIONS
+- OIG Advisory Opinion 26-16 (July 14, 2026): FIRST favorable federal
+  opinion on a provider-sponsored food-as-medicine program (FQHC
+  produce/vouchers with safeguards). AO 26-15 caution: platform fees
+  must be FMV, never referral-based.
+- CHW reimbursement stack: LA Medicaid pays CHW services since 2022
+  (CPT 98960-98962 / T1015/H2020, incident-to, caps + documentation
+  discipline); Medicare CHI/PIN codes since 2024; G0136 remapped
+  1/1/2026. The community screening layer is a BILLABLE service line.

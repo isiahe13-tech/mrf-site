@@ -120,7 +120,7 @@
     <p class="inst">Ask privately, only when safe to do so. A member may skip this section. "How often does anyone, including family and friends…"</p>
     <div id="safetyQs"></div>
     <label class="opt" style="margin-top:8px"><input type="checkbox" id="safetySkip">Section skipped (not safe / member declined)</label>
-    <p class="note">If the safety score is elevated, follow your organization's safety protocol. Do not document incident details on this form.</p>
+    <p class="note">If the safety score is elevated, follow your organization's safety protocol. Do not document incident details on this form. <b>Louisiana mandatory reporting:</b> screeners providing health/social services are likely mandatory reporters — suspected child abuse/neglect goes to DCFS (1-855-452-5437, written follow-up within 5 days); suspected elder/adult abuse to Elderly Protective Services (1-800-898-4910). Train every screener on this before field use.</p>
   </div>
 
   <div class="card">
@@ -166,16 +166,19 @@
   </div>
 
   <details>
-    <summary>Compliance posture — read before deploying with real members</summary>
-    <p style="margin-top:6px">This form runs in <b>de-identified mode</b>: no PHI fields, no transmission, data stays on the device until a user exports it. That design keeps the screening tool itself outside PHI flows.</p>
-    <p style="margin-top:6px"><b>To use it with identified member information (PHI), it must be deployed inside covered infrastructure:</b></p>
+    <summary>Compliance architecture — read before deploying with real members (Louisiana build)</summary>
+    <p style="margin-top:6px">This form runs in <b>de-identified mode</b>: no PHI fields, no transmission, data stays on the device until a user exports it. That design keeps the screening tool itself outside PHI flows and usable by community partners today.</p>
+    <p style="margin-top:6px"><b>The production architecture (identified/PHI use): operate INSIDE HIPAA as a Business Associate of the physician, clinic and FQHC partners — never as a standalone consumer health app.</b> A consumer app outside HIPAA falls under the FTC Health Breach Notification Rule (expanded July 2024), where even an unauthorized disclosure counts as a reportable breach. Inside HIPAA, provider-to-tool data flows ride the treatment/operations pathways under a signed BAA.</p>
     <ol style="margin:6px 0 0 18px">
-      <li>Hosting and storage under a signed Business Associate Agreement (e.g., a covered entity's own systems, or BAA-covered cloud like Google Workspace/Microsoft 365 with BAA).</li>
-      <li>Encryption in transit (TLS) and at rest; named-user access controls and audit logging.</li>
-      <li>A minimum-necessary data policy, retention schedule, and breach-notification procedure.</li>
-      <li>Workforce training for every screener; member consent language approved by the covered entity.</li>
+      <li><b>BAA with every provider partner</b> (45 CFR 164.504(e)); encryption in transit and at rest, MFA, role-based access, immutable audit logs — built to the 2025 HIPAA Security Rule NPRM standard, which proposes making these mandatory.</li>
+      <li><b>The CBO leg needs layered patient authorization</b> (45 CFR 164.508: who discloses, who receives, what, why, expiration, signature — plus revocation rights). Most community-based organizations are NOT HIPAA-covered, so HIPAA protection ends when data reaches them: use consent-per-referral (the findhelp model) plus a data-use agreement imposing HIPAA-equivalent safeguards on the CBO.</li>
+      <li><b>Sensitive-data segmentation:</b> this form deliberately asks NO substance-use questions. If a deployment adds them, 42 CFR Part 2 applies (enforcement live since February 16, 2026) — separate consent and tagged, limited-visibility handling.</li>
+      <li><b>Louisiana breach law</b> (La. R.S. 51:3071 et seq.): consumer notice within 60 days and Attorney General notice within 10 days of consumer notice, on top of the HIPAA 60-day clock; plus reasonable-security and data-destruction duties.</li>
+      <li><b>Minimum necessary by design:</b> referral partners receive only the flagged domains and program-fit fields — never the full instrument responses unless the receiving clinician needs them.</li>
     </ol>
-    <p style="margin-top:6px">The questions themselves are public, validated instruments: the CMS Accountable Health Communities HRSN Screening Tool core questions and the Hunger Vital Sign™.</p>
+    <p style="margin-top:6px"><b>Why these instruments:</b> the CMS AHC-HRSN core tool (LOINC 96777-8) and Hunger Vital Sign™ are free, validated, public instruments — deliberately chosen over PRAPARE, which requires a NACHC license for any digital/platform build and forbids unapproved question changes. Export fields are structured for Gravity Project / HL7 FHIR SDOH alignment.</p>
+    <p style="margin-top:6px"><b>Why this can also pay for itself (Louisiana):</b> Louisiana Medicaid has reimbursed community health worker services incident-to a supervising physician/APRN/PA since January 1, 2022 (CPT 98960–98962 professional; T1015/H2020 FQHC/RHC; qualifying E/M within 30 days; 2 hrs/day, 10 hrs/month caps; CHW qualified via Louisiana CHW Workforce Coalition-recognized training or 3,000 documented hours). Medicare added CHI codes G0019/G0022 and PIN codes G0023/G0024 in 2024. Screening done by CHWs under clinical supervision is a billable service line — with strict False Claims Act discipline: documented supervision, the initiating visit, time logs, consent and Z-codes (Z55–Z65). Note: G0136 stopped being an SDOH code on 1/1/2026.</p>
+    <p style="margin-top:6px" class="note">Framework, not legal advice — engage Louisiana healthcare counsel to paper the BAAs, CBO agreements and consent forms before any PHI deployment.</p>
   </details>
 
   <p class="foot">Part of the Medicaid Market Intelligence &amp; AE Enablement Engine · De-identified field edition · Works offline on any phone</p>
