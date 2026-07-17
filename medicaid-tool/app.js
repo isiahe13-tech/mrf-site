@@ -745,6 +745,128 @@ $("saveBrief").addEventListener("click",()=>{buildBrief();saveItem("briefs",{typ
 $("copyBrief").addEventListener("click",()=>copyText(currentBrief||$("briefOutput").textContent));
 $("downloadBrief").addEventListener("click",()=>download("Medicaid_AE_Account_Brief.txt",currentBrief||$("briefOutput").textContent));
 
+let currentRfp = "";
+function initRfp(){
+  if(!$("rfpType")) return;
+  $("rfpType").innerHTML = TOOL_DATA.rfpTypes.map(t=>`<option value="${t.id}">${escapeHtml(t.label)}</option>`).join("");
+  $("rfpState").innerHTML = stateOptions();
+  $("rfpCohort").innerHTML = cohortOptions();
+  $("rfpCohort").value = "complex";
+  $("rfpChecklist").innerHTML = TOOL_DATA.rfpChecklist.map(x=>`<li>${escapeHtml(x)}</li>`).join("");
+  const typeNote = () => {
+    const t = TOOL_DATA.rfpTypes.find(x=>x.id===$("rfpType").value) || TOOL_DATA.rfpTypes[0];
+    $("rfpTypeNote").innerHTML = `<b>Know the game:</b> ${escapeHtml(t.note)}`;
+  };
+  $("rfpType").addEventListener("change", typeNote); typeNote();
+  $("rfpLoadPilot").addEventListener("click", () => {
+    $("rfpState").value = $("pilotState").value;
+    $("rfpCohort").value = $("pilotCohort").value;
+    $("rfpMembers").value = $("pilotSize").value;
+    $("rfpWeeks").value = $("pilotWeeks").value;
+    $("rfpMeals").value = $("pilotMeals").value;
+    $("rfpPrice").value = $("pilotMealCost").value;
+    alert("Loaded the current Pilot Builder design.");
+  });
+  $("buildRfp").addEventListener("click", buildRfpDoc);
+  $("saveRfp").addEventListener("click", () => { buildRfpDoc(); saveItem("briefs", {type:"RFP draft", state:$("rfpState").value, account:$("rfpEntity").value||"Unnamed opportunity", text:currentRfp}); alert("RFP draft saved."); });
+  $("copyRfp").addEventListener("click", () => copyText(currentRfp || $("rfpOutput").textContent));
+  $("downloadRfp").addEventListener("click", () => download("RFP_Response_Draft.txt", currentRfp || $("rfpOutput").textContent));
+}
+function buildRfpDoc(){
+  const typeObj = TOOL_DATA.rfpTypes.find(x=>x.id===$("rfpType").value) || TOOL_DATA.rfpTypes[0];
+  const state = $("rfpState").value, s = TOOL_DATA.states[state], cohort = $("rfpCohort").value;
+  const entity = $("rfpEntity").value || "Unnamed issuing entity";
+  const deadline = $("rfpDeadline").value || "Not entered — get this from the RFP cover page";
+  const members = +$("rfpMembers").value||0, weeks = +$("rfpWeeks").value||0, meals = +$("rfpMeals").value||0, price = +$("rfpPrice").value||0;
+  const months = weeks/4.345, food = members*weeks*meals*price, program = food*1.03;
+  const programPmpm = members&&months ? program/(members*months) : 0;
+  const pb = (TOOL_DATA.statePlaybook?.states||[]).find(r=>r.state===s.name);
+  const diffs = [
+    ["rfpD1","Chef-crafted quality as the adherence engine: members eat restaurant-quality meals, adherence drives outcomes, outcomes drive the payer's return."],
+    ["rfpD2","Registered-dietitian oversight of every condition menu, aligned to clinical guidelines."],
+    ["rfpD3","Cultural relevance across menus (Latin, Caribbean, South Asian, African, kosher, halal) — engagement for the members other programs miss."],
+    ["rfpD4","National fresh (never frozen) logistics from regional kitchens; heat-and-eat delivery with insulated packaging."],
+    ["rfpD5","Payer-facing reporting on adherence, member satisfaction and cost impact, with agreed attribution methods."],
+    ["rfpD6","A community trusted-messenger enrollment layer — the difference between an offered benefit and a used one."]
+  ].filter(d=>$(d[0]).checked).map(d=>d[1]);
+  const refs = (TOOL_DATA.cookunityPrograms||[]).slice(0,3).map(p=>`- ${p.name} (${p.launched}; ${p.funding}). Documented design: ${p.design}`).join("\n");
+  const gates = TOOL_DATA.dataQualityGates.slice(0,6).map((x,i)=>`${i+1}. ${x}`).join("\n");
+  const anchors = (TOOL_DATA.mealRateAnchors||[]).slice(0,4).map(a=>`- ${a.program}: ${a.rate} (${a.date})`).join("\n");
+  currentRfp = `DRAFT RFP RESPONSE SCAFFOLD — ${typeObj.label.toUpperCase()}
+Generated: ${new Date().toLocaleString()}
+Opportunity: ${entity}
+State: ${s.name} · Priority cohort: ${TOOL_DATA.cohorts[cohort].label}
+Response deadline: ${deadline}
+STATUS: DRAFT SCAFFOLD — edit every section against the actual RFP document, its evaluation rubric, page limits and mandatory forms before submission.
+
+1. COVER LETTER (skeleton)
+[Addressee from the RFP cover page]
+CookUnity respectfully submits this response to ${entity}. CookUnity operates live Medicaid medically-tailored-meal programs in New York (CABS Health Network, 1115 Social Care Network funding) and California (Anthem Blue Cross, CalAIM Community Supports), and proposes to bring that proven program architecture to this opportunity.
+[Signature block / authorized representative]
+
+2. EXECUTIVE SUMMARY
+${entity} seeks a partner who can convert a nutrition benefit into measurable medical outcomes. CookUnity's difference is adherence: chef-crafted, culturally relevant, dietitian-governed meals that members actually eat — because a meal benefit nobody eats saves nobody money. We propose a ${members}-member, ${weeks}-week program for the ${TOOL_DATA.cohorts[cohort].label.toLowerCase()} population at ${money(price)} per meal (${meals} meals/week), a total program investment of approximately ${money(program)} (~${money(programPmpm)} PMPM), measured against agreed utilization and cost outcomes.
+
+3. UNDERSTANDING OF THE NEED — ${s.name.toUpperCase()}
+${s.summary}
+${pb ? "Market timing: " + pb.whyNow : ""}
+
+4. PROPOSED PROGRAM DESIGN
+- Population: ${TOOL_DATA.cohorts[cohort].label} — ${TOOL_DATA.states[state].cohorts[cohort].buyerQuestion}
+- Scale: ${members} members · Duration: ${weeks} weeks · Intensity: ${meals} medically tailored meals/week (final dosing set with the payer's clinical team)
+- Eligibility: payer-defined clinical + food-barrier + delivery-readiness criteria (screener framework available)
+- Delivery: weekly fresh delivery, insulated packaging, ~4–7 day refrigerated shelf life, member support and service recovery
+- Illustrative economics: ${money(food)} food/delivery + 3% implementation allowance = ${money(program)} total (~${money(programPmpm)} PMPM)
+
+5. EVIDENCE BASE (peer-reviewed and program evidence — cited honestly)
+- Berkowitz et al., JAMA Internal Medicine (2019): high-acuity MTM recipients showed a $753 PMPM net total-cost difference after program cost (~$939 in 2026 dollars; observational matched cohort).
+- Hager et al., Nature Medicine (June 2026, Massachusetts Medicaid): 31% fewer hospitalizations, 20% fewer ED visits, $3,433 lower per-person cost; meal cost ~98% offset by reduced spending.
+- North Carolina Healthy Opportunities summative evaluation (June 2026): $164.49 PMPM net Medicaid savings program-wide (all HRSN domains).
+- National models (Health Affairs 2025; JAMA Network Open 2022) project multibillion-dollar net savings from MTM coverage at scale.
+All figures are presented as published evidence, not guaranteed outcomes for this program.
+
+6. PAST PERFORMANCE / REFERENCES (public anchors)
+${refs}
+
+7. IMPLEMENTATION PLAN (first 90 days)
+Weeks 1–3: contracting, BAA/data-sharing, eligibility criteria and referral workflow agreed; delivery-area validation.
+Weeks 4–6: care-management referral loop live; community enrollment layer engaged; first member cohort onboarded.
+Weeks 7–12: full enrollment ramp; weekly operational reporting (delivery success, adherence, issues); first monthly program review.
+Day 90: enrollment, engagement and early-utilization readout against the agreed baseline.
+
+8. REPORTING & OUTCOMES MEASUREMENT
+${gates}
+
+9. PRICING APPROACH
+Proposed: ${money(price)} per meal (${meals}/week × ${weeks} weeks × ${members} members). Published-market context:
+${anchors}
+CookUnity will discuss an outcomes-based component where the procurement permits — shared risk, not just spend.
+
+10. COMPLIANCE & MEMBER SAFETY
+HIPAA-compliant data handling; no PHI outside authorized workflows; non-duplication-of-benefits verification; delivery-safety and failed-delivery escalation protocols; member consent and choice throughout.
+
+11. WIN THEMES
+${diffs.map(d=>"- "+d).join("\n")}
+${$("rfpThemes").value ? "Account-specific:\n" + $("rfpThemes").value : ""}
+
+12. BEFORE SUBMISSION (from the readiness checklist)
+${TOOL_DATA.rfpChecklist.slice(0,5).map((x,i)=>`${i+1}. ${x}`).join("\n")}`;
+  $("rfpOutput").textContent = currentRfp;
+}
+function renderRegWatch(){
+  if(!$("regBaselineRows")) return;
+  $("regBaselineRows").innerHTML = (TOOL_DATA.regBaseline||[]).map(b=>`<tr><td>${escapeHtml(b.fact)}</td><td>${escapeHtml(b.why)}</td><td><a class="sourceurl" href="${escapeHtml(b.url)}" target="_blank" rel="noopener">Open source</a></td></tr>`).join("");
+  $("regSourcesRows").innerHTML = (TOOL_DATA.regSources||[]).map(x=>`<tr><td><a class="sourceurl" href="${escapeHtml(x.url)}" target="_blank" rel="noopener">${escapeHtml(x.name)}</a></td><td>${escapeHtml(x.what)}</td></tr>`).join("");
+  const live = (typeof window!=="undefined" && window.REGWATCH_DATA && Array.isArray(window.REGWATCH_DATA.items)) ? window.REGWATCH_DATA : null;
+  if(live && live.items.length){
+    $("regwatchStamp").textContent = `Live feed last refreshed ${live.generated} · ${live.items.length} items. Refresh daily with Update_Regulatory_Watch.bat.`;
+    $("regFeedRows").innerHTML = live.items.map(i=>`<tr><td>${escapeHtml(i.bucket||"")}</td><td>${escapeHtml(i.date||"")}</td><td><a class="sourceurl" href="${escapeHtml(i.url||"#")}" target="_blank" rel="noopener">${escapeHtml(i.title||"")}</a><div class="mini">${escapeHtml(i.note||"")}</div></td><td>${escapeHtml(i.source||"")}</td></tr>`).join("");
+    if(live.errors && live.errors.length) $("regwatchErrors").innerHTML = `<div class="callout amber"><b>Updater warnings:</b> ${live.errors.map(escapeHtml).join(" · ")}</div>`;
+  } else {
+    $("regwatchStamp").textContent = "Live feed not yet generated on this machine — double-click Update_Regulatory_Watch.bat, then reload.";
+    $("regFeedRows").innerHTML = `<tr><td colspan="4" class="mini">No feed file found. The standing policy baseline above is always available.</td></tr>`;
+  }
+}
 function renderStatePlaybook(){
   const rows=$("playbookRows"), weather=$("playbookWeather"), stamp=$("playbookUpdated");
   if(!rows||!TOOL_DATA.statePlaybook) return;
@@ -818,7 +940,7 @@ function applyEvidenceDefaults(){
   ["matchCohort","cohort","pilotCohort","briefCohort"].forEach(id=>{ if($(id) && [...$(id).options].some(o=>o.value==="complex")) $(id).value="complex"; });
 }
 function init(){
-  applyEvidenceDefaults(); renderCohortTable(); renderOpportunityQuestions(); renderHighAcuityScreen(); renderSources(); renderRateAnchors(); renderCookunityPrograms(); renderStatePlaybook();
+  applyEvidenceDefaults(); renderCohortTable(); renderOpportunityQuestions(); renderHighAcuityScreen(); renderSources(); renderRateAnchors(); renderCookunityPrograms(); renderStatePlaybook(); initRfp(); renderRegWatch();
   refreshCompanyDropdown(); applyPilotPreset(); renderPresetComparison(); loadEconomicDefaults(); renderFunding(); calculateTam(); renderSaved();
 }
 init();

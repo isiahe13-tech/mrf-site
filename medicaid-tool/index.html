@@ -25,6 +25,8 @@
     <button class="tab" data-panel="stakeholders">Stakeholder Map</button>
     <button class="tab" data-panel="pilot">Pilot Builder</button>
     <button class="tab" data-panel="playbook">National Playbook</button>
+    <button class="tab" data-panel="rfp">RFP Builder</button>
+    <button class="tab" data-panel="regwatch">Reg Watch</button>
     <button class="tab" data-panel="sdoh">Service-Need Screener</button>
     <button class="tab" data-panel="brief">AE Brief</button>
     <button class="tab" data-panel="saved">Saved Library</button>
@@ -351,6 +353,99 @@
   </article>
 </section>
 
+<section id="rfp" class="panel">
+  <div class="grid split">
+    <article class="card">
+      <h2>RFP Response Builder</h2>
+      <p class="muted">Generates a draft response scaffold from the selected state model, your pilot design, the published rate anchors and CookUnity's public case studies. A scaffold, not a submission — every section gets edited against the actual RFP document.</p>
+      <label>Opportunity type</label>
+      <select id="rfpType"></select>
+      <div id="rfpTypeNote" class="callout amber"></div>
+      <div class="grid two">
+        <div><label>Issuing entity / opportunity name</label><input id="rfpEntity" placeholder="Example: Louisiana MCO vendor RFP for nutrition supports"></div>
+        <div><label>Response deadline</label><input id="rfpDeadline" type="date"></div>
+      </div>
+      <div class="grid two">
+        <div><label>State</label><select id="rfpState"></select></div>
+        <div><label>Priority cohort</label><select id="rfpCohort"></select></div>
+      </div>
+      <div class="grid three">
+        <div><label>Members</label><input id="rfpMembers" type="number" min="1" value="200"></div>
+        <div><label>Weeks</label><input id="rfpWeeks" type="number" min="1" value="12"></div>
+        <div><label>Meals / week</label><input id="rfpMeals" type="number" min="1" value="10"></div>
+      </div>
+      <div class="grid two">
+        <div><label>Price per meal ($)</label><input id="rfpPrice" type="number" min="0" step="0.01" value="11.15"></div>
+        <div><label>&nbsp;</label><button id="rfpLoadPilot" class="ghost wide">Load current Pilot Builder design</button></div>
+      </div>
+      <label>Differentiators to emphasize</label>
+      <div class="grid two">
+        <div><label><input type="checkbox" id="rfpD1" checked> Chef quality → adherence → outcomes</label></div>
+        <div><label><input type="checkbox" id="rfpD2" checked> Registered-dietitian clinical oversight</label></div>
+        <div><label><input type="checkbox" id="rfpD3" checked> Cultural relevance of menus</label></div>
+        <div><label><input type="checkbox" id="rfpD4" checked> National fresh-delivery logistics</label></div>
+        <div><label><input type="checkbox" id="rfpD5" checked> Adherence / outcomes reporting to the payer</label></div>
+        <div><label><input type="checkbox" id="rfpD6" checked> Community trusted-messenger enrollment layer</label></div>
+      </div>
+      <label>Custom win themes / account-specific notes (optional)</label>
+      <textarea id="rfpThemes" placeholder="What this buyer cares about most; incumbent pain; local proof points..."></textarea>
+      <div class="buttons">
+        <button id="buildRfp" class="primary">Generate Draft Response</button>
+        <button id="saveRfp" class="gold">Save Draft</button>
+      </div>
+    </article>
+    <article class="card">
+      <h2>Draft Response Scaffold</h2>
+      <div class="callout amber"><b>Draft standard:</b> every generated claim traces to the tool's source registry; every section still requires human editing, format compliance and verification against the actual RFP.</div>
+      <pre id="rfpOutput" class="briefout">Choose the opportunity settings and click Generate.</pre>
+      <div class="buttons">
+        <button id="copyRfp" class="ghost">Copy</button>
+        <button id="downloadRfp" class="ghost">Download .txt</button>
+      </div>
+    </article>
+  </div>
+  <article class="card topgap">
+    <h2>Procurement Readiness Checklist</h2>
+    <ol class="checklist" id="rfpChecklist"></ol>
+  </article>
+</section>
+
+<section id="regwatch" class="panel">
+  <article class="card">
+    <h2>Medicaid Regulatory Watch</h2>
+    <p class="muted" id="regwatchStamp"></p>
+    <div class="callout"><b>How to refresh (daily habit, ~20 seconds):</b> double-click <b>Update_Regulatory_Watch.bat</b> in the tool folder, then reload this page. It pulls the newest Federal Register Medicaid documents and targeted policy/news queries. Feed items are LEADS — click through and verify before citing anything.</div>
+    <div id="regwatchErrors"></div>
+  </article>
+  <article class="card topgap">
+    <h2>Standing Policy Baseline (verified July 16–17, 2026)</h2>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>The fact</th><th>Why it matters commercially</th><th>Source</th></tr></thead>
+        <tbody id="regBaselineRows"></tbody>
+      </table>
+    </div>
+  </article>
+  <article class="card topgap">
+    <h2>Live Feed</h2>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Bucket</th><th>Date</th><th>Item</th><th>Source</th></tr></thead>
+        <tbody id="regFeedRows"></tbody>
+      </table>
+    </div>
+  </article>
+  <article class="card topgap">
+    <h2>What This Watches</h2>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Source</th><th>What it covers</th></tr></thead>
+        <tbody id="regSourcesRows"></tbody>
+      </table>
+    </div>
+  </article>
+</section>
+
 <section id="sdoh" class="panel">
   <div class="grid split">
     <article class="card">
@@ -451,6 +546,7 @@
 </main>
 
 <footer><div class="wrap">Medicaid Market Intelligence & AE Enablement Engine · Standalone local edition · Data stays in this browser unless exported.</div></footer>
+<script src="regwatch_data.js"></script>
 <script src="data.js"></script>
 <script src="app.js"></script>
 </body>

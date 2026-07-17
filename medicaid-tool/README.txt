@@ -361,3 +361,35 @@ NEW TAB: NATIONAL PLAYBOOK
 
 Pilot presets now span four states (14 designs); the preset dropdown,
 screener handoff and economics defaults all support NY and CA.
+
+
+VERSION 12 - RFP BUILDER + REGULATORY WATCH (July 17, 2026)
+===========================================================
+Built the same day the culture interview surfaced two questions
+("have you written an RFP?" / "do you keep up with regulations?").
+Both are now product features.
+
+NEW TAB: RFP BUILDER
+- Generates a draft RFP-response scaffold from the selected state
+  model, pilot design, published rate anchors, CookUnity public case
+  studies, evidence base and measurement/compliance frameworks.
+- Four opportunity types (state procurement / MCO vendor RFP /
+  SCN network application / RFI) each with play-the-game notes.
+- One-click "Load current Pilot Builder design"; copy, download,
+  save to library. 10-point procurement readiness checklist.
+- Output is explicitly a DRAFT SCAFFOLD - every section requires
+  editing against the actual RFP document and rubric.
+
+NEW TAB: REG WATCH (daily-use regulatory tracker)
+- Standing policy baseline: 7 verified facts (HRSN rescission, NYHER
+  cliff 3/31/2027, CalAIM 12-week cap, NC $25M restart, MassHealth
+  rates, 2024 Managed Care Final Rule ILOS, Louisiana status) each
+  with commercial "why it matters" and a source link.
+- LIVE FEED: double-click Update_Regulatory_Watch.bat (~20 seconds)
+  to pull the newest Federal Register Medicaid documents plus
+  targeted news queries (food-as-medicine, LA/CA/NC/NY, 1115/HRSN)
+  into the tab. Python standard library only - no installs.
+  Feed items are labeled LEADS - verify before citing.
+- First refresh ran 7/17/2026: 43 items, 0 source errors.
+
+FILES ADDED: regwatch.py, Update_Regulatory_Watch.bat, regwatch_data.js

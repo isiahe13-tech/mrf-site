@@ -1251,3 +1251,60 @@ TOOL_DATA.sources.unshift(
   {name:"New York / California starter cohort estimates", supports:"NY ~1.8M and CA ~3.5M adults with diagnosed diabetes; heart-failure (~2% of adults) and CKD (~14% of adults) scaling for starter planning inputs", date:"Commonly cited public-health scale figures — July 2026", confidence:"Low-to-moderate — planning inputs only", limitation:"All-payer, not Medicaid-specific; labeled starter estimates that must be replaced with SCN/MCP claims.", url:"https://www.cdc.gov/diabetes/php/data-research/index.html"}
 );
 
+
+
+// ------------------------------------------------------------------
+// VERSION 12 — RFP RESPONSE BUILDER + MEDICAID REGULATORY WATCH
+// Built July 17, 2026 — the same day the culture interview surfaced
+// two questions ("have you written an RFP?" / "do you keep up with
+// regulations?"). Both are now product features.
+// ------------------------------------------------------------------
+
+TOOL_DATA.rfpTypes = [
+  {id:"state", label:"State Medicaid agency procurement (RFP/RFA)", note:"Formal competitive procurement — strict format compliance, mandatory forms, scored sections, public-records exposure. Deadlines are hard; late = disqualified."},
+  {id:"mco", label:"MCO / health plan vendor RFP", note:"Plan-run vendor selection — usually lighter format, heavier on outcomes, implementation credibility and pricing. Relationships matter before and after the drop."},
+  {id:"scn", label:"SCN / network provider application (NY-style)", note:"Application to join an HRSN network (e.g., a Social Care Network lead entity) — eligibility, service capacity, geography, data/reporting readiness."},
+  {id:"rfi", label:"RFI / market sounding response", note:"Not a bid — a chance to shape the eventual RFP. Educate the buyer, plant your differentiators as requirements, ask smart questions back."}
+];
+
+TOOL_DATA.rfpChecklist = [
+  "Read the ENTIRE document twice before writing — note mandatory forms, page limits, font/format rules, submission portal and Q&A deadline. Format non-compliance is the #1 silent disqualifier.",
+  "Submit clarifying questions by the Q&A deadline — the answers often reshape scope and pricing.",
+  "Confirm eligibility gates early: licensure, insurance certificates (GL/professional/cyber), W-9, financial statements, MWBE/DBE status, HIPAA/BAA readiness, data-security attestations.",
+  "Map every scored section to the evaluation rubric and allocate page budget by points — write to the score sheet, not to your own outline.",
+  "Past performance: 2–3 references with named programs, dates, scale and measurable results (CABS, Anthem Sacramento, EmblemHealth are CookUnity's public anchors).",
+  "Pricing: anchor to the published rate band, state assumptions explicitly (meals/week, duration, delivery area), and offer an outcomes-based component where allowed.",
+  "Name the implementation team and timeline week-by-week for the first 90 days — buyers score believability, not ambition.",
+  "Compliance section: PHI handling, HIPAA, member-safety protocols, non-duplication of benefits, encounter/claims coding capability.",
+  "Executive summary LAST — write it after every section is final, and make it readable by a non-specialist evaluator in 90 seconds.",
+  "Independent red-team review against the rubric before submission; verify every number against source one final time."
+];
+
+// Standing policy baseline — always visible in the Regulatory Watch tab,
+// independent of the daily feed. Each fact verified July 16–17, 2026.
+TOOL_DATA.regBaseline = [
+  {fact:"CMS rescinded the HRSN 1115 framework March 4, 2025 — existing waivers stand; new/expansion approvals are case-by-case.", why:"The single biggest headwind. Sell where dollars are already appropriated.", url:"https://www.medicaid.gov/medicaid/section-1115-demonstrations/health-related-social-needs/index.html"},
+  {fact:"NYHER 1115 (New York): nutrition reimbursement live since Jan 2025 through nine Social Care Networks; waiver expires March 31, 2027.", why:"CookUnity's home mechanism (CABS). The 2027 cliff makes evidence-generation urgent NOW.", url:"https://www.health.ny.gov/health_care/medicaid/redesign/sdh/scn/navigating_reimbursement.htm"},
+  {fact:"CalAIM Community Supports (California): MTM a named, priced benefit ($7–$12 benchmark, $9.50 midpoint); 12-week MTM cap effective 1/1/2026 (extendable for medical necessity).", why:"The mechanism behind Anthem × CookUnity Sacramento; the 12-week shape is regulatory, not arbitrary.", url:"https://www.dhcs.ca.gov/wp-content/uploads/2026/05/Community-Supports-Pricing-Resource.pdf"},
+  {fact:"North Carolina HOP: suspended July 1, 2025; the July 2026 state budget restored $25M one-time ($9M state + $16M federal) to resume at reduced scale — restart mechanics unsettled as of mid-July 2026.", why:"A live reactivation window with competitive vendor selection coming.", url:"https://www.northcarolinahealthnews.org/2026/07/01/nc-full-budget-reflects-transformed-health-landscape/"},
+  {fact:"MassHealth HRSN Supplemental Services: authorized through 12/31/2027; the highest published MTM rate ($14.86 expected / $18.58 max; up to 21 meals/week).", why:"The premium-rate market, and home of the Nature Medicine evidence.", url:"https://www.mass.gov/doc/hrsn-supplemental-services-fee-schedule-3/download"},
+  {fact:"2024 Managed Care Final Rule (CMS-2439-F, eff. 7/9/2024): broadened ILOS to longer-term substitutes that 'reduce or prevent future need,' formalizing HRSN substitutes including medically tailored meals; total ILOS cost capped at 5% of capitation.", why:"The workhorse authority that lets an MCO pay for meals TODAY without a waiver.", url:"https://www.federalregister.gov/documents/2024/05/10/2024-08085/medicaid-program-medicaid-and-childrens-health-insurance-program-chip-managed-care-access-finance"},
+  {fact:"Louisiana: no statewide Medicaid food authority; ACLA's market president publicly stated (Fall 2025) that LDH permitted MTM as a covered benefit; UHC exited LA Medicaid 4/1/2026 (~330K members reassigned).", why:"The beachhead: covered-benefit signal + member-churn trigger + zero incumbent.", url:"https://ldh.la.gov/medicaid/medicaid2026"}
+];
+
+TOOL_DATA.regSources = [
+  {name:"Federal Register — Medicaid documents", url:"https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Medicaid", what:"Every proposed/final rule and notice touching Medicaid (pulled automatically by the updater)."},
+  {name:"Medicaid.gov — 1115 demonstrations & HRSN", url:"https://www.medicaid.gov/medicaid/section-1115-demonstrations/index.html", what:"Waiver approvals, amendments and the HRSN framework status."},
+  {name:"CMS Newsroom", url:"https://www.cms.gov/newsroom", what:"Agency announcements, guidance and enforcement posture."},
+  {name:"NY DOH — Social Care Networks", url:"https://www.health.ny.gov/health_care/medicaid/redesign/sdh/scn/", what:"SCN program rules, rates methodology and reimbursement updates."},
+  {name:"CA DHCS — CalAIM Community Supports", url:"https://www.dhcs.ca.gov/", what:"Community Supports policy guides, pricing resources and MCP elections."},
+  {name:"NC DHHS / NC Medicaid — Healthy Opportunities", url:"https://www.ncdhhs.gov/about/department-initiatives/healthy-opportunities/healthy-opportunities-pilots", what:"HOP restart rules, fee schedules and evaluation reports."},
+  {name:"LDH — Louisiana Medicaid", url:"https://ldh.la.gov/page/medicaid", what:"Managed-care changes, enrollment trends and rate certifications."},
+  {name:"MassHealth — HRSN Supplemental Services", url:"https://www.mass.gov/", what:"Fee schedules and 1115 amendments in the premium-rate market."}
+];
+
+TOOL_DATA.sources.unshift(
+  {name:"Regulatory Watch methodology", supports:"Daily-refresh feed (Federal Register API + targeted news queries via the bundled updater script) layered over a verified standing policy baseline; every baseline fact carries its source", date:"Built July 17, 2026", confidence:"Feed items are leads, not verified facts — click through before citing", limitation:"News items are unverified until read; the baseline facts were verified July 16–17, 2026 and age from that date.", url:"https://www.federalregister.gov/documents/search?conditions%5Bterm%5D=Medicaid"},
+  {name:"RFP Response Builder methodology", supports:"Draft RFP-response scaffolding generated from the selected state model, pilot design, published rate anchors, CookUnity public case studies and the tool's measurement/compliance frameworks", date:"Built July 17, 2026", confidence:"Draft-quality output — every generated section requires human editing and verification against the actual RFP document", limitation:"A scaffold, not a submission. Format compliance, mandatory forms and final pricing are always document-specific.", url:"https://www.cookunity.com/business/for-healthcare"}
+);
+
