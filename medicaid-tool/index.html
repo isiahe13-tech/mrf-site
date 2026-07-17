@@ -169,7 +169,6 @@
       <button id="useTamEstimate" class="gold">Use Base Estimate in Economics</button>
     </div>
     <div id="tamResult" class="callout"></div>
-    <div class="callout danger"><b>Do not add:</b> CDPS/risk-score members, LOCUS 3+ members and high-acuity ICF/IID members can be the same people. The tool reports each domain separately and uses a funnel for the likely meal-intervention subset.</div>
   </article>
 
   <article class="card topgap">
@@ -281,6 +280,7 @@
         </div>
         <div><label>Savings scenario</label><select id="pilotSavingsScenario"><option value="low">Low</option><option value="base" selected>Base</option><option value="high">High</option><option value="custom">Custom</option></select></div>
       </div>
+      <div id="rateAnchors" class="callout"></div>
       <div class="grid three">
         <div><label>Required gross medical reduction PMPM</label><input id="pilotPmpm" type="number" min="0" step="1"></div>
         <div><label>Target net savings PMPM</label><input id="pilotNetPmpmDisplay" type="text" readonly></div>
@@ -292,7 +292,7 @@
       </div>
       <div class="grid two">
         <div><label>Annual attributable cost / member</label><input id="pilotAnnualCost" type="number" min="0"></div>
-        <div><label>Avoided-event benchmark ($, optional)</label><input id="pilotEventCost" type="number" min="0" value="15000"></div>
+        <div><label>Avoided-event benchmark ($; HCUP 2022 Medicaid avg stay ≈ $14,550)</label><input id="pilotEventCost" type="number" min="0" value="14550"></div>
       </div>
       <div id="pilotEconomicsSummary" class="callout"></div><div id="pilotCaseStatus" class="callout"></div>
       <label>Geography / delivery area</label><input id="pilotGeo" placeholder="Regional proof market">
@@ -312,6 +312,17 @@
       </div>
     </article>
   </div>
+  <article class="card topgap">
+    <h2>CookUnity's Real Medicaid Programs — The Comps This Pilot Is Modeled On</h2>
+    <p class="muted">Publicly documented CookUnity healthcare programs as of July 2026. Louisiana has none yet — a Louisiana pilot is a first-in-state application of a playbook CookUnity already runs.</p>
+    <div id="cookunityLaNote" class="callout amber"></div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Program</th><th>Launched</th><th>Funding mechanism</th><th>Documented design</th><th>Not disclosed</th><th>Source</th></tr></thead>
+        <tbody id="cookunityProgramRows"></tbody>
+      </table>
+    </div>
+  </article>
   <article class="card topgap">
     <h2>Pitch Economics Comparison</h2>
     <p class="muted">Every preset has a different design and therefore a different program PMPM, required gross reduction, target net PMPM and total pilot value. The base column is a commercial performance target, not a promised result.</p>

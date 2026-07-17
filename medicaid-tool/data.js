@@ -981,6 +981,101 @@ for (const plan of TOOL_DATA.companies.NC) {
   if (cch) { cch.name = "Carolina Complete Health (combined with WellCare of NC, 4/1/2026)"; cch.parent = "Centene / NC Medical Society provider-led partnership"; }
 })();
 
+// ------------------------------------------------------------------
+// VERSION 10 — REAL-DOLLAR ECONOMICS (verified July 16, 2026)
+// Every figure below traces to a fetchable primary source. Derived
+// numbers are labeled DERIVED. The one number that is never public —
+// CookUnity's contracted price — is exposed as the field the payer
+// contract fills in, anchored by what real programs actually pay.
+// ------------------------------------------------------------------
+
+// 10.1 — Avoided-event benchmarks (replaces the unsourced $15,000 default).
+TOOL_DATA.avoidedEventBenchmarks = {
+  inpatientMedicaid: {value: 14550, label: "Average Medicaid inpatient stay (2022)", source: "HCUP Statistical Brief #316 (DERIVED from published payer shares: $113.0B / 7.76M stays)", url: "https://hcup-us.ahrq.gov/reports/statbriefs/sb316-most-expensive-conditions-by-payer-2022.pdf"},
+  inpatientAllPayer: {value: 16675, label: "Average all-payer inpatient stay (2022)", source: "HCUP SB #316 (DERIVED: $548.481B / 32.892M stays)", url: "https://hcup-us.ahrq.gov/reports/statbriefs/sb316-most-expensive-conditions-by-payer-2022.pdf"},
+  edVisitMedicaid: {value: 600, label: "Average Medicaid treat-and-release ED visit (2021)", source: "HCUP SB #311, Table 1", url: "https://hcup-us.ahrq.gov/reports/statbriefs/sb311-ED-visit-costs-2021.pdf"},
+  readmissionMedicaid: {value: 14100, label: "Average Medicaid 30-day all-cause readmission (2018)", source: "HCUP SB #278", url: "https://www.ncbi.nlm.nih.gov/books/NBK573265/"},
+  note: "HCUP figures are hospital production costs, not MCO payments. For payer-perspective ROI, the Healthy Louisiana capitation composites below are the cleaner anchor."
+};
+
+// 10.2 — Louisiana real payer economics (official actuarial certification + KFF/T-MSIS).
+TOOL_DATA.laRealEconomics = {
+  capitationSfy2026: {
+    ssiExpected: 2786.29, expansionExpected: 1074.80, familyChildrenExpected: 513.62, compositeExpected: 883.92,
+    effective: "7/1/2025–6/30/2026 (certified 8/18/2025, Milliman)",
+    source: "https://www.ldh.la.gov/assets/docs/BayouHealth/Rate_Certification_Letters/FY26/SFY-2026-Healthy-Louisiana-Medicaid-Managed-Care-Rate-Certification_20250818.pdf",
+    note: "Composite expected MCO payments PMPM by population. A high-acuity meal-program PMPM in the $400s is roughly 15% of the SSI revenue line — material but not implausible against certified rates."
+  },
+  perEnrolleeCy2023: {
+    overall: 7450, seniors: 16566, disabilities: 19878, adults: 6456, expansionAdults: 6718, children: 3472,
+    source: "https://www.kff.org/medicaid/state-indicator/medicaid-spending-per-full-benefit-enrollee/",
+    note: "KFF State Health Facts from T-MSIS claims, CY2023. The $55,092 JAMA cohort baseline is ~2.8x the LA disabilities per-enrollee average — consistent with a deliberately extreme high-cost slice, and claims must confirm it for any specific plan."
+  },
+  concentration: "GAO (FY2009–2011): the top 5% of Medicaid-only enrollees drove ~48% of Medicaid-only spending each year; no newer Medicaid-specific share was found (all-payer MEPS 2021: top 5% = 51.2%). Source: https://www.gao.gov/products/gao-15-460"
+};
+TOOL_DATA.states.LA.summary += " Real-dollar context (SFY 2026 Milliman rate certification): composite expected MCO payments are $2,786 PMPM for the SSI population and $1,075 PMPM for expansion adults — the revenue lines a high-acuity nutrition program's cost and savings case are measured against.";
+
+// 10.3 — 2026-dollar restatement of the JAMA benchmarks (BLS CPI Medical Care,
+// 2017 annual avg 475.32 -> June 2026 592.750 = ×1.247, pulled live from the BLS API).
+TOOL_DATA.medicalCpi = {factor2017to2026: 1.247, series: "CUUR0000SAM (BLS, pulled 2026-07-16)", note: "DERIVED restatements: JAMA $753 net PMPM ≈ $939; ~$350 program PMPM ≈ $436; $4,591 untreated total PMPM ≈ $5,725; $55,092 annual baseline ≈ $68,700 in June-2026 dollars. Label any restated figure as inflation-adjusted."};
+TOOL_DATA.cohortSavings.complex.basis += " In June-2026 dollars (BLS medical CPI ×1.247, DERIVED): the $753 net becomes ≈$939 PMPM and the $350 program cost ≈$436 PMPM.";
+if (TOOL_DATA.evidenceBases && TOOL_DATA.evidenceBases.jama) {
+  TOOL_DATA.evidenceBases.jama.description += " Published in 2017 dollars; ≈×1.247 in June-2026 dollars (BLS medical CPI, labeled DERIVED).";
+}
+
+// 10.4 — CookUnity's REAL program designs (the comps a Louisiana pilot is modeled on).
+TOOL_DATA.cookunityPrograms = [
+  {name:"CABS Health Network × CookUnity (Brooklyn, NY Medicaid)", launched:"July 2025", funding:"NY 1115 waiver — Social Care Network program", design:"≥500 Medicaid recipients over 12 months; up to 6 months of meal deliveries per member (longer for pregnant/postpartum); $0 member cost; dietitian-personalized plans; MCO-linked eligibility (e.g., MetroPlus) with community screening", conditions:"Hypertension, diabetes, heart disease", notDisclosed:"Meals per week (payer-set; CookUnity never publishes dosing)", url:"https://mostlymedicaid.com/managed-care-cabs-health-network-and-cookunity-launch-medicaid-meal-initiative-to-tackle-food-insecurity-in-new-york-city/", confidence:"PROVEN (launch release)"},
+  {name:"Anthem Blue Cross Medi-Cal × CookUnity (Sacramento, CA)", launched:"November 2025", funding:"CalAIM Community Supports — Medically Supportive Food / Medically Tailored Meals", design:"Weekly MTM delivery for up to 90 days, $0 member cost; phase 1 = hundreds of households; ~250K potentially eligible; statewide Medi-Cal expansion planned 2026. Matches the DHCS 12-week MTM cap effective 1/1/2026.", conditions:"Chronic-condition Medi-Cal members (Community Supports criteria)", notDisclosed:"Meals per week; enrollment to date", url:"https://www.dhcs.ca.gov/wp-content/uploads/2025/10/May-Community-Supports-Spotlight-Medically-Tailored-Meals.pdf", confidence:"STRONG (single syndicated release + DHCS policy + Anthem provider guide + live CookUnity eligibility checker)"},
+  {name:"EmblemHealth × Dean Ornish × CookUnity (NY)", launched:"July 2025", funding:"Coverage with evidence development (first insurer to cover the Ornish program for early Alzheimer's)", design:"Plant-based MTM menu — 14 dishes expanding to 28; 3,000+ medically tailored meals weekly across CookUnity health programs (Oct 2025); five boroughs + Long Island via ACPNY", conditions:"Early-stage Alzheimer's / mild cognitive impairment", notDisclosed:"Per-member meals/week, duration, enrollment cap", url:"https://www.emblemhealth.com/news/dr-dean-ornish-cognition-brain-health-program-partnership", confidence:"PROVEN"},
+  {name:"CookUnity marketed program shapes", launched:"Current site", funding:"1115 waivers, ILOS, Community Supports, MA supplemental benefits (positioning)", design:"'A 30-day post-discharge pilot or a 12-month diabetes support program'; weekly fresh delivery; ~4–7 day refrigerated shelf life; condition menus (Heart, Diabetes, Cancer Treatment, Post-Cancer Recovery); RDN-reviewed; payer reporting on adherence, satisfaction and cost impact", conditions:"Chronic + post-acute", notDisclosed:"Pricing; accreditation status", url:"https://www.cookunity.com/business/for-healthcare", confidence:"PROVEN as company positioning"}
+];
+TOOL_DATA.cookunityLouisianaNote = "No CookUnity kitchen or healthcare program exists in Louisiana today (structured MTM programs are CA+NY-anchored; nearest kitchens Austin and Atlanta). But delivery coverage IS live: Baton Rouge (70806) and Lafayette (70503) both verified on CookUnity's own zip checker July 16, 2026, and New Orleans is covered. A Louisiana Medicaid pilot would be CookUnity's FIRST in-state — the proven CABS/Anthem playbook applied to a new state, with the delivery feasibility gate already cleared for the I-10 corridor.";
+
+// 10.5 — Published per-meal rate anchors (every rate traces to a fetched
+// document; the NY gap is stated, not estimated). Rendered in Pilot Builder.
+TOOL_DATA.mealRateAnchors = [
+  {program:"MassHealth HRSN Supplemental Services (1115)", rate:"$14.86 expected / $18.58 max per MTM", date:"Schedule posted Jan 2026", url:"https://www.mass.gov/doc/hrsn-supplemental-services-fee-schedule-3/download", note:"Highest published state rate; up to 21 meals/member/week. The only published schedule that clears CookUnity's retail floor."},
+  {program:"California CalAIM Community Supports", rate:"$9.50/meal midpoint (benchmark $7–$12)", date:"DHCS Pricing Resource, Dec 2025", url:"https://www.dhcs.ca.gov/wp-content/uploads/2026/05/Community-Supports-Pricing-Resource.pdf", note:"Non-binding benchmark; up to 3 meals/day for up to 12 weeks. The mechanism behind the Anthem × CookUnity Sacramento program."},
+  {program:"North Carolina HOP fee schedule", rate:"$7.92/meal MTM ($7.70 healthy meal)", date:"Effective July 2024 — still current; restart funded July 2026, no new schedule yet", url:"https://www.ncdhhs.gov/healthy-opportunities-pilot-fee-schedule-and-service-definitions/open", note:"The low end of the band — the underpricing FIM providers flagged to CMS."},
+  {program:"New York 1115 SCN (the CABS × CookUnity mechanism)", rate:"Per-meal rate NOT public", date:"Rate methodology CMS-approved Nov 2024", url:"https://www.medicaid.gov/medicaid/section-1115-demonstrations/downloads/ny-medicaid-rdsgn-team-cms-aprvd-hrsn-rate-meth-11212024.pdf", note:"Each regional SCN lead sets its rate from Feeding America county meal costs; distributed only to contracted providers. Anyone quoting 'the NY rate' is guessing — this tool doesn't."},
+  {program:"CookUnity retail (live-fetched 7/16/2026)", rate:"$11.09–$14.23/meal by plan size + $9.99–$11.99 delivery", date:"cookunity.com pricing page, July 16, 2026", url:"https://www.cookunity.com/lp/cookunity-cost", note:"The retail CEILING: 16-meal tier $11.09, 12-meal $11.20, 4-meal $14.23. B2B program pricing is negotiated below retail."},
+  {program:"Health Affairs national MTM cost model", rate:"$11.15/meal all-in (labor, ingredients, packaging, delivery, overhead)", date:"April 2025 (Deng et al., 50-state model)", url:"https://www.healthaffairs.org/doi/10.1377/hlthaff.2024.01307", note:"Research benchmark — converges with CookUnity's live retail program tiers, which is why the Louisiana presets plan at $11.15."}
+];
+
+// 10.6 — Pilot presets modeled on CookUnity's real Medicaid programs.
+TOOL_DATA.pilotPresets.splice(TOOL_DATA.pilotPresets.findIndex(p => p.id === "custom"), 0,
+  {
+    id:"la_cabs_style", label:"Louisiana first-in-state — CABS-style MCO program (NY comp)", state:"LA", cohort:"complex",
+    populationBasis:"la_claims", eligibleShare:0, members:250, weeks:26, meals:10, mealCost:11.15, overhead:3,
+    evidenceBasis:"pitch", scenario:"base", bcr:{low:1.20,base:1.55,high:1.95}, funding:"la_mco_pilot",
+    intervention:"Medically tailored home-delivered meals", geo:"Baton Rouge–Lafayette I-10 corridor (CookUnity delivery live-verified 7/16/2026 on their zip checker: 70806 + 70503)",
+    trigger:"Model of CookUnity's real Brooklyn Medicaid program (CABS Health Network, July 2025): up to 6 months per member, MCO-linked eligibility, dietitian-personalized plans — applied to a Louisiana MCO's claims-defined high-cost cohort",
+    note:"Design comp = CABS × CookUnity (≥500 members/12mo, up to 6-month member duration). Meals/week is PAYER-SET — CookUnity never publishes dosing; 10/week here follows the JAMA evidence standard. Meal price = $11.15 (Health Affairs 2025 all-in national MTM cost model, converging with CookUnity's live retail program tiers of $11.09–$11.20) — contracted program pricing replaces it. The actual NY SCN rate CookUnity bills is not public; this tool says so instead of guessing."
+  },
+  {
+    id:"la_calaim_style", label:"Louisiana 12-week design — Anthem CalAIM comp (CA)", state:"LA", cohort:"complex",
+    populationBasis:"la_claims", eligibleShare:0, members:200, weeks:12, meals:10, mealCost:11.15, overhead:3,
+    evidenceBasis:"pitch", scenario:"base", bcr:{low:1.20,base:1.60,high:2.00}, funding:"la_mco_pilot",
+    intervention:"Medically tailored home-delivered meals", geo:"Single-region Louisiana proof market (Baton Rouge and Lafayette delivery live-verified 7/16/2026)",
+    trigger:"Model of CookUnity's real Sacramento Medi-Cal program (Anthem, Nov 2025): weekly MTM delivery up to 90 days under CalAIM Community Supports — the same 12-week shape as the DHCS MTM cap",
+    note:"Design comp = Anthem Medi-Cal × CookUnity (weekly delivery, up to 90 days, hundreds of households in phase 1). The 12-week duration is a REAL regulatory shape (DHCS CalAIM cap eff. 1/1/2026), not an arbitrary pilot length. Meal price = $11.15 (Health Affairs all-in model ≈ CookUnity live retail program tiers); the CalAIM benchmark band is $7–$12 with a $9.50 midpoint — contracted pricing replaces it."
+  }
+);
+
+TOOL_DATA.sources.unshift(
+  {name:"HCUP Statistical Briefs #316 / #311 / #278 — event-cost benchmarks", supports:"Avoided-event defaults: Medicaid inpatient stay ≈$14,550 (2022, DERIVED from published aggregates); all-payer $16,675; Medicaid ED visit $600 (2021); Medicaid 30-day readmission $14,100 (2018)", date:"Data years 2018–2022; SB #316 published Feb 2026", confidence:"High — official AHRQ briefs; per-stay Medicaid figure labeled DERIVED", limitation:"Hospital production costs, not MCO payments; older dollars for ED/readmission figures.", url:"https://hcup-us.ahrq.gov/reports/statbriefs/sb316-most-expensive-conditions-by-payer-2022.pdf"},
+  {name:"Healthy Louisiana SFY 2026 rate certification (Milliman)", supports:"Composite expected MCO payments: SSI $2,786.29 PMPM; expansion $1,074.80; family & children $513.62; program composite $883.92 (eff. 7/1/2025–6/30/2026)", date:"Certified August 18, 2025", confidence:"High — official LDH actuarial certification", limitation:"Composites, not individual rate cells; expected payments include state directed payments.", url:"https://www.ldh.la.gov/assets/docs/BayouHealth/Rate_Certification_Letters/FY26/SFY-2026-Healthy-Louisiana-Medicaid-Managed-Care-Rate-Certification_20250818.pdf"},
+  {name:"KFF — Medicaid spending per full-benefit enrollee (CY2023, T-MSIS)", supports:"Louisiana: $7,450 overall; $19,878 disabilities; $16,566 seniors; $6,718 expansion adults — sanity anchors for annual attributable cost", date:"CY 2023", confidence:"High", limitation:"Averages across each group, not the high-cost slice a pilot targets.", url:"https://www.kff.org/medicaid/state-indicator/medicaid-spending-per-full-benefit-enrollee/"},
+  {name:"BLS CPI — Medical Care (CUUR0000SAM)", supports:"2017→June 2026 medical inflation factor ×1.247 used for labeled 2026-dollar restatements of the 2017-dollar JAMA benchmarks", date:"Pulled from the BLS API July 16, 2026", confidence:"High", limitation:"All restated figures are DERIVED, not published.", url:"https://api.bls.gov/publicAPI/v2/timeseries/data/"},
+  {name:"Hager et al., JAMA Network Open 2022 — national MTM model", supports:"Modeled year 1: 1,594,000 hospitalizations averted; $13.6B net savings (95% UI $0.2B–$28.5B) across 6.31M eligible adults (≈$2,155/patient/yr, DERIVED); −47% hospitalizations, −19.7% expenditures from pooled studies", date:"Published Oct 2022, 2019 dollars", confidence:"High for the published model", limitation:"Simulation, not a trial; the year-1 savings interval's lower bound is barely above break-even — quote the range, not just the point estimate.", url:"https://pmc.ncbi.nlm.nih.gov/articles/PMC9577678/"},
+  {name:"CABS Health Network × CookUnity — NY Medicaid program", supports:"CookUnity's real Medicaid design: ≥500 members/12 months, up to 6 months per member, 1115 SCN funding, dietitian-personalized, $0 member cost", date:"July 23, 2025", confidence:"High — launch release", limitation:"Meals/week and results not disclosed.", url:"https://mostlymedicaid.com/managed-care-cabs-health-network-and-cookunity-launch-medicaid-meal-initiative-to-tackle-food-insecurity-in-new-york-city/"},
+  {name:"Anthem Medi-Cal × CookUnity (Sacramento) + DHCS CalAIM MTM policy", supports:"Weekly MTM delivery up to 90 days under CalAIM Community Supports; ~250K potentially eligible; DHCS 12-week MTM cap effective 1/1/2026 — validates the 12-week pilot shape", date:"November 2025 (program); DHCS spotlight Oct 2025", confidence:"Strong — syndicated release corroborated by DHCS policy, Anthem provider guide and CookUnity's live eligibility page", limitation:"Enrollment and dosing not disclosed.", url:"https://www.dhcs.ca.gov/wp-content/uploads/2025/10/May-Community-Supports-Spotlight-Medically-Tailored-Meals.pdf"},
+  {name:"CookUnity scale + Louisiana coverage", supports:"$750M ARR at 2025 close; 40M+ meals delivered in 2025; 8 kitchens (nearest to LA: Austin, Atlanta); Louisiana delivery LIVE-VERIFIED on CookUnity's own zip checker 7/16/2026 — Baton Rouge 70806 and Lafayette 70503 both covered, plus New Orleans; no Louisiana healthcare program today (first-in-state opportunity)", date:"2025–July 16, 2026", confidence:"High — company-stated scale; delivery verified directly", limitation:"Retail price is a ceiling anchor, not program pricing.", url:"https://www.cookunity.com/blog/cookunity-750m-arr-2025-record-growth"},
+  {name:"Published Medicaid MTM per-meal rate band", supports:"NC HOP $7.92 (2024) → CalAIM $9.50 midpoint, $7–$12 band (Dec 2025) → MassHealth $14.86 expected / $18.58 max (Jan 2026, up to 21 meals/wk); NY SCN rate (the CABS × CookUnity mechanism) is NOT public — set regionally from Feeding America county costs under a CMS-approved methodology", date:"2024–Jan 2026 documents, all fetched July 16, 2026", confidence:"High — official fee schedules and pricing resources", limitation:"CalAIM benchmarks are non-binding; NC's schedule predates the July 2026 restart appropriation; the NY per-meal dollar figure is contract-confidential.", url:"https://www.mass.gov/doc/hrsn-supplemental-services-fee-schedule-3/download"},
+  {name:"CookUnity retail pricing (live) + Health Affairs MTM cost model", supports:"Retail per-meal tiers $14.23 (4) / $12.29 (6) / $11.72 (8) / $11.20 (12) / $11.09 (16) + $9.99–$11.99 delivery (fetched 7/16/2026); Health Affairs Apr 2025 (Deng et al.) models $11.15/meal all-in national MTM cost — the convergence behind the Louisiana presets' $11.15 planning price", date:"July 16, 2026 / April 2025", confidence:"High", limitation:"Retail is a ceiling; the modeled $11.15 is a national average, not a quote.", url:"https://www.cookunity.com/lp/cookunity-cost"}
+);
+
 TOOL_DATA.sources.unshift(
   {name:"Louisiana MCO local-leadership verification sweep", supports:"Named plan presidents/CEOs and CMOs for the five active Healthy Louisiana MCOs, with per-row source links, verified dates and confidence labels; LHCC leadership transition; Healthy Blue leadership change", date:"Verified July 16, 2026", confidence:"Per-row — see each stakeholder entry", limitation:"Plan leadership moves fast (two LA seats changed in March–May 2026 alone). Reverify any name immediately before outreach.", url:"https://ldh.la.gov/medicaid/medicaid2026"},
   {name:"Carolina Complete Health + WellCare of NC merger", supports:"April 1, 2026 combination under the CCH brand; 980,000+ members; provider-led structure; NC now has four Standard Plans", date:"April 2, 2026", confidence:"High — Centene investor release + NC Medicaid provider notice", limitation:"Post-merger clinical leadership not yet announced.", url:"https://investors.centene.com/2026-04-02-Carolina-Complete-Health-and-WellCare-of-North-Carolina-Combine-to-Form-Provider-Led-Managed-Care-Organization"},

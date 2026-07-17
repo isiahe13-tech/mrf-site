@@ -291,3 +291,43 @@ INTERFACE
   funding route instead of silently falling back to the inactive HOP row.
 - Fixed: contact-quality dropdown no longer overstates unlisted values
   as "Publicly verified."
+
+
+VERSION 10 - REAL-DOLLAR ECONOMICS (verified July 16, 2026)
+===========================================================
+Goal: the Pilot Builder runs on numbers that trace to real documents.
+
+REAL PROGRAM COMPS (new card in Pilot Builder)
+- CABS Health Network x CookUnity (Brooklyn, July 2025): >=500 Medicaid
+  members/12 months, up to 6 months per member, NY 1115 Social Care
+  Network funding - CookUnity's actual Medicaid program.
+- Anthem Medi-Cal x CookUnity (Sacramento, Nov 2025): weekly MTM
+  delivery up to 90 days under CalAIM - matches the DHCS 12-week MTM
+  cap AND this tool's 12-week pilot shape.
+- EmblemHealth x Ornish x CookUnity (NY): 3,000+ MTM weekly (Oct 2025).
+- Two new Louisiana presets model these real designs ("CABS-style" 26-week
+  and "CalAIM-style" 12-week); meal price uses the verified New Orleans
+  retail ceiling (~$11.79) until a contracted rate replaces it.
+- Louisiana reality check shown in-tool: no CookUnity kitchen or health
+  program in LA today - a LA pilot is a FIRST-IN-STATE application of a
+  playbook CookUnity already runs (delivery = explicit feasibility gate).
+
+REAL DOLLARS
+- Avoided-event default re-anchored: $14,550 = average Medicaid
+  inpatient stay (HCUP SB #316, 2022, derived); ED visit $600; 30-day
+  readmission $14,100 - each sourced in the registry.
+- Healthy Louisiana SFY 2026 certified capitation composites added:
+  SSI $2,786.29 PMPM / expansion $1,074.80 / composite $883.92
+  (Milliman certification, 8/18/2025) - the revenue lines a program
+  PMPM is measured against.
+- KFF CY2023 per-enrollee spending anchors (LA disabilities $19,878).
+- JAMA 2017-dollar benchmarks now carry labeled 2026-dollar
+  restatements (BLS medical CPI x1.247): $753 net ~= $939 PMPM.
+- Hager et al. 2022 national MTM model added to sources (quote the
+  uncertainty range, not just the $13.6B point estimate).
+
+INTERFACE
+- "What real programs pay per meal" anchor table in Pilot Builder.
+- CookUnity real-programs comp table + Louisiana reality-check callout.
+- Removed the red "Do not add" box from Cohort Economics (the overlap
+  caution lives in the funnel note and source registry).

@@ -745,6 +745,20 @@ $("saveBrief").addEventListener("click",()=>{buildBrief();saveItem("briefs",{typ
 $("copyBrief").addEventListener("click",()=>copyText(currentBrief||$("briefOutput").textContent));
 $("downloadBrief").addEventListener("click",()=>download("Medicaid_AE_Account_Brief.txt",currentBrief||$("briefOutput").textContent));
 
+function renderCookunityPrograms(){
+  const rows=$("cookunityProgramRows"), note=$("cookunityLaNote");
+  if(!rows) return;
+  const programs=TOOL_DATA.cookunityPrograms||[];
+  if(note) note.innerHTML=TOOL_DATA.cookunityLouisianaNote?`<b>Louisiana reality check:</b> ${escapeHtml(TOOL_DATA.cookunityLouisianaNote)}`:"";
+  rows.innerHTML=programs.map(p=>`<tr><td><b>${escapeHtml(p.name)}</b><div class="mini">${escapeHtml(p.confidence)}</div></td><td>${escapeHtml(p.launched)}</td><td>${escapeHtml(p.funding)}</td><td>${escapeHtml(p.design)}<div class="mini"><b>Conditions:</b> ${escapeHtml(p.conditions)}</div></td><td class="mini">${escapeHtml(p.notDisclosed)}</td><td><a class="sourceurl" href="${escapeHtml(p.url)}" target="_blank" rel="noopener">Open source</a></td></tr>`).join("");
+}
+function renderRateAnchors(){
+  const el=$("rateAnchors");
+  if(!el) return;
+  const anchors=TOOL_DATA.mealRateAnchors||[];
+  if(!anchors.length){el.style.display="none";return;}
+  el.innerHTML=`<b>What real programs pay per meal (published anchors — contracted CookUnity pricing replaces this field):</b><div class="tablewrap"><table><thead><tr><th>Program</th><th>Rate</th><th>As of</th><th>Note</th></tr></thead><tbody>${anchors.map(a=>`<tr><td><a class="sourceurl" href="${escapeHtml(a.url)}" target="_blank" rel="noopener">${escapeHtml(a.program)}</a></td><td><b>${escapeHtml(a.rate)}</b></td><td>${escapeHtml(a.date)}</td><td class="mini">${escapeHtml(a.note)}</td></tr>`).join("")}</tbody></table></div>`;
+}
 function renderSources(){
   $("sourceTable").innerHTML=TOOL_DATA.sources.map(s=>`<tr><td><b>${escapeHtml(s.name)}</b></td><td>${escapeHtml(s.supports)}</td><td>${escapeHtml(s.date)}</td><td>${escapeHtml(s.confidence)}</td><td>${escapeHtml(s.limitation)}</td><td><a class="sourceurl" href="${escapeHtml(s.url)}" target="_blank" rel="noopener">Open source</a></td></tr>`).join("");
 }
@@ -788,7 +802,7 @@ function applyEvidenceDefaults(){
   ["matchCohort","cohort","pilotCohort","briefCohort"].forEach(id=>{ if($(id) && [...$(id).options].some(o=>o.value==="complex")) $(id).value="complex"; });
 }
 function init(){
-  applyEvidenceDefaults(); renderCohortTable(); renderOpportunityQuestions(); renderHighAcuityScreen(); renderSources();
+  applyEvidenceDefaults(); renderCohortTable(); renderOpportunityQuestions(); renderHighAcuityScreen(); renderSources(); renderRateAnchors(); renderCookunityPrograms();
   refreshCompanyDropdown(); applyPilotPreset(); renderPresetComparison(); loadEconomicDefaults(); renderFunding(); calculateTam(); renderSaved();
 }
 init();
