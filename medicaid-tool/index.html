@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Medicaid Market Intelligence & AE Enablement Engine</title>
-  <meta name="description" content="Funding, opportunity scoring, stakeholder mapping, pilot design, cohort economics and SDOH decision support for Medicaid nutrition programs.">
+  <meta name="description" content="Funding, opportunity scoring, stakeholder mapping, pilot design, cohort economics and high-acuity service-need screening for Medicaid nutrition programs.">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -24,7 +24,7 @@
     <button class="tab" data-panel="opportunity">Opportunity Score</button>
     <button class="tab" data-panel="stakeholders">Stakeholder Map</button>
     <button class="tab" data-panel="pilot">Pilot Builder</button>
-    <button class="tab" data-panel="sdoh">SDOH Resolver</button>
+    <button class="tab" data-panel="sdoh">Service-Need Screener</button>
     <button class="tab" data-panel="brief">AE Brief</button>
     <button class="tab" data-panel="saved">Saved Library</button>
     <button class="tab" data-panel="sources">Sources</button>
@@ -95,6 +95,17 @@
       </div>
       <div class="grid three">
         <div>
+          <label>Evidence basis</label>
+          <select id="evidenceBasis">
+            <option value="auto">Recommended state/cohort profitability model</option>
+            <option value="planning">State/cohort profitability target</option>
+            <option value="jama">National high-acuity MTM study</option>
+            <option value="ncAdult">North Carolina HOP — nonpregnant adults</option>
+            <option value="ncOverall">North Carolina HOP — all participants</option>
+            <option value="custom">Custom payer-claims assumption</option>
+          </select>
+        </div>
+        <div>
           <label>Evidence scenario</label>
           <select id="savingsScenario">
             <option value="low">Low</option>
@@ -103,10 +114,14 @@
             <option value="custom">Custom PMPM</option>
           </select>
         </div>
-        <div><label>Modeled gross savings PMPM</label><input id="pmpm" type="number" min="0" step="1"></div>
-        <div><label>Implied savings rate (%)</label><input id="savingRate" type="number" min="0" max="100" step="0.1" readonly></div>
+        <div><label>Modeled gross medical reduction PMPM</label><input id="pmpm" type="number" min="0" step="1"></div>
       </div>
-      <div id="savingsBasis" class="callout"></div>
+      <div class="grid three">
+        <div><label>Published / modeled net savings PMPM</label><input id="netPmpmDisplay" type="text" readonly></div>
+        <div><label>Target benefit-cost ratio</label><input id="economicTargetBcrDisplay" type="text" readonly></div>
+        <div><label>Implied gross medical reduction rate (%)</label><input id="savingRate" type="number" min="0" max="100" step="0.1" readonly></div>
+      </div>
+      <div id="savingsBasis" class="callout"></div><div class="callout amber"><b>How to read the toggle:</b> The default profitability model calculates what each state/cohort design must achieve to produce a positive return. National MTM and North Carolina HOP remain external evidence anchors. The target is a sales-planning threshold—not a guaranteed outcome.</div>
       <div id="evidenceNote" class="callout amber"></div>
       <div class="buttons">
         <button id="calculate" class="primary">Calculate</button>
@@ -140,7 +155,7 @@
     <h2>Louisiana High-Acuity Market-Sizing Funnel</h2>
     <p class="muted">This converts the domain ranges into an interview-ready planning estimate. The domains overlap and must never be added together.</p>
     <div class="grid three">
-      <div><label>Total Louisiana Medicaid members</label><input id="tamTotal" type="number" min="0" value="1500000"></div>
+      <div><label>Total Louisiana Medicaid members (June 2026 LDH: 1,378,186)</label><input id="tamTotal" type="number" min="0" value="1380000"></div>
       <div><label>Risk score above 1.00 — low (%)</label><input id="tamRiskLow" type="number" min="0" max="100" value="15"></div>
       <div><label>Risk score above 1.00 — high (%)</label><input id="tamRiskHigh" type="number" min="0" max="100" value="25"></div>
     </div>
@@ -221,10 +236,21 @@
   <div class="grid split">
     <article class="card">
       <h2>Pilot Design Builder</h2>
-      <p class="muted">Converts the selected market, cohort and funding route into an implementation-ready working design.</p>
+      <p class="muted">Choose a pitch preset to load a distinct, positive commercial design. Each preset has different service intensity, pricing, target ROI and required savings. These are performance targets—not guaranteed outcomes.</p>
+      <label>Pilot pitch preset</label><select id="pilotPitch"></select>
+      <div id="pilotPitchNote" class="callout"></div>
       <div class="grid two">
         <div><label>State</label><select id="pilotState"></select></div>
         <div><label>Cohort</label><select id="pilotCohort"></select></div>
+      </div>
+      <div class="grid three">
+        <div><label>Population universe basis</label><select id="pilotPopulationBasis"></select></div>
+        <div><label>Official / selected universe count</label><input id="pilotUniverseCount" type="text" readonly></div>
+        <div><label>Estimated intervention-eligible share (%)</label><input id="pilotEligibleShare" type="number" min="0" max="100" step="0.1" value="2"></div>
+      </div>
+      <div class="grid two">
+        <div><label>Estimated addressable candidate pool</label><input id="pilotCandidatePool" type="text" readonly></div>
+        <div><label>Population-data status</label><input id="pilotPopulationStatus" type="text" readonly></div>
       </div>
       <label>Funding route</label><select id="pilotFunding"></select>
       <label>Intervention</label>
@@ -241,8 +267,24 @@
       </div>
       <div class="grid three">
         <div><label>Cost / meal</label><input id="pilotMealCost" type="number" min="0" step="0.01"></div>
+        <div>
+          <label>Evidence basis</label>
+          <select id="pilotEvidenceBasis">
+            <option value="auto">Recommended pitch-specific profitability model</option>
+            <option value="pitch">Pitch-specific profitability target</option>
+            <option value="planning">State/cohort profitability target</option>
+            <option value="jama">National high-acuity MTM study</option>
+            <option value="ncAdult">North Carolina HOP — nonpregnant adults</option>
+            <option value="ncOverall">North Carolina HOP — all participants</option>
+            <option value="custom">Custom payer-claims assumption</option>
+          </select>
+        </div>
         <div><label>Savings scenario</label><select id="pilotSavingsScenario"><option value="low">Low</option><option value="base" selected>Base</option><option value="high">High</option><option value="custom">Custom</option></select></div>
-        <div><label>Gross savings PMPM</label><input id="pilotPmpm" type="number" min="0" step="1"></div>
+      </div>
+      <div class="grid three">
+        <div><label>Required gross medical reduction PMPM</label><input id="pilotPmpm" type="number" min="0" step="1"></div>
+        <div><label>Target net savings PMPM</label><input id="pilotNetPmpmDisplay" type="text" readonly></div>
+        <div><label>Target benefit-cost ratio</label><input id="pilotTargetBcrDisplay" type="text" readonly></div>
       </div>
       <div class="grid two">
         <div><label>Additional implementation allowance (%)</label><input id="pilotOverhead" type="number" min="0" max="100" step="0.1" value="2"></div>
@@ -252,7 +294,7 @@
         <div><label>Annual attributable cost / member</label><input id="pilotAnnualCost" type="number" min="0"></div>
         <div><label>Avoided-event benchmark ($, optional)</label><input id="pilotEventCost" type="number" min="0" value="15000"></div>
       </div>
-      <div id="pilotEconomicsSummary" class="callout"></div>
+      <div id="pilotEconomicsSummary" class="callout"></div><div id="pilotCaseStatus" class="callout"></div>
       <label>Geography / delivery area</label><input id="pilotGeo" placeholder="Regional proof market">
       <label>Known account trigger</label><textarea id="pilotTrigger" placeholder="Quality gap, avoidable utilization, state priority, executive sponsor, RFP..."></textarea>
       <div class="buttons">
@@ -270,27 +312,62 @@
       </div>
     </article>
   </div>
+  <article class="card topgap">
+    <h2>Pitch Economics Comparison</h2>
+    <p class="muted">Every preset has a different design and therefore a different program PMPM, required gross reduction, target net PMPM and total pilot value. The base column is a commercial performance target, not a promised result.</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Pitch</th><th>State</th><th>Members / weeks</th><th>Meals / week</th><th>Meal price</th><th>Program PMPM</th><th>Base target BCR</th><th>Required gross PMPM</th><th>Target net PMPM</th><th>Total pilot net</th></tr></thead>
+        <tbody id="presetComparisonRows"></tbody>
+      </table>
+    </div>
+  </article>
 </section>
 
 <section id="sdoh" class="panel">
   <div class="grid split">
     <article class="card">
-      <h2>SDOH Ambiguity Resolver</h2>
-      <p class="muted">Turn repeated questions into reusable decision cards.</p>
-      <label>State</label><select id="sdohState"></select>
-      <label>Domain</label><select id="sdohDomain"></select>
-      <label>Question</label><select id="sdohQuestion"></select>
-      <label>Local notes / confirmed facts</label><textarea id="sdohNotes" placeholder="Add confirmed local facts, open questions or partner notes."></textarea>
+      <h2>High-Acuity Service-Need Screener</h2>
+      <p class="muted">Use the questions below to identify a likely high-priority nutrition-service profile quickly. This does not create Medicaid eligibility, replace clinical judgment or authorize service.</p>
+      <div class="grid two">
+        <div><label>State</label><select id="screenState"></select></div>
+        <div><label>Account / program</label><input id="screenAccount" placeholder="Example: Louisiana Medicaid MCO"></div>
+      </div>
+      <label>Case reference — do not enter a name, Medicaid ID or PHI</label>
+      <input id="screenReference" placeholder="Example: Demo case A or cohort segment 1">
+      <div class="callout amber">
+        <b>Rapid high-priority rule:</b> recent acute utilization + a diet-sensitive medical need + a documented inability to obtain or prepare appropriate food + safe delivery readiness.
+      </div>
+      <div id="screenQuestions"></div>
+      <label>Additional non-PHI notes</label>
+      <textarea id="screenNotes" placeholder="Document only the facts needed to explain the service need."></textarea>
       <div class="buttons">
-        <button id="resolve" class="primary">Resolve</button>
-        <button id="saveKnowledge" class="gold">Save Knowledge Card</button>
+        <button id="scoreScreen" class="primary">Score Service Need</button>
+        <button id="loadDemoScreen" class="gold">Load High-Acuity Demo</button>
+        <button id="resetScreen" class="ghost">Reset</button>
       </div>
     </article>
+
     <article class="card">
-      <h2>Decision Answer</h2>
-      <div id="sdohAnswer" class="empty">Choose a domain and question.</div>
+      <h2>Qualification Result</h2>
+      <div id="screenResult" class="empty">Complete the questions to identify the likely service tier.</div>
+      <pre id="screenSummary" class="briefout compactout">The referral-ready summary will appear here.</pre>
+      <div class="buttons">
+        <button id="saveScreen" class="gold">Save Screen</button>
+        <button id="copyScreen" class="ghost">Copy Summary</button>
+        <button id="useScreenInPilot" class="primary">Use in Pilot Builder</button>
+      </div>
     </article>
   </div>
+
+  <article class="card topgap">
+    <h2>What the Questions Are Proving</h2>
+    <div class="grid three">
+      <div class="proofcard"><h3>1. Medical urgency</h3><p>Recent acute use, clinical instability or a serious diet-sensitive condition creates a reason to act now.</p></div>
+      <div class="proofcard"><h3>2. Nutrition barrier</h3><p>The member cannot reliably obtain, prepare or follow the food plan required for the medical condition.</p></div>
+      <div class="proofcard"><h3>3. Intervention fit</h3><p>The member can safely receive the service, agrees to participate and is not already receiving a duplicative benefit.</p></div>
+    </div>
+  </article>
 </section>
 
 <section id="brief" class="panel">
@@ -323,7 +400,7 @@
 <section id="saved" class="panel">
   <div class="grid two">
     <article class="card"><h2>Saved Scenarios & Opportunities</h2><div id="savedScenarios"></div></article>
-    <article class="card"><h2>Maps, Pilots, Knowledge & Briefs</h2><div id="savedKnowledge"></div></article>
+    <article class="card"><h2>Screens, Maps, Pilots & Briefs</h2><div id="savedKnowledge"></div></article>
   </div>
   <article class="card topgap">
     <h2>Backup & Restore</h2>
