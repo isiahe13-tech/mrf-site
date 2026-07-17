@@ -1087,3 +1087,167 @@ TOOL_DATA.sources.unshift(
   {name:"NCDHHS — Melanie Bush named Deputy Secretary, NC Medicaid", supports:"Current NC Medicaid decision owner; 3M+ member enrollment context", date:"April 21, 2026", confidence:"High — official release", limitation:"Appointment noted as contingent on General Assembly confirmation.", url:"https://www.ncdhhs.gov/news/press-releases/2026/04/21/ncdhhs-names-melanie-bush-deputy-secretary-nc-medicaid"},
   {name:"NC 2026 state budget — HOP partial funding restoration", supports:"$25M one-time HOP appropriation ($9M state + $16M federal match); restart at reduced scale; timeline unsettled mid-July 2026", date:"July 2026 (NC Health News 2026-07-01; WHQR 2026-07-09)", confidence:"Strong — two independent contemporaneous reports; no official NCDHHS restart page yet", limitation:"One-time money far below the $80M ask; do not present as full program reactivation.", url:"https://www.northcarolinahealthnews.org/2026/07/01/nc-full-budget-reflects-transformed-health-landscape/"}
 );
+
+
+// ------------------------------------------------------------------
+// VERSION 11 — NEW YORK + CALIFORNIA (CookUnity's live home markets)
+// and the National Playbook state-prioritization layer.
+// NY and CA are the two states where CookUnity ALREADY operates
+// Medicaid programs (CABS/Brooklyn under the NYHER 1115 SCN waiver;
+// Anthem/Sacramento under CalAIM Community Supports). Population
+// figures marked "starter estimate" are labeled planning inputs,
+// never published Medicaid counts.
+// ------------------------------------------------------------------
+
+TOOL_DATA.states.NY = {
+  name: "New York",
+  summary: "CookUnity's home Medicaid market. The NYHER 1115 waiver (approved January 9, 2024; ~$7.5B over 3.25 years, expiring March 31, 2027) funds HRSN services through nine regional Social Care Networks, with nutrition reimbursement live since January 2025 and up to $500M for the SCN pool. Enhanced-population members can receive up to six months of meals (renewable once; ~11 months for high-risk pregnancy). CookUnity already bills this mechanism through the CABS Health Network initiative in Brooklyn (≥500 members) and separately partners with EmblemHealth on the Ornish early-Alzheimer's program. The waiver's 2027 expiration is the built-in urgency: programs that want renewal-proof evidence need pilots generating data NOW.",
+  defaultMealCost: 11.15,
+  defaultPmpm: 750,
+  cohorts: {
+    complex: { affected: 0, annualCost: 55092, targetRate: 100, foodFit: 5, sourceNote: "BEST PROOF COHORT. NYHER's own 'enhanced populations' definition (high utilizers, specific chronic conditions, justice-involved, foster youth) already encodes this cohort — eligibility is SCN/plan-determined, so the candidate count must come from SCN or MCO data; zero is intentional. Cost benchmark from the Berkowitz JAMA matched cohort.", buyerQuestion: "Which enhanced-population members have recent acute utilization, a diet-sensitive condition and a documented food barrier — and which SCN region are they in?", costLogic: "The waiver already pays for exactly this population; the question is share-of-network, not authority.", nutritionFit: "Strongest commercial proof cohort, and in NY the payment mechanism is already live." },
+    diabetes: { affected: 1800000, annualCost: 12022, targetRate: 6, foodFit: 5, sourceNote: "Starter planning estimate (~1.8M adults with diagnosed diabetes statewide is the commonly cited NYSDOH-scale figure — all-payer, not Medicaid-specific). Replace with SCN/MCO claims.", buyerQuestion: "Which diabetic enhanced-population members have food-access barriers and recent avoidable utilization?", costLogic: "High prevalence, medication burden and preventable complications.", nutritionFit: "Strong fit; NYHER nutrition services are live for qualifying members." },
+    heart: { affected: 380000, annualCost: 10500, targetRate: 12, foodFit: 5, sourceNote: "Starter planning estimate scaled from national heart-failure prevalence (~2% of adults) — all-payer, not Medicaid-specific. Replace with plan claims.", buyerQuestion: "Which members with heart failure and recent admissions can't follow a sodium-controlled diet?", costLogic: "Admissions and readmissions concentrate cost in a small population.", nutritionFit: "Strong fit for sodium-controlled medically tailored meals." },
+    ckd: { affected: 2300000, annualCost: 9000, targetRate: 5, foodFit: 4, sourceNote: "Starter planning estimate scaled from national CKD prevalence (~14% of adults) — overlaps diabetes/hypertension heavily; never sum cohorts. Replace with staged claims.", buyerQuestion: "Which stage 3b–4 CKD members have nutrition insecurity and rising utilization?", costLogic: "Progression and renal replacement create high downstream cost.", nutritionFit: "Requires renal-specific clinical oversight." }
+  },
+  funding: [
+    { id:"ny_scn", name:"NYHER 1115 — Social Care Network nutrition services", status:"active", speed:5, objectives:["pilot","benefit"], fits:{complex:5,diabetes:5,heart:5,ckd:4}, description:"The live statewide mechanism: nine regional SCN lead entities reimburse contracted providers for HRSN nutrition services (up to 3 meals/day, up to 6 months, renewable once) for enhanced-population Medicaid managed-care members. CookUnity already bills it via CABS in Brooklyn.", buyer:"SCN lead entities (e.g., Public Health Solutions in the Brooklyn region), MCO HRSN leads and care management", evidence:"SCN network contracting, enhanced-population eligibility screening, referral workflow and encounter reporting.", caution:"Per-meal rates are set regionally by each SCN and are not public; the waiver expires March 31, 2027 — build renewal-proof evidence into every program." },
+    { id:"ny_ilos", name:"MCO ILOS / value-based purchasing route", status:"conditional", speed:4, objectives:["pilot","benefit","provider"], fits:{complex:5,diabetes:5,heart:5,ckd:4}, description:"Outside the SCN lane, NY plans can fund meals as in-lieu-of or value-added services, and NY's VBP framework has historically required social-determinant interventions with CBO participation at higher levels.", buyer:"Plan CMO, population health, HRSN and VBP contracting leadership", evidence:"Plan-specific ILOS/value-add authority, cohort definition and encounter coding.", caution:"Plan-by-plan authority — confirm the specific vehicle before pricing." },
+    { id:"ny_mco", name:"Plan innovation, quality or health-equity budget", status:"conditional", speed:4, objectives:["pilot"], fits:{complex:5,diabetes:5,heart:4,ckd:4}, description:"A plan-funded pilot against a quality, equity or utilization objective — useful where SCN capacity or eligibility misses the target cohort.", buyer:"CMO, quality, population health or health-equity leadership", evidence:"Quality gap, member workflow, clinical referral and measurement plan.", caution:"Do not assume food is reimbursable merely because a quality gap exists." },
+    { id:"ny_provider", name:"Risk-bearing provider / ACO partnership", status:"conditional", speed:4, objectives:["provider","pilot"], fits:{complex:5,diabetes:5,heart:5,ckd:4}, description:"Health systems and risk-bearing groups fund meals against avoidable utilization — the EmblemHealth/ACPNY Ornish program is the in-market example of provider-linked clinical meal programs.", buyer:"Population-health and value-based care leadership at systems and IPAs", evidence:"Attributed lives, risk exposure, referral workflow and outcome attribution.", caution:"Verify actual risk exposure and budget." },
+    { id:"ny_bridge", name:"Grant, philanthropy or community-benefit bridge", status:"conditional", speed:3, objectives:["bridge","pilot"], fits:{complex:5,diabetes:4,heart:4,ckd:3}, description:"Non-Medicaid capital funds a proof while SCN contracting or plan authority develops.", buyer:"Health-system community benefit, foundations, public-health grants", evidence:"Time-limited pilot with payer-relevant outcomes and a transition plan.", caution:"Not a durable reimbursement strategy." }
+  ]
+};
+
+TOOL_DATA.states.CA = {
+  name: "California",
+  summary: "CookUnity's second live Medicaid market. CalAIM made medically tailored meals and medically supportive food a named Community Support (ILOS) that Medi-Cal managed care plans have offered since 2022, with DHCS-published benchmark pricing ($7–$12 per meal, $9.50 midpoint) and a 12-week MTM cap (extendable for medical necessity) effective January 1, 2026. CookUnity's Anthem Blue Cross Sacramento program (announced November 2025: weekly delivery up to 90 days, ~250K potentially eligible members) runs on exactly this mechanism, with statewide Medi-Cal expansion planned for 2026. The play here is expansion — ride the live Anthem footprint and add managed care plans.",
+  defaultMealCost: 9.50,
+  defaultPmpm: 750,
+  cohorts: {
+    complex: { affected: 0, annualCost: 55092, targetRate: 100, foodFit: 5, sourceNote: "BEST PROOF COHORT. Community Supports eligibility is MCP-determined (chronic-condition and utilization criteria), so the candidate count must come from plan data; zero is intentional. Cost benchmark from the Berkowitz JAMA matched cohort.", buyerQuestion: "Which high-utilizing chronic-condition members qualify for the MTM Community Support and have a documented food barrier?", costLogic: "The benefit exists; the commercial question is plan adoption and member identification.", nutritionFit: "Strongest proof cohort; the payment mechanism is live and priced." },
+    diabetes: { affected: 3500000, annualCost: 12022, targetRate: 6, foodFit: 5, sourceNote: "Starter planning estimate (~3.5M adults with diagnosed diabetes statewide is the commonly cited CDPH-scale figure — all-payer, not Medi-Cal-specific). Replace with MCP claims.", buyerQuestion: "Which diabetic members meet Community Supports criteria and have recent avoidable utilization?", costLogic: "Scale plus preventable complications.", nutritionFit: "Strong fit under the existing MTM Community Support." },
+    heart: { affected: 750000, annualCost: 10500, targetRate: 12, foodFit: 5, sourceNote: "Starter planning estimate scaled from national heart-failure prevalence (~2% of adults) — all-payer. Replace with MCP claims.", buyerQuestion: "Which post-discharge heart-failure members can't follow a sodium-controlled diet?", costLogic: "Concentrated admission and readmission spend.", nutritionFit: "Strong fit; 12-week post-discharge design matches the CalAIM cap." },
+    ckd: { affected: 4400000, annualCost: 9000, targetRate: 5, foodFit: 4, sourceNote: "Starter planning estimate scaled from national CKD prevalence (~14% of adults) — heavy overlap with diabetes/hypertension; never sum cohorts.", buyerQuestion: "Which stage 3b–4 CKD members qualify and need renal-diet support?", costLogic: "Progression and dialysis avoidance.", nutritionFit: "Requires renal clinical oversight." }
+  },
+  funding: [
+    { id:"ca_calaim", name:"CalAIM Community Supports — MTM / Medically Supportive Food (ILOS)", status:"active", speed:5, objectives:["pilot","benefit"], fits:{complex:5,diabetes:5,heart:5,ckd:4}, description:"The live, priced, statewide mechanism: MCPs offer medically tailored meals as a Community Support with DHCS benchmark pricing ($9.50/meal midpoint), up to 3 meals/day for up to 12 weeks (extendable for medical necessity). The Anthem × CookUnity Sacramento program runs on it today.", buyer:"MCP Community Supports / population health leadership, CMO and care management", evidence:"MCP election of the MTM Community Support, member eligibility criteria, referral pathway and encounter coding.", caution:"Benchmarks are non-binding and MCP adoption varies by county — confirm each plan's elected Community Supports before pricing." },
+    { id:"ca_mco", name:"Plan innovation, quality or health-equity budget", status:"conditional", speed:4, objectives:["pilot"], fits:{complex:5,diabetes:5,heart:4,ckd:4}, description:"Plan-funded pilots against quality or equity objectives where a county's Community Supports election doesn't cover the target cohort.", buyer:"CMO, quality, population health or health-equity leadership", evidence:"Quality gap, workflow, referral and measurement plan.", caution:"Confirm budget authority; don't assume reimbursement." },
+    { id:"ca_provider", name:"Risk-bearing provider / delegated group partnership", status:"conditional", speed:4, objectives:["provider","pilot"], fits:{complex:5,diabetes:5,heart:5,ckd:4}, description:"California's deeply delegated model means medical groups and IPAs carry real risk — a second buyer type that funds avoided utilization directly.", buyer:"Delegated group / IPA population-health and finance leadership", evidence:"Attributed lives, risk contract, baseline utilization.", caution:"Verify actual risk exposure — delegation structures vary widely." },
+    { id:"ca_bridge", name:"Grant, philanthropy or community-benefit bridge", status:"conditional", speed:3, objectives:["bridge","pilot"], fits:{complex:5,diabetes:4,heart:4,ckd:3}, description:"Non-Medicaid capital funds a proof while an MCP elects or expands the Community Support.", buyer:"Health-system community benefit, foundations, public-health grants", evidence:"Time-limited pilot with payer-relevant outcomes.", caution:"Bridge capital, not durable reimbursement." }
+  ]
+};
+
+TOOL_DATA.companies.NY = [
+  { id:"ny_emblem", name:"EmblemHealth", parent:"EmblemHealth (NY nonprofit plan family)",
+    accountSource:"https://www.emblemhealth.com/news/dr-dean-ornish-cognition-brain-health-program-partnership",
+    hook:"EXISTING COOKUNITY PARTNER: the Ornish early-Alzheimer's food-is-medicine program (announced July 2025) runs with CookUnity meals via ACPNY. The expansion play is from within — new condition programs and Medicaid lines ride an existing relationship.",
+    contacts:[
+      {role:"Existing partnership — expand from within", name:"Partnership live since 2025 — route through the CookUnity account team first", quality:"Public plan fact", status:"Identified", influence:4, verified:"2026-07-16", source:"https://www.emblemhealth.com/news/dr-dean-ornish-cognition-brain-health-program-partnership", notes:"Internal etiquette: an existing account has an owner. Map expansion opportunities WITH the current account team, never around them."}
+    ] },
+  { id:"ny_metroplus", name:"MetroPlus Health Plan", parent:"NYC Health + Hospitals",
+    accountSource:"https://mostlymedicaid.com/managed-care-cabs-health-network-and-cookunity-launch-medicaid-meal-initiative-to-tackle-food-insecurity-in-new-york-city/",
+    hook:"Named as the example MCO in the CABS × CookUnity launch release — its members are eligible for the live Brooklyn program. The public-benefit NYC plan; deepening this relationship converts a program mention into a plan-level contract.",
+    contacts:[
+      {role:"CABS program linkage — verified context", name:"Cited as example MCO in the CABS initiative (July 2025)", quality:"Public plan fact", status:"Identified", influence:3, verified:"2026-07-16", source:"https://mostlymedicaid.com/managed-care-cabs-health-network-and-cookunity-launch-medicaid-meal-initiative-to-tackle-food-insecurity-in-new-york-city/", notes:"Local plan leadership research is required before outreach — no name is guessed here."}
+    ] },
+  { id:"ny_healthfirst", name:"Healthfirst", parent:"Hospital-sponsored nonprofit plan",
+    accountSource:"https://healthfirst.org/",
+    hook:"Among New York's largest Medicaid managed care plans (hospital-sponsored, ~2M members — verify current figure). The biggest single-plan prize in the state's SCN era; no public CookUnity relationship today.",
+    contacts:[
+      {role:"Scale context — verify before use", name:"~2M members (commonly cited — verify current)", quality:"Company-level context — verify", status:"Identified", influence:2, verified:"Recheck before outreach", source:"https://healthfirst.org/", notes:"Local Medicaid leadership must be researched and verified before any outreach — never pitch on a stale name."}
+    ] },
+  { id:"ny_medicaid", name:"NY State DOH / Medicaid + Social Care Networks", parent:"State agency + SCN lead entities",
+    accountSource:"https://www.health.ny.gov/health_care/medicaid/redesign/sdh/scn/navigating_reimbursement.htm",
+    hook:"NYHER: ~$7.5B over 3.25 years, nine regional SCN lead entities (Brooklyn region = Public Health Solutions), nutrition reimbursement live since January 2025, waiver expires March 31, 2027. SCNs set per-meal rates regionally from Feeding America county costs — the rate CookUnity bills is contract-level, not public.",
+    contacts:[
+      {role:"SCN lead entity — Brooklyn region", name:"Public Health Solutions (organization)", quality:"Publicly verified", status:"Identified", influence:5, verified:"2026-07-16", source:"https://www.health.ny.gov/health_care/medicaid/redesign/sdh/scn/navigating_reimbursement.htm", notes:"The regional gatekeeper for the live CABS mechanism. Individual leadership names require verification before outreach."}
+    ] }
+];
+
+TOOL_DATA.companies.CA = [
+  { id:"ca_anthem", name:"Anthem Blue Cross (Elevance Health) — Medi-Cal", parent:"Elevance Health",
+    accountSource:"https://www.cookunity.com/business/check-my-eligibility-anthem",
+    hook:"LIVE COOKUNITY PARTNER since November 2025: weekly MTM delivery up to 90 days for Sacramento Medi-Cal members under CalAIM (~250K potentially eligible — verify, single syndicated source), with statewide expansion planned for 2026. CookUnity even runs a live eligibility-checker page for Anthem members. The #1 expansion account in the country.",
+    contacts:[
+      {role:"Existing partnership — expand from within", name:"Sacramento program live; statewide expansion planned 2026", quality:"Public plan fact", status:"Identified", influence:5, verified:"2026-07-16", source:"https://www.cookunity.com/business/check-my-eligibility-anthem", notes:"Same etiquette as EmblemHealth: the account has an owner. The Medicaid AE's job is to map which counties and cohorts come next, with the account team."}
+    ] },
+  { id:"ca_lacare", name:"L.A. Care Health Plan", parent:"Public agency plan (Los Angeles County)",
+    accountSource:"https://www.lacare.org/",
+    hook:"Commonly cited as the largest publicly operated health plan in the U.S. (~2M+ members — verify current). Operates CalAIM Community Supports at LA-County scale; no public CookUnity relationship today — the biggest single-county prize once Sacramento proves out.",
+    contacts:[
+      {role:"Scale context — verify before use", name:"~2M+ members (commonly cited — verify current)", quality:"Company-level context — verify", status:"Identified", influence:2, verified:"Recheck before outreach", source:"https://www.lacare.org/", notes:"Community Supports leadership must be researched by name before outreach."}
+    ] },
+  { id:"ca_healthnet", name:"Health Net (Centene) — Medi-Cal", parent:"Centene",
+    accountSource:"https://www.healthnet.com/",
+    hook:"A major Medi-Cal plan inside the same parent as Louisiana Healthcare Connections — the Centene relationship playbook travels. Community Supports elections vary by county; map which counties elected MTM before pricing.",
+    contacts:[
+      {role:"Centene CEO — corporate context", name:"Sarah London", quality:"Publicly verified", status:"Identified", influence:2, verified:"2026-07-15", source:"https://www.centene.com/who-we-are/leadership.html", notes:"Corporate context only; California plan leadership requires separate verification."}
+    ] },
+  { id:"ca_dhcs", name:"DHCS / Medi-Cal (state agency)", parent:"State agency",
+    accountSource:"https://www.dhcs.ca.gov/wp-content/uploads/2026/05/Community-Supports-Pricing-Resource.pdf",
+    hook:"The policy engine: CalAIM Community Supports live since 2022, DHCS-published MTM benchmark pricing ($7–$12, $9.50 midpoint, Dec 2025 resource), 12-week MTM cap effective 1/1/2026. Medi-Cal is commonly cited around ~14M members (verify current) — the largest Medicaid program in the country.",
+    contacts:[
+      {role:"Published pricing + policy source", name:"DHCS Community Supports Pricing Resource (Dec 2025)", quality:"Publicly verified", status:"Identified", influence:4, verified:"2026-07-16", source:"https://www.dhcs.ca.gov/wp-content/uploads/2026/05/Community-Supports-Pricing-Resource.pdf", notes:"The document every California pricing conversation anchors on."}
+    ] }
+];
+
+TOOL_DATA.populationBases.NY = [
+  {id:"ny_enhanced", label:"SCN enhanced-population cohort (SCN/plan data required)", count:0, status:"SCN / payer data required", source:"NYHER enhanced-population criteria", note:"Eligibility is determined through SCN screening of Medicaid managed-care members (high utilizers, chronic conditions, justice-involved, foster youth). No public statewide count."},
+  {id:"ny_cabs", label:"CABS × CookUnity documented program scale", count:500, status:"Official program figure", source:"CABS Health Network launch release (July 2025)", note:"At least 500 Medicaid recipients over 12 months — CookUnity's live Brooklyn program."},
+  {id:"custom", label:"Custom payer-defined population", count:0, status:"User-entered / payer data required", source:"Payer claims", note:"Use when the SCN or plan supplies a defined cohort."}
+];
+TOOL_DATA.populationBases.CA = [
+  {id:"ca_anthem", label:"Anthem Sacramento potentially-eligible members", count:250000, status:"Reported figure — verify (single syndicated source)", source:"Anthem × CookUnity launch coverage (Nov 2025)", note:"~250K Sacramento Medi-Cal members reported potentially eligible; phase 1 served hundreds of households."},
+  {id:"ca_claims", label:"MCP claims-defined Community Supports cohort", count:0, status:"Payer data required", source:"Medi-Cal MCP claims", note:"Community Supports eligibility is plan-determined; use MCP data for the real universe."},
+  {id:"custom", label:"Custom payer-defined population", count:0, status:"User-entered / payer data required", source:"Payer claims", note:"Use when the account supplies a verified cohort count."}
+];
+
+TOOL_DATA.stateCohortProfitability.NY = {
+  complex: { label:"New York SCN complex-needs profitability design", bcr:{low:1.25,base:1.60,high:2.00}, design:{members:250,weeks:26,meals:10,mealCost:11.15,overhead:3}, anchor:"Mirrors the live CABS shape (up to 6 months per member) priced at the Health Affairs all-in model because the regional SCN rate is not public.", limitation:"Commercial target; the actual SCN rate is contract-level and replaces the $11.15 anchor." },
+  diabetes: { label:"New York diabetes targeted-support design", bcr:{low:1.10,base:1.30,high:1.55}, design:{members:200,weeks:16,meals:5,mealCost:11.15,overhead:3}, anchor:"Lower-intensity design keeps the required net PMPM defensible for a screening cohort.", limitation:"Planning target, not a published NY outcome." },
+  heart: { label:"New York heart-failure post-discharge design", bcr:{low:1.25,base:1.80,high:2.30}, design:{members:120,weeks:8,meals:10,mealCost:11.15,overhead:4}, anchor:"Short post-discharge design; avoided readmissions are the driver.", limitation:"Planning target." },
+  ckd: { label:"New York pre-dialysis CKD design", bcr:{low:1.15,base:1.50,high:1.90}, design:{members:100,weeks:16,meals:7,mealCost:11.15,overhead:6}, anchor:"Renal oversight adds cost and a distinct return requirement.", limitation:"Planning target; renal clinical validation required." }
+};
+TOOL_DATA.stateCohortProfitability.CA = {
+  complex: { label:"California CalAIM complex-needs profitability design", bcr:{low:1.25,base:1.65,high:2.05}, design:{members:200,weeks:12,meals:10,mealCost:9.50,overhead:3}, anchor:"12-week design matches the DHCS MTM cap (eff. 1/1/2026) and the live Anthem program shape; priced at the DHCS benchmark midpoint.", limitation:"Benchmark pricing is non-binding; MCP contracts replace it." },
+  diabetes: { label:"California diabetes targeted-support design", bcr:{low:1.10,base:1.32,high:1.58}, design:{members:200,weeks:12,meals:5,mealCost:9.50,overhead:3}, anchor:"Lower intensity within the 12-week Community Supports window.", limitation:"Planning target, not a published Medi-Cal outcome." },
+  heart: { label:"California heart-failure post-discharge design", bcr:{low:1.25,base:1.85,high:2.35}, design:{members:120,weeks:8,meals:10,mealCost:9.50,overhead:4}, anchor:"Eight-week post-discharge design inside the CalAIM cap; concentrated readmission opportunity.", limitation:"Planning target." },
+  ckd: { label:"California pre-dialysis CKD design", bcr:{low:1.15,base:1.52,high:1.92}, design:{members:100,weeks:12,meals:7,mealCost:9.50,overhead:6}, anchor:"Renal design inside the 12-week window with medical-necessity extension as the continuation path.", limitation:"Planning target; extension requires documented medical necessity." }
+};
+
+TOOL_DATA.pilotPresets.splice(TOOL_DATA.pilotPresets.findIndex(p => p.id === "custom"), 0,
+  { id:"ny_cabs_real", label:"New York — the LIVE CABS × CookUnity SCN program (home market)", state:"NY", cohort:"complex",
+    populationBasis:"ny_cabs", eligibleShare:100, members:500, weeks:26, meals:10, mealCost:11.15, overhead:3,
+    evidenceBasis:"pitch", scenario:"base", bcr:{low:1.20,base:1.55,high:1.95}, funding:"ny_scn",
+    intervention:"Medically tailored home-delivered meals", geo:"Brooklyn / NYC — Public Health Solutions SCN region",
+    trigger:"CookUnity's actual live Medicaid program: ≥500 members over 12 months, up to 6 months of meals each, funded through the NYHER Social Care Network mechanism (reimbursement live since January 2025)",
+    note:"THE flagship: this models the program CookUnity runs today. Meals/week is payer-set (10/week follows the JAMA standard); the regional SCN per-meal rate is contract-confidential, so the $11.15 Health Affairs all-in model anchors price. Funding route shows ACTIVE — the only state mechanism in this tool already paying CookUnity." },
+  { id:"ca_anthem_real", label:"California — the LIVE Anthem CalAIM program (home market)", state:"CA", cohort:"complex",
+    populationBasis:"ca_anthem", eligibleShare:0.1, members:200, weeks:12, meals:10, mealCost:9.50, overhead:3,
+    evidenceBasis:"pitch", scenario:"base", bcr:{low:1.20,base:1.60,high:2.00}, funding:"ca_calaim",
+    intervention:"Medically tailored home-delivered meals", geo:"Sacramento County (statewide Medi-Cal expansion planned 2026)",
+    trigger:"CookUnity's second live Medicaid program: weekly MTM delivery up to 90 days under CalAIM Community Supports (announced November 2025), phase 1 = hundreds of households",
+    note:"Models the live Sacramento program at the DHCS benchmark midpoint ($9.50). The 12-week duration IS the DHCS cap (eff. 1/1/2026) — a regulatory shape, not a guess. Expansion story: statewide Medi-Cal in 2026." }
+);
+
+// The National Playbook — state prioritization (rendered in its own tab).
+TOOL_DATA.statePlaybook = {
+  updated: "July 16, 2026",
+  policyWeather: "2025 federal actions narrowed HRSN flexibility (the March 2025 CMS rescission of the HRSN 1115 framework; DSHP financing phase-out) — existing waivers stand but new approvals are case-by-case. GTM rule: sell where dollars are already appropriated and contracting; treat proposed-waiver states as watchlist, not pipeline.",
+  states: [
+    { state:"New York", tier:"1 — NOW (live market)", mechanism:"NYHER 1115 → nine regional Social Care Networks; nutrition reimbursement live since Jan 2025; up to $500M SCN pool", rate:"Regional, contract-confidential (SCN-set from county food costs)", cookunity:"LIVE — CABS Brooklyn (≥500 members) + EmblemHealth Ornish program", whyNow:"The waiver expires March 31, 2027 — every program needs renewal-proof evidence generated NOW, and CookUnity is already inside the mechanism.", play:"Expand from the live footprint: more SCN regions, more MCOs (MetroPlus → Healthfirst), more conditions." },
+    { state:"California", tier:"1 — NOW (live market)", mechanism:"CalAIM Community Supports (ILOS) — MTM a named, priced benefit since 2022; 12-week cap eff. 1/1/2026", rate:"$9.50/meal midpoint published ($7–$12 band, non-binding)", cookunity:"LIVE — Anthem Sacramento (Nov 2025); statewide expansion planned 2026", whyNow:"The Anthem expansion is scheduled — the question is which counties and plans come next, not whether the mechanism works.", play:"Ride the Anthem expansion; open L.A. Care and Health Net; map county-level Community Supports elections." },
+    { state:"Massachusetts", tier:"2 — NEXT (premium market)", mechanism:"1115 HRSN Supplemental Services, authorized through 12/31/2027", rate:"$14.86 expected / $18.58 max per MTM — the HIGHEST published state rate; up to 21 meals/week", cookunity:"No public program today", whyNow:"The strongest local evidence in the country (the Nature Medicine study is a Massachusetts Medicaid study) plus the only fee schedule that clears CookUnity's retail floor with room.", play:"Premium-rate entry: lead with the in-state Nature Medicine evidence and the published rate." },
+    { state:"North Carolina", tier:"2 — NEXT (reactivation window)", mechanism:"HOP 1115 — suspended July 2025; $25M one-time restart in the July 2026 budget ($9M state + $16M federal)", rate:"$7.92/meal (2024 schedule; new schedule pending restart)", cookunity:"No public program today", whyNow:"A funded restart at reduced scale means competitive vendor selection is imminent — positioning happens before the rules publish.", play:"Reactivation positioning: network readiness + adherence-value sell against the low-rate floor." },
+    { state:"Louisiana", tier:"2 — BEACHHEAD (relationship moat)", mechanism:"No statewide food authority — MCO ILOS / value-add / quality budgets; ACLA's president publicly cited LDH permission to cover MTM (Fall 2025)", rate:"None published — $11.15 Health Affairs model anchors planning", cookunity:"No program; consumer delivery LIVE-VERIFIED to Baton Rouge + Lafayette (7/16/2026)", whyNow:"UHC's exit reassigned ~330K members to five plans (live churn trigger); a covered-benefit signal already exists; first-in-state = flagship story.", play:"Relationship-led MCO pilot: the CABS/Anthem playbook applied to a new state, powered by in-state relationships." },
+    { state:"OR / WA / PA / DE (watchlist)", tier:"3 — WATCH (verify authority)", mechanism:"Among the 16 states with approved or proposed MTM-enabling 1115 waivers as of January 2025 (Tufts / Health Affairs)", rate:"Varies / not verified in this tool", cookunity:"No public programs", whyNow:"The March 2025 CMS rescission makes proposed-waiver status unstable — verify current authority before spending cycles.", play:"Monitor waiver dockets; enter only on confirmed, funded authority." }
+  ]
+};
+
+TOOL_DATA.sources.unshift(
+  {name:"NYHER 1115 waiver / Social Care Networks", supports:"~$7.5B over 3.25 years (approved 1/9/2024, expires 3/31/2027); nine regional SCN lead entities; nutrition reimbursement live since January 2025; up to 6 months of meals (renewable once; ~11 months high-risk pregnancy); Brooklyn region led by Public Health Solutions", date:"Waiver approved Jan 2024; program live Jan 2025; verified July 16, 2026", confidence:"High — official NYSDOH SCN pages + CMS-approved rate methodology", limitation:"Regional per-meal rates are not public; waiver renewal beyond March 2027 is not guaranteed.", url:"https://www.health.ny.gov/health_care/medicaid/redesign/sdh/scn/navigating_reimbursement.htm"},
+  {name:"National Playbook prioritization methodology", supports:"State tiering across NY / CA / MA / NC / LA + watchlist: live mechanism, published rate, CookUnity presence and timing trigger per state; 16 states with approved/proposed MTM waivers as of Jan 2025", date:"Compiled July 16, 2026", confidence:"Per-cell — each state row traces to the sources above", limitation:"Editorial prioritization for interview/planning use; the 2025 federal HRSN posture makes watchlist states unstable.", url:"https://www.healthaffairs.org/doi/10.1377/hlthaff.2024.01307"},
+  {name:"New York / California starter cohort estimates", supports:"NY ~1.8M and CA ~3.5M adults with diagnosed diabetes; heart-failure (~2% of adults) and CKD (~14% of adults) scaling for starter planning inputs", date:"Commonly cited public-health scale figures — July 2026", confidence:"Low-to-moderate — planning inputs only", limitation:"All-payer, not Medicaid-specific; labeled starter estimates that must be replaced with SCN/MCP claims.", url:"https://www.cdc.gov/diabetes/php/data-research/index.html"}
+);
+

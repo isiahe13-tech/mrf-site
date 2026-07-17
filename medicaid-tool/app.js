@@ -30,7 +30,7 @@ function cohortOptions(){
 }
 ["matchState","econState","oppState","stakeState","pilotState","screenState","briefState"].forEach(id=>$(id).innerHTML=stateOptions());
 ["matchCohort","cohort","pilotCohort","briefCohort"].forEach(id=>$(id).innerHTML=cohortOptions());
-$("pilotPitch").innerHTML=["NC","LA"].map(st=>`<optgroup label="${st==="NC"?"North Carolina":"Louisiana"}">${TOOL_DATA.pilotPresets.filter(p=>p.state===st&&p.id!=="custom").map(p=>`<option value="${p.id}">${p.label}</option>`).join("")}</optgroup>`).join("")+`<optgroup label="Custom"><option value="custom">Custom configuration</option></optgroup>`;
+$("pilotPitch").innerHTML=[...new Set(TOOL_DATA.pilotPresets.filter(p=>p.id!=="custom").map(p=>p.state))].map(st=>`<optgroup label="${TOOL_DATA.states[st]?.name||st}">${TOOL_DATA.pilotPresets.filter(p=>p.state===st&&p.id!=="custom").map(p=>`<option value="${p.id}">${p.label}</option>`).join("")}</optgroup>`).join("")+`<optgroup label="Custom"><option value="custom">Custom configuration</option></optgroup>`;
 
 document.querySelectorAll(".tab").forEach(btn=>btn.addEventListener("click",()=>{
   document.querySelectorAll(".tab,.panel").forEach(x=>x.classList.remove("active"));
@@ -679,7 +679,7 @@ function loadHighAcuityDemo(){
 }
 function useScreenInPilot(){
   const result=scoreHighAcuityScreen();
-  const preset=result.state==="NC"?"nc_tailored_complex":"la_high_acuity";
+  const preset={NC:"nc_tailored_complex",LA:"la_high_acuity",NY:"ny_cabs_real",CA:"ca_anthem_real"}[result.state]||"la_high_acuity";
   if([...$("pilotPitch").options].some(o=>o.value===preset)){
     $("pilotPitch").value=preset;
     applyPilotPreset();
@@ -745,6 +745,22 @@ $("saveBrief").addEventListener("click",()=>{buildBrief();saveItem("briefs",{typ
 $("copyBrief").addEventListener("click",()=>copyText(currentBrief||$("briefOutput").textContent));
 $("downloadBrief").addEventListener("click",()=>download("Medicaid_AE_Account_Brief.txt",currentBrief||$("briefOutput").textContent));
 
+function renderStatePlaybook(){
+  const rows=$("playbookRows"), weather=$("playbookWeather"), stamp=$("playbookUpdated");
+  if(!rows||!TOOL_DATA.statePlaybook) return;
+  const pb=TOOL_DATA.statePlaybook;
+  if(stamp) stamp.textContent=`Compiled ${pb.updated} — every cell traces to the Source & Assumption Registry.`;
+  if(weather) weather.innerHTML=`<b>Policy weather (read before prioritizing):</b> ${escapeHtml(pb.policyWeather)}`;
+  const tierClass=t=>t.startsWith("1")?"activeB":t.startsWith("2")?"conditional":"verify";
+  rows.innerHTML=pb.states.map(s=>`<tr>
+    <td><b>${escapeHtml(s.state)}</b><div class="topgap"><span class="badge ${tierClass(s.tier)}">${escapeHtml(s.tier)}</span></div></td>
+    <td>${escapeHtml(s.mechanism)}</td>
+    <td>${escapeHtml(s.rate)}</td>
+    <td>${escapeHtml(s.cookunity)}</td>
+    <td>${escapeHtml(s.whyNow)}</td>
+    <td>${escapeHtml(s.play)}</td>
+  </tr>`).join("");
+}
 function renderCookunityPrograms(){
   const rows=$("cookunityProgramRows"), note=$("cookunityLaNote");
   if(!rows) return;
@@ -802,7 +818,7 @@ function applyEvidenceDefaults(){
   ["matchCohort","cohort","pilotCohort","briefCohort"].forEach(id=>{ if($(id) && [...$(id).options].some(o=>o.value==="complex")) $(id).value="complex"; });
 }
 function init(){
-  applyEvidenceDefaults(); renderCohortTable(); renderOpportunityQuestions(); renderHighAcuityScreen(); renderSources(); renderRateAnchors(); renderCookunityPrograms();
+  applyEvidenceDefaults(); renderCohortTable(); renderOpportunityQuestions(); renderHighAcuityScreen(); renderSources(); renderRateAnchors(); renderCookunityPrograms(); renderStatePlaybook();
   refreshCompanyDropdown(); applyPilotPreset(); renderPresetComparison(); loadEconomicDefaults(); renderFunding(); calculateTam(); renderSaved();
 }
 init();

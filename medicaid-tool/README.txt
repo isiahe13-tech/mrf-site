@@ -331,3 +331,33 @@ INTERFACE
 - CookUnity real-programs comp table + Louisiana reality-check callout.
 - Removed the red "Do not add" box from Cohort Economics (the overlap
   caution lives in the funnel note and source registry).
+
+
+VERSION 11 - FOUR-STATE NATIONAL PLATFORM (July 16, 2026)
+=========================================================
+NEW STATES: NEW YORK + CALIFORNIA (CookUnity's live home markets)
+- New York: full state model - NYHER 1115 / nine Social Care Networks,
+  nutrition reimbursement live since Jan 2025, waiver expires 3/31/2027;
+  the SCN route is the tool's first ACTIVE-status funding mechanism.
+  Account maps: EmblemHealth (existing CookUnity partner), MetroPlus
+  (CABS example MCO), Healthfirst, NY DOH/SCNs (Public Health Solutions
+  = Brooklyn region). Flagship preset: the LIVE CABS x CookUnity program
+  (500 members, up to 6 months each).
+- California: full state model - CalAIM Community Supports live since
+  2022, DHCS benchmark pricing ($9.50 midpoint), 12-week MTM cap.
+  Account maps: Anthem Blue Cross (LIVE CookUnity partner), L.A. Care,
+  Health Net, DHCS. Flagship preset: the LIVE Anthem Sacramento program
+  (12 weeks = the DHCS cap).
+- NY/CA cohort counts are labeled starter planning estimates or
+  payer-data-required; nothing is presented as a published count.
+
+NEW TAB: NATIONAL PLAYBOOK
+- Ranked state-prioritization table: NY + CA (Tier 1 - live markets),
+  MA (premium rate) + NC (restart window) + LA (relationship beachhead)
+  as Tier 2, and an OR/WA/PA/DE watchlist with the 2025 policy-weather
+  caution. Directly answers "how would you prioritize states?"
+- Tier logic: mechanism first, evidence second, relationships as the
+  tiebreaker; sell where dollars are already appropriated.
+
+Pilot presets now span four states (14 designs); the preset dropdown,
+screener handoff and economics defaults all support NY and CA.
