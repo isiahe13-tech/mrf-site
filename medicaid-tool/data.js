@@ -1333,3 +1333,93 @@ TOOL_DATA.sources.unshift(
   {name:"RFP Response Builder methodology", supports:"Draft RFP-response scaffolding generated from the selected state model, pilot design, published rate anchors, CookUnity public case studies and the tool's measurement/compliance frameworks", date:"Built July 17, 2026", confidence:"Draft-quality output — every generated section requires human editing and verification against the actual RFP document", limitation:"A scaffold, not a submission. Format compliance, mandatory forms and final pricing are always document-specific.", url:"https://www.cookunity.com/business/for-healthcare"}
 );
 
+
+
+// ------------------------------------------------------------------
+// VERSION 13.1 — SALES KIT (front-of-funnel coverage)
+// Outreach composer templates, per-persona discovery bank, and
+// objection/competitor battlecards. Completes end-to-end coverage of
+// the sales motion: strategy -> account -> OUTREACH -> DISCOVERY ->
+// qualification -> pilot -> proposal -> close -> measure -> expand.
+// ------------------------------------------------------------------
+
+TOOL_DATA.outreachRules = [
+  "First touch is PLAIN TEXT and money-first. No links, no video, no attachments, no images — they trip filters and read as blast mail.",
+  "One buyer problem, one proof point, one small ask (15 minutes). Never two asks.",
+  "Reference the account's LIVE hook (their program, their market event) — never open with CookUnity's features.",
+  "LinkedIn connection notes are ~300 characters — one sentence of relevance, one ask.",
+  "Never name another plan's private conversations. Public facts only.",
+  "Follow-up cadence: day 3 (add one new fact), day 8 (different channel), day 15 (final, give them an easy no). Then park with a revisit date in the Deal Desk."
+];
+
+TOOL_DATA.outreachPersonas = [
+  {id:"president", label:"Plan president / CEO (economic sponsor)", angle:"portfolio economics + first-mover story", ask:"15 minutes to show the break-even math"},
+  {id:"cmo", label:"CMO / medical director (clinical sign-off)", angle:"adherence-driven outcomes + evidence hierarchy", ask:"15 minutes to walk the clinical evidence and eligibility design"},
+  {id:"pophealth", label:"Population health / care management (program owner)", angle:"member identification + a referral workflow that actually runs", ask:"15 minutes on how the cohort gets found and fed"},
+  {id:"quality", label:"Quality / health equity (measure owner)", angle:"HEDIS SNS-E numerator + provable loop closure", ask:"15 minutes on screening-to-intervention reporting"},
+  {id:"state", label:"State agency / SCN lead (mechanism owner)", angle:"network capacity + evidence-generation for renewal", ask:"a brief conversation about network readiness"}
+];
+
+TOOL_DATA.discoveryBank = {
+  "Plan president / CEO": [
+    "What is the cost trend that keeps showing up in your board deck — readmissions, high-cost members, pharmacy?",
+    "Where does food-as-medicine sit on your priority list this year — funded initiative, watch list, or noise?",
+    "If a nutrition pilot paid for itself in avoided admissions, whose budget would it live in?",
+    "What would a vendor have to prove in 12 weeks for you to expand them statewide?",
+    "Who else has pitched you meals — and why did it go nowhere?"
+  ],
+  "CMO / medical director": [
+    "Which cohort worries you most clinically right now — post-discharge CHF, uncontrolled diabetes, pre-dialysis CKD?",
+    "What evidence standard do you need — peer-reviewed only, or does actuarial program data count?",
+    "How would your team want eligibility defined — claims-triggered, care-manager referral, or screening-based?",
+    "What killed the last clinical pilot you ran with an outside vendor?",
+    "Who on your side would own the referral workflow day to day?"
+  ],
+  "Population health / care management": [
+    "How do you identify high-cost, food-insecure members today — claims flags, screening, care-manager judgment?",
+    "What happens after a positive food-insecurity screen right now — and can you prove the follow-through?",
+    "Where do referrals die in your current workflow?",
+    "What is your current meal or food vendor relationship, and what do you wish it did better?",
+    "If I handed you 150 eligible members tomorrow, what breaks first — outreach, consent, or delivery?"
+  ],
+  "Quality / health equity": [
+    "How are you doing on SNS-E — screening rate is one thing, but where is the intervention numerator?",
+    "Which HEDIS measures are within striking distance of the next rating threshold?",
+    "What does your health-equity report to the state need that you cannot produce today?",
+    "How do you currently document that a community referral actually landed?",
+    "Would provable loop-closure reporting from a food program help your NCQA Health Equity story?"
+  ],
+  "State agency / SCN lead": [
+    "What does network adequacy look like for nutrition services in your regions — where are the deserts?",
+    "What evidence do you need to generate before the waiver or program renewal conversation?",
+    "How do you decide which providers get contracted into the network — and what disqualifies them?",
+    "Where are CBOs struggling with the referral and billing workflow?",
+    "What would make a national vendor a good citizen in your network rather than a threat to it?"
+  ],
+  "Universal closers (any room)": [
+    "What would make this a no for you? (Find the landmine early.)",
+    "Who besides you has to say yes — and who can say no? (Decision process + economic buyer.)",
+    "What does your procurement path look like for something like this? (Paper process — where Medicaid deals stall.)",
+    "If the pilot hits its numbers, what happens next — automatically? (Pre-negotiated expansion trigger.)"
+  ]
+};
+
+TOOL_DATA.objections = [
+  {objection:"Too expensive per meal.", response:"Do not defend the meal price — move the denominator: one avoided admission at the HCUP Medicaid average ($14,550) funds roughly a thousand meals. The 12-week pilot breaks even at about 19 avoided stays against a cohort defined by recent utilization. And we will structure an outcomes-based component so you are sharing risk, not just spend."},
+  {objection:"Is this even permissible in Medicaid? How would we pay?", response:"State-specific, from the tool: ILOS under the 2024 Managed Care Final Rule (capped at 5% of capitation), 1115/HRSN authority where live (NY SCNs, CalAIM Community Supports), quality or care-management budgets, or value-added benefits. Tell me your state and I will tell you the mechanism — that is exactly what my market model maps."},
+  {objection:"The evidence is not randomized.", response:"Agree, then reframe: correct — the JAMA cohort is matched observational and I will never present it otherwise. That is why the pilot design fixes an agreed baseline, comparison method and attribution BEFORE launch — we generate YOUR evidence on YOUR claims. The NC result is actuarial program data; the Massachusetts Nature Medicine study is the strongest to date."},
+  {objection:"Members will not use it — our current benefits get single-digit engagement.", response:"That is our pitch, not our problem: meal benefits are often used by fewer than 8% of eligible members, because the food is institutional. Chef-crafted, culturally relevant meals members actually WANT is the entire CookUnity thesis — adherence is where outcomes and ROI come from."},
+  {objection:"We already work with Mom's Meals / another vendor.", response:"Never attack the incumbent: good — the infrastructure exists. Where we differ is the adherence tier: chef-quality, culturally tailored meals for the members whose outcomes depend on actually eating the food. Run us on the high-acuity cohort and compare completion rates."},
+  {objection:"HRSN policy is shaky under this administration.", response:"Meet it head-on — currency is credibility: true, the HRSN framework was rescinded in March 2025, and I only sell where dollars are already appropriated — live SCN contracts in New York, CalAIM in California, plan-level ILOS and quality budgets everywhere else. Policy risk is why the pilot proves out inside one budget cycle."},
+  {objection:"Can you actually deliver here?", response:"Facts, not promises: coverage is checkable — I verify delivery zips before I ever propose a geography. CookUnity runs eight kitchens, ~97% continental coverage, and live Medicaid programs in Brooklyn and Sacramento. Delivery feasibility is a gate in my pilot design, not an assumption."},
+  {objection:"Send me some information. (the brush-off)", response:"Convert it: happy to — I will send a one-page pilot design built for your population, not a brochure. If the break-even math looks wrong to your actuaries, tell me and I will fix the assumptions. Can I get 15 minutes after they have marked it up?"}
+];
+
+TOOL_DATA.battlecards = [
+  {competitor:"Mom's Meals", strength:"Scale (~$342M, 48 states), payer relationships, price (~$7.99–9.49/meal), refrigerated logistics", gap:"Mass-produced institutional food — adherence and engagement suffer; limited cultural range", counter:"Concede scale, win on adherence: for members where outcomes depend on actually eating the food — high-acuity, culturally diverse — chef-crafted meals win. Propose the completion-rate comparison."},
+  {competitor:"Instacart Health", strength:"Grocery breadth, 1115/ILOS positioning in ~two dozen states, tech polish", gap:"Groceries require shopping, cooking, mobility — exactly what high-acuity members cannot do", counter:"Different rung of the ladder: groceries serve the food-insecure who can cook. Medically tailored, ready-to-eat meals serve the members driving admissions. We are the clinical tier."},
+  {competitor:"NourishedRx / smaller MTM tech vendors", strength:"Health-plan-native workflows, data-integration stories", gap:"Thin kitchen networks — often aggregating third-party food; quality varies by market", counter:"Ask any vendor: who actually cooks the food, and what is the member reorder rate? Our kitchens and 150+ chefs are the product, not a procurement layer."},
+  {competitor:"Nonprofit MTM providers (Community Servings model)", strength:"Clinical gold standard, deep evidence (the Nature Medicine meals came from a nonprofit), local trust", gap:"Regional and capacity-capped — cannot scale statewide or multi-state", counter:"Respect, then scale: they proved the model — we industrialize it. Where a nonprofit covers one metro, we cover the state with the same clinical governance, and we happily coexist regionally."},
+  {competitor:"Do nothing / internal program", strength:"No procurement, no vendor risk, budget stays inside", gap:"No kitchens, no logistics, no adherence data — internal food programs stall at pilot scale and nobody measures them", counter:"The do-nothing cost is already on your claims: every avoidable admission in the target cohort. Start with 150 members, 12 weeks, an agreed baseline — smaller than most internal pilots, and actually measured."}
+];
+

@@ -26,6 +26,7 @@
     <button class="tab" data-panel="pilot">Pilot Builder</button>
     <button class="tab" data-panel="playbook">National Playbook</button>
     <button class="tab" data-panel="dealdesk">Deal Desk</button>
+    <button class="tab" data-panel="saleskit">Sales Kit</button>
     <button class="tab" data-panel="rfp">RFP Builder</button>
     <button class="tab" data-panel="regwatch">Reg Watch</button>
     <button class="tab" data-panel="sdoh">Service-Need Screener</button>
@@ -411,6 +412,58 @@
       <table>
         <thead><tr><th>Account</th><th>State</th><th>Stage</th><th>Next action</th><th>By when</th><th>Notes</th></tr></thead>
         <tbody id="pipelineRows"></tbody>
+      </table>
+    </div>
+  </article>
+</section>
+
+<section id="saleskit" class="panel">
+  <div class="grid split">
+    <article class="card">
+      <h2>Outreach Composer — The First Touch</h2>
+      <p class="muted">Generates a plain-text, money-first opener from the account's live hook. Edit before sending — a template you didn't personalize is a template they can smell.</p>
+      <div class="grid three">
+        <div><label>State</label><select id="orState"></select></div>
+        <div><label>Account</label><select id="orAccount"></select></div>
+        <div><label>Persona</label><select id="orPersona"></select></div>
+      </div>
+      <label>Channel</label>
+      <select id="orChannel">
+        <option value="email">Email — first touch</option>
+        <option value="linote">LinkedIn connection note (~300 chars)</option>
+        <option value="limsg">LinkedIn message (connected)</option>
+      </select>
+      <div class="buttons">
+        <button id="orBuild" class="primary">Compose Draft</button>
+        <button id="orCopy" class="ghost">Copy</button>
+      </div>
+      <textarea id="orOutput" style="min-height:220px" placeholder="The draft appears here — edit it before it goes anywhere."></textarea>
+    </article>
+    <article class="card">
+      <h2>The Outreach Rules</h2>
+      <ol class="checklist" id="orRules"></ol>
+    </article>
+  </div>
+  <article class="card topgap">
+    <h2>Discovery Question Bank — By Persona</h2>
+    <p class="muted">Ask 3–4 per call, in their language. Every answer maps to a MEDDPICC letter and a Deal Desk next action.</p>
+    <div id="discoveryBank" class="grid two"></div>
+  </article>
+  <article class="card topgap">
+    <h2>Objection Responses</h2>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>The objection</th><th>The response</th></tr></thead>
+        <tbody id="objectionRows"></tbody>
+      </table>
+    </div>
+  </article>
+  <article class="card topgap">
+    <h2>Competitor Battlecards — Sell Adherence, Never Price</h2>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Competitor</th><th>Their strength (concede it)</th><th>Their gap</th><th>The counter</th></tr></thead>
+        <tbody id="battlecardRows"></tbody>
       </table>
     </div>
   </article>

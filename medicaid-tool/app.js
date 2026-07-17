@@ -946,6 +946,68 @@ function initDealDesk(){
   if($("pipelineWinRate")) $("pipelineWinRate").addEventListener("input",renderPipelineStats);
 }
 
+const OUTREACH_STATE_OPENERS = {
+  LA: "Louisiana plans just absorbed roughly 330,000 reassigned members after UnitedHealthcare's exit — new high-risk members most plans haven't fully stratified yet.",
+  NC: "With North Carolina's Healthy Opportunities restart funded, nutrition vendors are about to be selected again — and the evidence bar is higher this round.",
+  NY: "With the NYHER waiver's clock running toward March 2027, every Social Care Network program needs renewal-proof evidence generated now.",
+  CA: "With CalAIM's meal benefit priced and the first statewide Medi-Cal expansion underway, the question is which plans capture the adherence tier next."
+};
+function composeOutreach(){
+  const state=$("orState").value, accountId=$("orAccount").value, channel=$("orChannel").value;
+  const persona=TOOL_DATA.outreachPersonas.find(p=>p.id===$("orPersona").value)||TOOL_DATA.outreachPersonas[0];
+  const company=(TOOL_DATA.companies[state]||[]).find(c=>c.id===accountId);
+  const opener=OUTREACH_STATE_OPENERS[state]||"";
+  const proof="CookUnity already runs live Medicaid meal programs in Brooklyn (1115 Social Care Network) and Sacramento (CalAIM) — and a 12-week, 200-member pilot breaks even at roughly 19 avoided admissions.";
+  let out="";
+  if(channel==="linote"){
+    out=`Hi [First name] — ${opener.split(" — ")[0]}. I work with Medicaid plans on adherence-first medically tailored meals (live programs in Brooklyn + Sacramento). Worth 15 minutes on ${persona.angle.split(" + ")[0]}? — Isiah`;
+  } else if(channel==="limsg"){
+    out=`Hi [First name],
+
+${opener}
+
+I work with Medicaid plans on medically tailored meals — the adherence-first kind: chef-crafted, culturally relevant food members actually eat, which is where outcomes and ROI actually come from. For someone in your seat that usually means ${persona.angle}.
+
+${proof}
+
+Worth ${persona.ask}? I'll bring the math built on your numbers, not mine.
+
+Isiah`;
+  } else {
+    out=`Subject: ${company?company.name.split(" — ")[0]:"Your plan"} + avoidable admissions
+
+Hi [First name],
+
+${opener}
+
+I work with Medicaid plans on medically tailored meals — the adherence-first kind: chef-crafted, culturally relevant food members actually eat. Most meal benefits get used by fewer than 8% of eligible members; adherence is where the outcomes and the ROI actually live. For someone in your seat that usually means ${persona.angle}.
+
+${proof}
+
+Worth ${persona.ask}? If the math looks wrong to your actuaries, tell me and I'll fix the assumptions.
+
+Isiah Edwards`;
+  }
+  const note = channel==="linote" ? `\n\n[${out.length} characters — keep under ~300]` : "";
+  $("orOutput").value = out + note;
+}
+function initSalesKit(){
+  if(!$("orState")) return;
+  $("orState").innerHTML = stateOptions();
+  $("orPersona").innerHTML = TOOL_DATA.outreachPersonas.map(p=>`<option value="${p.id}">${escapeHtml(p.label)}</option>`).join("");
+  const fillAccounts = () => {
+    const st=$("orState").value;
+    $("orAccount").innerHTML = (TOOL_DATA.companies[st]||[]).filter(c=>!c.exited).map(c=>`<option value="${c.id}">${escapeHtml(c.name)}</option>`).join("");
+  };
+  $("orState").addEventListener("change", fillAccounts); fillAccounts();
+  $("orBuild").addEventListener("click", composeOutreach);
+  $("orCopy").addEventListener("click", ()=>copyText($("orOutput").value));
+  $("orRules").innerHTML = (TOOL_DATA.outreachRules||[]).map(r=>`<li>${escapeHtml(r)}</li>`).join("");
+  $("discoveryBank").innerHTML = Object.entries(TOOL_DATA.discoveryBank||{}).map(([persona,qs])=>`<div class="card"><h4>${escapeHtml(persona)}</h4><ul>${qs.map(q=>`<li>${escapeHtml(q)}</li>`).join("")}</ul></div>`).join("");
+  $("objectionRows").innerHTML = (TOOL_DATA.objections||[]).map(o=>`<tr><td><b>${escapeHtml(o.objection)}</b></td><td>${escapeHtml(o.response)}</td></tr>`).join("");
+  $("battlecardRows").innerHTML = (TOOL_DATA.battlecards||[]).map(b=>`<tr><td><b>${escapeHtml(b.competitor)}</b></td><td>${escapeHtml(b.strength)}</td><td>${escapeHtml(b.gap)}</td><td>${escapeHtml(b.counter)}</td></tr>`).join("");
+}
+
 function buildOnePager(){
   buildPilot();
   const state=$("pilotState").value, s=TOOL_DATA.states[state], cohort=$("pilotCohort").value;
@@ -1078,7 +1140,7 @@ function applyEvidenceDefaults(){
   ["matchCohort","cohort","pilotCohort","briefCohort"].forEach(id=>{ if($(id) && [...$(id).options].some(o=>o.value==="complex")) $(id).value="complex"; });
 }
 function init(){
-  applyEvidenceDefaults(); renderCohortTable(); renderOpportunityQuestions(); renderHighAcuityScreen(); renderSources(); renderRateAnchors(); renderCookunityPrograms(); renderStatePlaybook(); initRfp(); renderRegWatch(); initDealDesk();
+  applyEvidenceDefaults(); renderCohortTable(); renderOpportunityQuestions(); renderHighAcuityScreen(); renderSources(); renderRateAnchors(); renderCookunityPrograms(); renderStatePlaybook(); initRfp(); renderRegWatch(); initDealDesk(); initSalesKit();
   refreshCompanyDropdown(); applyPilotPreset(); renderPresetComparison(); loadEconomicDefaults(); renderFunding(); calculateTam(); renderSaved();
 }
 init();
