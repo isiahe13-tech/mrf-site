@@ -419,3 +419,26 @@ screening form for community action agencies and clinic partners.
   AirDrop) - opens in any phone browser, no install, works offline.
 - Outputs: referral-ready text summary (copy/share) + structured JSON
   download for upload into the covered system.
+
+
+V12 ADDENDUM - RFP OPERATING DISCIPLINE (July 17, 2026)
+=======================================================
+Integrated from the "Winning a State Medicaid RFP" operating manual:
+- Readiness checklist rebuilt as a phased discipline: CAPTURE (the win
+  starts 12-18 months before the RFP; ~70% capture / ~30% writing) ->
+  DAY ONE (compliance matrix immediately) -> BLACKOUT rules -> WRITE
+  (win-theme formula: hot-button + discriminator + proof point) ->
+  PROTEST-PROOF (never overstate capacity - Louisiana rescinded a ~$21B
+  award over an overstated provider network) -> color-team REVIEW
+  (Pink/Red/Gold/White Glove) -> SUBMIT early with proof.
+- New "Where Procurements Post" watchlist: LaPAC (LA), NYS Contract
+  Reporter, Cal eProcure, NC eProcurement, Texas ESBD, Florida
+  MyFloridaMarketplace, COMMBUYS (MA), SAM.gov + HMA/OPEN MINDS intel.
+  Reg Watch tracks policy; these portals announce the money.
+- Generated scaffold now includes a COMPLIANCE MATRIX STARTER section
+  (requirement -> section -> owner -> status) and the win-theme formula.
+- Reg Watch baseline adds the 2024 Managed Care Final Rule phase-in
+  timeline (wait-time standards from rating periods beginning 7/9/2027;
+  secret-shopper surveys by 2029; Medicaid/CHIP QRS) - the compliance
+  burden plans are bracing for, and a fluency marker in any plan meeting.
+- ITN/BAFO vehicle nuance added to the state-procurement opportunity type.

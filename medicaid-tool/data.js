@@ -1261,23 +1261,42 @@ TOOL_DATA.sources.unshift(
 // ------------------------------------------------------------------
 
 TOOL_DATA.rfpTypes = [
-  {id:"state", label:"State Medicaid agency procurement (RFP/RFA)", note:"Formal competitive procurement — strict format compliance, mandatory forms, scored sections, public-records exposure. Deadlines are hard; late = disqualified."},
+  {id:"state", label:"State Medicaid agency procurement (RFP/RFA/ITN)", note:"Formal competitive procurement — strict format compliance, mandatory forms, scored sections, public-records exposure. Deadlines are hard; late = disqualified. The vehicle shapes strategy: RFPs score as-submitted; ITNs (e.g., Florida) add a negotiation + best-and-final-offer phase where terms can move; many states gate with a minimum technical score (~70%)."},
   {id:"mco", label:"MCO / health plan vendor RFP", note:"Plan-run vendor selection — usually lighter format, heavier on outcomes, implementation credibility and pricing. Relationships matter before and after the drop."},
   {id:"scn", label:"SCN / network provider application (NY-style)", note:"Application to join an HRSN network (e.g., a Social Care Network lead entity) — eligibility, service capacity, geography, data/reporting readiness."},
   {id:"rfi", label:"RFI / market sounding response", note:"Not a bid — a chance to shape the eventual RFP. Educate the buyer, plant your differentiators as requirements, ask smart questions back."}
 ];
 
 TOOL_DATA.rfpChecklist = [
-  "Read the ENTIRE document twice before writing — note mandatory forms, page limits, font/format rules, submission portal and Q&A deadline. Format non-compliance is the #1 silent disqualifier.",
-  "Submit clarifying questions by the Q&A deadline — the answers often reshape scope and pricing.",
-  "Confirm eligibility gates early: licensure, insurance certificates (GL/professional/cyber), W-9, financial statements, MWBE/DBE status, HIPAA/BAA readiness, data-security attestations.",
-  "Map every scored section to the evaluation rubric and allocate page budget by points — write to the score sheet, not to your own outline.",
-  "Past performance: 2–3 references with named programs, dates, scale and measurable results (CABS, Anthem Sacramento, EmblemHealth are CookUnity's public anchors).",
-  "Pricing: anchor to the published rate band, state assumptions explicitly (meals/week, duration, delivery area), and offer an outcomes-based component where allowed.",
-  "Name the implementation team and timeline week-by-week for the first 90 days — buyers score believability, not ambition.",
-  "Compliance section: PHI handling, HIPAA, member-safety protocols, non-duplication of benefits, encounter/claims coding capability.",
-  "Executive summary LAST — write it after every section is final, and make it readable by a non-specialist evaluator in 90 seconds.",
-  "Independent red-team review against the rubric before submission; verify every number against source one final time."
+  "CAPTURE — the win starts before the RFP drops (industry rule of thumb: ~70% capture, ~30% writing). Track the state's waiver renewals, quality strategy and enabling legislation (the Reg Watch tab), build the buying-committee relationships (the Stakeholder Map), and answer RFIs — RFI responses shape the requirements you'll later bid against.",
+  "CAPTURE — analyze the incumbent honestly before bidding: results, corrective-action history, enrollment share, network reach. Then make a real bid/no-bid call against every mandatory gate (licensure, minimum experience, solvency). If you can't clear a mandatory, cure it by teaming — or no-bid.",
+  "DAY ONE — build the compliance matrix immediately: shred the RFP into every single requirement and map each to a proposal section and a named owner. It is the most reliable safeguard against fatal non-compliance and doubles as the writing roadmap.",
+  "DAY ONE — read the ENTIRE document twice before writing: mandatory forms, page limits, font/format rules, submission portal, Q&A deadline. One missed mandatory item is fatal regardless of quality.",
+  "BLACKOUT — the moment the solicitation posts, contact rules change. Honor the blackout / cone-of-silence absolutely: multibillion-dollar awards have been overturned on conflict-of-interest appearances alone.",
+  "WRITE — submit clarifying questions by the Q&A deadline; incorporate every addendum into the compliance matrix the day it lands.",
+  "WRITE — confirm eligibility gates early: licensure, insurance certificates (GL/professional/cyber), W-9, financial statements, MWBE/DBE status, HIPAA/BAA readiness, data-security attestations.",
+  "WRITE — map every scored section to the evaluation rubric and allocate page budget by points. Write to the score sheet, not to your own outline; answer the question asked, in the state's own vocabulary (waiver names, program names, quality-strategy language).",
+  "WRITE — win themes use the APMP formula: a buyer hot-button + a discriminator (something few competitors offer) + a proof point. Keep 3–4 themes and thread them through every section.",
+  "WRITE — past performance: 2–3 references with named programs, dates, scale and measurable results (CABS, Anthem Sacramento, EmblemHealth are CookUnity's public anchors).",
+  "WRITE — pricing: anchor to the published rate band, state assumptions explicitly (meals/week, duration, delivery area), and offer an outcomes-based component where allowed.",
+  "WRITE — name the implementation team and the week-by-week first-90-days plan; buyers score believability, not ambition, and states run formal readiness reviews before go-live.",
+  "PROTEST-PROOF — never overstate capacity or coverage. Louisiana rescinded a ~$21B award cycle after a winning bidder's provider list included hundreds of doctors who didn't accept Medicaid. Claim only what you can evidence — this tool's verified-source discipline IS the protest-proofing.",
+  "REVIEW — color-team it: Pink (structure + compliance at ~30–50% draft), Red (score it exactly as the state's panel would at ~60–80% — reviewers must NOT be the writers), Gold (executive final), White Glove (formatting + final compliance). Write the executive summary LAST.",
+  "SUBMIT — upload EARLY and verify receipt; late = rejected regardless of quality. Keep proof of submission, and know the protest window and rules — you may be on either side of one."
+];
+
+// Where Medicaid procurements actually post — the revenue-event watchlist
+// that pairs with the Reg Watch policy feed.
+TOOL_DATA.procurementPortals = [
+  {name:"Louisiana — LaPAC (Office of State Procurement)", url:"https://www.doa.la.gov/doa/osp/", note:"State agency solicitations incl. LDH. Local public entities (school boards, parishes) often post on Central Bidding instead — watch both."},
+  {name:"New York — NYS Contract Reporter", url:"https://www.nyscr.ny.gov/", note:"State contracting opportunities; SCN network-provider openings also flow through SCN lead entities directly."},
+  {name:"California — Cal eProcure", url:"https://caleprocure.ca.gov/", note:"State solicitations; Medi-Cal MCP vendor selection typically runs plan-side — track MCP procurement pages too."},
+  {name:"North Carolina — eProcurement / IPS", url:"https://eprocurement.nc.gov/", note:"Watch for HOP-restart vendor and network solicitations as the $25M restart rules publish."},
+  {name:"Texas — Electronic State Business Daily (ESBD)", url:"https://www.txsmartbuy.com/esbd", note:"The biggest Medicaid procurements in the country post here; protest-prone — read award histories."},
+  {name:"Florida — MyFloridaMarketplace / AHCA", url:"https://www.myfloridamarketplace.com/", note:"SMMC re-procures on a statutory 6-year cycle; ITN vehicle with negotiation + BAFO."},
+  {name:"Massachusetts — COMMBUYS", url:"https://www.commbuys.com/", note:"The premium-rate MTM market; watch MassHealth HRSN service procurements."},
+  {name:"Federal — SAM.gov", url:"https://sam.gov/", note:"Federal Medicaid data/analytics and CMS-adjacent work."},
+  {name:"Paid intelligence — HMA (HMAIS) / OPEN MINDS", url:"https://www.healthmanagement.com/", note:"Commercial trackers of upcoming state RFP cycles and re-procurement calendars — worth proposing as a CookUnity subscription, not a personal buy."}
 ];
 
 // Standing policy baseline — always visible in the Regulatory Watch tab,
@@ -1289,7 +1308,8 @@ TOOL_DATA.regBaseline = [
   {fact:"North Carolina HOP: suspended July 1, 2025; the July 2026 state budget restored $25M one-time ($9M state + $16M federal) to resume at reduced scale — restart mechanics unsettled as of mid-July 2026.", why:"A live reactivation window with competitive vendor selection coming.", url:"https://www.northcarolinahealthnews.org/2026/07/01/nc-full-budget-reflects-transformed-health-landscape/"},
   {fact:"MassHealth HRSN Supplemental Services: authorized through 12/31/2027; the highest published MTM rate ($14.86 expected / $18.58 max; up to 21 meals/week).", why:"The premium-rate market, and home of the Nature Medicine evidence.", url:"https://www.mass.gov/doc/hrsn-supplemental-services-fee-schedule-3/download"},
   {fact:"2024 Managed Care Final Rule (CMS-2439-F, eff. 7/9/2024): broadened ILOS to longer-term substitutes that 'reduce or prevent future need,' formalizing HRSN substitutes including medically tailored meals; total ILOS cost capped at 5% of capitation.", why:"The workhorse authority that lets an MCO pay for meals TODAY without a waiver.", url:"https://www.federalregister.gov/documents/2024/05/10/2024-08085/medicaid-program-medicaid-and-childrens-health-insurance-program-chip-managed-care-access-finance"},
-  {fact:"Louisiana: no statewide Medicaid food authority; ACLA's market president publicly stated (Fall 2025) that LDH permitted MTM as a covered benefit; UHC exited LA Medicaid 4/1/2026 (~330K members reassigned).", why:"The beachhead: covered-benefit signal + member-churn trigger + zero incumbent.", url:"https://ldh.la.gov/medicaid/medicaid2026"}
+  {fact:"Louisiana: no statewide Medicaid food authority; ACLA's market president publicly stated (Fall 2025) that LDH permitted MTM as a covered benefit; UHC exited LA Medicaid 4/1/2026 (~330K members reassigned).", why:"The beachhead: covered-benefit signal + member-churn trigger + zero incumbent.", url:"https://ldh.la.gov/medicaid/medicaid2026"},
+  {fact:"2024 Managed Care Final Rule phase-ins the plans are bracing for: appointment wait-time standards (routine primary care/OB-GYN ≤15 business days, outpatient MH/SUD ≤10, at ≥90% availability) apply for rating periods beginning July 9, 2027; independent secret-shopper surveys phase in by 2029; a Medicaid/CHIP Quality Rating System is coming; 85% MLR reporting tightened.", why:"Fluency marker: access standards are the plans' next compliance burden. A vendor who knows their timeline talks like a partner, not a caterer — and meals-as-avoidable-utilization helps the exact metrics plans will be rated on.", url:"https://www.federalregister.gov/documents/2024/05/10/2024-08085/medicaid-program-medicaid-and-childrens-health-insurance-program-chip-managed-care-access-finance"}
 ];
 
 TOOL_DATA.regSources = [

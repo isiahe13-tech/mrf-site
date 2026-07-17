@@ -753,6 +753,7 @@ function initRfp(){
   $("rfpCohort").innerHTML = cohortOptions();
   $("rfpCohort").value = "complex";
   $("rfpChecklist").innerHTML = TOOL_DATA.rfpChecklist.map(x=>`<li>${escapeHtml(x)}</li>`).join("");
+  if($("rfpPortalRows")) $("rfpPortalRows").innerHTML = (TOOL_DATA.procurementPortals||[]).map(p=>`<tr><td><a class="sourceurl" href="${escapeHtml(p.url)}" target="_blank" rel="noopener">${escapeHtml(p.name)}</a></td><td>${escapeHtml(p.note)}</td></tr>`).join("");
   const typeNote = () => {
     const t = TOOL_DATA.rfpTypes.find(x=>x.id===$("rfpType").value) || TOOL_DATA.rfpTypes[0];
     $("rfpTypeNote").innerHTML = `<b>Know the game:</b> ${escapeHtml(t.note)}`;
@@ -845,12 +846,26 @@ CookUnity will discuss an outcomes-based component where the procurement permits
 10. COMPLIANCE & MEMBER SAFETY
 HIPAA-compliant data handling; no PHI outside authorized workflows; non-duplication-of-benefits verification; delivery-safety and failed-delivery escalation protocols; member consent and choice throughout.
 
-11. WIN THEMES
+11. WIN THEMES (formula: buyer hot-button + discriminator + proof point — keep 3–4, thread everywhere)
 ${diffs.map(d=>"- "+d).join("\n")}
 ${$("rfpThemes").value ? "Account-specific:\n" + $("rfpThemes").value : ""}
 
-12. BEFORE SUBMISSION (from the readiness checklist)
-${TOOL_DATA.rfpChecklist.slice(0,5).map((x,i)=>`${i+1}. ${x}`).join("\n")}`;
+12. COMPLIANCE MATRIX STARTER (rebuild from the ACTUAL RFP on day one — every requirement, a section, an owner)
+Requirement → Maps to → Owner → Status
+- Transmittal/cover letter, signed + binding → Sec. 1 → [name] → [ ]
+- All mandatory forms: conflict-of-interest, debarment, non-collusion, addendum acknowledgments → Appendix → [name] → [ ]
+- Corporate experience & qualifications → Sec. 6 → [name] → [ ]
+- Key personnel + staffing plan → Sec. 7 → [name] → [ ]
+- Technical approach (member services / eligibility / delivery / clinical oversight) → Sec. 4 → [name] → [ ]
+- Evidence & outcomes → Sec. 5 → [name] → [ ]
+- Reporting, data & encounter coding → Sec. 8 → [name] → [ ]
+- Pricing (sealed separately if required) → Sec. 9 → [name] → [ ]
+- Compliance, PHI & member safety → Sec. 10 → [name] → [ ]
+- Financials / solvency / insurance certificates → Appendix → [name] → [ ]
+- Format, fonts, page limits, portal mechanics verified → White Glove review → [name] → [ ]
+
+13. BEFORE SUBMISSION (from the readiness checklist)
+${TOOL_DATA.rfpChecklist.slice(0,6).map((x,i)=>`${i+1}. ${x}`).join("\n")}`;
   $("rfpOutput").textContent = currentRfp;
 }
 function renderRegWatch(){
