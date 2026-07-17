@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>SDOH Field Screener — Community Partner Edition</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  :root{--teal:#0e7d6f;--ink:#16212b;--dim:#5b6b7a;--line:#dfe7ec;--bg:#f4f7f9;--amber:#b45309;--red:#b3261e;--green:#1e7d46}
+  body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;padding:14px;max-width:640px;margin:0 auto}
+  h1{font-size:1.25rem;letter-spacing:-.3px}
+  .sub{color:var(--dim);font-size:.9rem;margin:2px 0 10px}
+  .mode{background:#0e2a26;color:#9fe8db;border-radius:12px;padding:12px 14px;font-size:.95rem;margin-bottom:12px}
+  .mode b{color:#fff}
+  .card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px}
+  .card h2{font-size:1.02rem;color:var(--teal);margin-bottom:2px}
+  .inst{font-size:.8rem;color:var(--dim);margin-bottom:10px}
+  label{display:block;font-weight:600;font-size:.95rem;margin:12px 0 6px}
+  label:first-of-type{margin-top:4px}
+  input[type=text],input[type=date]{width:100%;font-size:16px;padding:12px;border:1px solid var(--line);border-radius:10px;background:#fbfdfe}
+  .opts{display:flex;flex-direction:column;gap:8px}
+  .opt{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:10px;padding:12px;font-size:.95rem;font-weight:400;cursor:pointer;background:#fbfdfe}
+  .opt input{width:20px;height:20px;flex:none}
+  .opt.on{border-color:var(--teal);background:#eaf6f4}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .note{font-size:.82rem;color:var(--dim);margin-top:6px}
+  .safety{background:#fff8f2;border-color:#f0d9c0}
+  .btn{display:block;width:100%;font-size:1.05rem;font-weight:700;padding:15px;border-radius:12px;border:none;background:var(--teal);color:#fff;margin-top:6px;cursor:pointer}
+  .btn.ghost{background:#fff;color:var(--teal);border:1.5px solid var(--teal)}
+  .btnrow{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+  .btnrow .btn{margin-top:0;font-size:.95rem;padding:13px}
+  #result{display:none}
+  .flag{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding:9px 2px;font-size:.95rem}
+  .pill{font-size:.78rem;font-weight:800;padding:3px 12px;border-radius:999px}
+  .pos{background:#fdecec;color:var(--red)} .neg{background:#e9f7ef;color:var(--green)} .unk{background:#eef2f5;color:var(--dim)}
+  pre{white-space:pre-wrap;background:#f7fafb;border:1px solid var(--line);border-radius:10px;padding:12px;font-size:.82rem;margin-top:10px;font-family:ui-monospace,Consolas,monospace}
+  details{margin-top:10px;font-size:.85rem;color:var(--dim)}
+  summary{font-weight:700;color:var(--ink);cursor:pointer;padding:6px 0}
+  .foot{font-size:.78rem;color:var(--dim);text-align:center;margin:16px 0 30px;line-height:1.6}
+</style>
+</head>
+<body>
+  <h1>SDOH Field Screener</h1>
+  <p class="sub">Community Partner Edition · built on the CMS Accountable Health Communities (AHC) HRSN core questions + the Hunger Vital Sign™ (validated, public instruments)</p>
+
+  <div class="mode"><b>DE-IDENTIFIED MODE.</b> Do not enter a name, date of birth, address, phone number, or Medicaid ID anywhere on this form. Use the case reference your organization assigns. Screening data stays on this device until you export it into your organization's secure system.</div>
+
+  <div class="card">
+    <h2>Screening context</h2>
+    <p class="inst">Non-identifying context only.</p>
+    <div class="grid2">
+      <div><label>Site / organization code</label><input type="text" id="site" placeholder="e.g., CAA-07 or CLINIC-3"></div>
+      <div><label>Screener initials</label><input type="text" id="screener" placeholder="e.g., JD"></div>
+    </div>
+    <div class="grid2">
+      <div><label>Case reference (non-PHI)</label><input type="text" id="caseref" placeholder="e.g., 2026-0451"></div>
+      <div><label>Date</label><input type="date" id="sdate"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>A. Food — Hunger Vital Sign™</h2>
+    <p class="inst">"Within the past 12 months…"</p>
+    <label>1. You worried that your food would run out before you got money to buy more.</label>
+    <div class="opts" data-q="hvs1">
+      <label class="opt"><input type="radio" name="hvs1" value="often">Often true</label>
+      <label class="opt"><input type="radio" name="hvs1" value="sometimes">Sometimes true</label>
+      <label class="opt"><input type="radio" name="hvs1" value="never">Never true</label>
+    </div>
+    <label>2. The food you bought just didn't last and you didn't have money to get more.</label>
+    <div class="opts" data-q="hvs2">
+      <label class="opt"><input type="radio" name="hvs2" value="often">Often true</label>
+      <label class="opt"><input type="radio" name="hvs2" value="sometimes">Sometimes true</label>
+      <label class="opt"><input type="radio" name="hvs2" value="never">Never true</label>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>B. Housing</h2>
+    <label>3. What is your living situation today?</label>
+    <div class="opts" data-q="house">
+      <label class="opt"><input type="radio" name="house" value="steady">I have a steady place to live</label>
+      <label class="opt"><input type="radio" name="house" value="worried">I have a place today, but I am worried about losing it</label>
+      <label class="opt"><input type="radio" name="house" value="none">I do not have a steady place to live</label>
+    </div>
+    <label>4. Problems where you live (check all that apply)</label>
+    <div class="opts" id="houseprob">
+      <label class="opt"><input type="checkbox" value="Pests">Pests (bugs, mice)</label>
+      <label class="opt"><input type="checkbox" value="Mold">Mold</label>
+      <label class="opt"><input type="checkbox" value="Lead">Lead paint or pipes</label>
+      <label class="opt"><input type="checkbox" value="No heat">Lack of heat</label>
+      <label class="opt"><input type="checkbox" value="Stove not working">Oven or stove not working</label>
+      <label class="opt"><input type="checkbox" value="No smoke detector">Smoke detectors missing or not working</label>
+      <label class="opt"><input type="checkbox" value="Water leaks">Water leaks</label>
+      <label class="opt"><input type="checkbox" value="None" id="probNone">None of these</label>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>C. Transportation</h2>
+    <label>5. Has a lack of reliable transportation kept you from medical appointments, meetings, work, or getting things needed for daily living?</label>
+    <div class="opts" data-q="transport">
+      <label class="opt"><input type="radio" name="transport" value="yes">Yes</label>
+      <label class="opt"><input type="radio" name="transport" value="no">No</label>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>D. Utilities</h2>
+    <label>6. Has the electric, gas, oil, or water company threatened to shut off services in your home?</label>
+    <div class="opts" data-q="utility">
+      <label class="opt"><input type="radio" name="utility" value="yes">Yes</label>
+      <label class="opt"><input type="radio" name="utility" value="already">Already shut off</label>
+      <label class="opt"><input type="radio" name="utility" value="no">No</label>
+    </div>
+  </div>
+
+  <div class="card safety">
+    <h2>E. Personal safety</h2>
+    <p class="inst">Ask privately, only when safe to do so. A member may skip this section. "How often does anyone, including family and friends…"</p>
+    <div id="safetyQs"></div>
+    <label class="opt" style="margin-top:8px"><input type="checkbox" id="safetySkip">Section skipped (not safe / member declined)</label>
+    <p class="note">If the safety score is elevated, follow your organization's safety protocol. Do not document incident details on this form.</p>
+  </div>
+
+  <div class="card">
+    <h2>F. Meal-program fit (supplemental)</h2>
+    <label>Does the member have a medical condition where food is part of the treatment plan (diabetes, heart failure, kidney disease, etc.)?</label>
+    <div class="opts" data-q="dietcond">
+      <label class="opt"><input type="radio" name="dietcond" value="yes">Yes</label>
+      <label class="opt"><input type="radio" name="dietcond" value="no">No</label>
+      <label class="opt"><input type="radio" name="dietcond" value="unknown">Unknown</label>
+    </div>
+    <label>Can the member reliably shop for and prepare appropriate food?</label>
+    <div class="opts" data-q="prep">
+      <label class="opt"><input type="radio" name="prep" value="yes">Yes</label>
+      <label class="opt"><input type="radio" name="prep" value="no">No</label>
+      <label class="opt"><input type="radio" name="prep" value="unknown">Unknown</label>
+    </div>
+    <label>Is there a safe delivery location with food storage (refrigerator) and a way to reheat meals?</label>
+    <div class="opts" data-q="delivery">
+      <label class="opt"><input type="radio" name="delivery" value="yes">Yes</label>
+      <label class="opt"><input type="radio" name="delivery" value="no">No</label>
+      <label class="opt"><input type="radio" name="delivery" value="unknown">Unknown</label>
+    </div>
+    <label>Is the member interested in receiving home-delivered meals or food support?</label>
+    <div class="opts" data-q="interest">
+      <label class="opt"><input type="radio" name="interest" value="yes">Yes</label>
+      <label class="opt"><input type="radio" name="interest" value="no">No</label>
+      <label class="opt"><input type="radio" name="interest" value="unknown">Unknown</label>
+    </div>
+  </div>
+
+  <button class="btn" id="score">Score the Screen</button>
+
+  <div class="card" id="result">
+    <h2>Result</h2>
+    <div id="flags"></div>
+    <pre id="summary"></pre>
+    <div class="btnrow">
+      <button class="btn ghost" id="copy">Copy summary</button>
+      <button class="btn ghost" id="dljson">Download JSON</button>
+    </div>
+    <button class="btn" id="share" style="display:none">Share via secure channel…</button>
+    <p class="note">Export goes into YOUR organization's secure, authorized system. Nothing is transmitted by this form itself.</p>
+  </div>
+
+  <details>
+    <summary>Compliance posture — read before deploying with real members</summary>
+    <p style="margin-top:6px">This form runs in <b>de-identified mode</b>: no PHI fields, no transmission, data stays on the device until a user exports it. That design keeps the screening tool itself outside PHI flows.</p>
+    <p style="margin-top:6px"><b>To use it with identified member information (PHI), it must be deployed inside covered infrastructure:</b></p>
+    <ol style="margin:6px 0 0 18px">
+      <li>Hosting and storage under a signed Business Associate Agreement (e.g., a covered entity's own systems, or BAA-covered cloud like Google Workspace/Microsoft 365 with BAA).</li>
+      <li>Encryption in transit (TLS) and at rest; named-user access controls and audit logging.</li>
+      <li>A minimum-necessary data policy, retention schedule, and breach-notification procedure.</li>
+      <li>Workforce training for every screener; member consent language approved by the covered entity.</li>
+    </ol>
+    <p style="margin-top:6px">The questions themselves are public, validated instruments: the CMS Accountable Health Communities HRSN Screening Tool core questions and the Hunger Vital Sign™.</p>
+  </details>
+
+  <p class="foot">Part of the Medicaid Market Intelligence &amp; AE Enablement Engine · De-identified field edition · Works offline on any phone</p>
+
+<script>
+(() => {
+"use strict";
+const $ = id => document.getElementById(id);
+$("sdate").value = new Date().toISOString().slice(0,10);
+
+// Safety (HITS-style, AHC core 7–10): Never..Frequently scored 1..5, positive if total >= 11
+const SAFETY = [
+  ["saf1","…physically hurt you?"],
+  ["saf2","…insult or talk down to you?"],
+  ["saf3","…threaten you with harm?"],
+  ["saf4","…scream or curse at you?"]
+];
+const SCALE = [["1","Never"],["2","Rarely"],["3","Sometimes"],["4","Fairly often"],["5","Frequently"]];
+$("safetyQs").innerHTML = SAFETY.map(([id,q],i)=>`
+  <label>${i+7}. ${q}</label>
+  <div class="opts" data-q="${id}">${SCALE.map(([v,t])=>`<label class="opt"><input type="radio" name="${id}" value="${v}">${t}</label>`).join("")}</div>`).join("");
+
+// visual selection state
+document.addEventListener("change", e => {
+  const opt = e.target.closest(".opt");
+  if(!opt) return;
+  if(e.target.type === "radio"){
+    opt.parentElement.querySelectorAll(".opt").forEach(o=>o.classList.remove("on"));
+    opt.classList.add("on");
+  } else if(e.target.type === "checkbox"){
+    opt.classList.toggle("on", e.target.checked);
+  }
+});
+
+const val = name => document.querySelector(`input[name="${name}"]:checked`)?.value || "unanswered";
+
+$("score").addEventListener("click", () => {
+  const hvs1=val("hvs1"), hvs2=val("hvs2");
+  const foodAnswered = hvs1!=="unanswered" && hvs2!=="unanswered";
+  const foodPos = ["often","sometimes"].includes(hvs1) || ["often","sometimes"].includes(hvs2);
+  const house=val("house");
+  const probs=[...document.querySelectorAll("#houseprob input:checked")].map(i=>i.value).filter(v=>v!=="None");
+  const housePos = ["worried","none"].includes(house) || probs.length>0;
+  const houseAnswered = house!=="unanswered";
+  const transport=val("transport"), utility=val("utility");
+  const skipped=$("safetySkip").checked;
+  let safTotal=0, safAnswered=0;
+  SAFETY.forEach(([id])=>{ const v=val(id); if(v!=="unanswered"){safTotal+=+v; safAnswered++;} });
+  const safPos = !skipped && safAnswered===4 && safTotal>=11;
+  const dietcond=val("dietcond"), prep=val("prep"), delivery=val("delivery"), interest=val("interest");
+
+  const domains = [
+    ["Food insecurity (Hunger Vital Sign)", foodAnswered ? (foodPos?"POSITIVE":"Negative") : "Incomplete"],
+    ["Housing instability / quality", houseAnswered ? (housePos?"POSITIVE":"Negative") : "Incomplete"],
+    ["Transportation barrier", transport==="unanswered" ? "Incomplete" : (transport==="yes"?"POSITIVE":"Negative")],
+    ["Utility insecurity", utility==="unanswered" ? "Incomplete" : (utility!=="no"?"POSITIVE":"Negative")],
+    ["Personal safety", skipped ? "Skipped" : (safAnswered<4 ? "Incomplete" : (safPos?"ELEVATED":"Not elevated"))]
+  ];
+  $("flags").innerHTML = domains.map(([d,s])=>{
+    const cls = /POSITIVE|ELEVATED/.test(s) ? "pos" : /Negative|Not elevated/.test(s) ? "neg" : "unk";
+    return `<div class="flag"><span>${d}</span><span class="pill ${cls}">${s}</span></div>`;
+  }).join("");
+
+  const mealFit = (foodPos || prep==="no") && dietcond==="yes" && delivery==="yes" && interest==="yes";
+  const mealLine = mealFit
+    ? "LIKELY MEDICALLY-TAILORED-MEAL CANDIDATE: diet-sensitive condition + food/preparation barrier + delivery-ready + interested. Route for clinical review and payer eligibility."
+    : "Route by flagged domains. A food-insecure member without a diet-sensitive condition may fit groceries/produce or SNAP navigation better than intensive medically tailored meals.";
+
+  const summary =
+`SDOH FIELD SCREEN (de-identified)
+Site: ${$("site").value||"-"} | Screener: ${$("screener").value||"-"} | Case ref: ${$("caseref").value||"-"} | Date: ${$("sdate").value}
+Instruments: AHC-HRSN core + Hunger Vital Sign
+
+DOMAIN RESULTS
+${domains.map(([d,s])=>`- ${d}: ${s}`).join("\n")}
+${!skipped && safAnswered===4 ? `- Safety score: ${safTotal}/20 (elevated at 11+)` : ""}
+
+MEAL-PROGRAM FIT
+- Diet-sensitive condition: ${dietcond} | Can shop/prepare: ${prep} | Delivery-ready: ${delivery} | Interested: ${interest}
+- ${mealLine}
+
+NEXT STEP
+Enter this result into your organization's authorized system and follow its referral protocol. This screen identifies need; it does not determine Medicaid eligibility or authorize services.`;
+
+  $("summary").textContent = summary;
+  $("result").style.display = "block";
+  if(navigator.share){ $("share").style.display="block"; $("share").onclick = () => navigator.share({title:"SDOH screen "+($("caseref").value||""), text: summary}).catch(()=>{}); }
+  window.currentScreen = {summary, json:{
+    mode:"de-identified", instruments:["AHC-HRSN core","Hunger Vital Sign"],
+    site:$("site").value, screener:$("screener").value, caseRef:$("caseref").value, date:$("sdate").value,
+    food:{hvs1,hvs2,positive:foodAnswered?foodPos:null},
+    housing:{situation:house,problems:probs,positive:houseAnswered?housePos:null},
+    transportation:{answer:transport,positive:transport==="unanswered"?null:transport==="yes"},
+    utilities:{answer:utility,positive:utility==="unanswered"?null:utility!=="no"},
+    safety:{skipped, score: skipped||safAnswered<4?null:safTotal, elevated: skipped||safAnswered<4?null:safPos},
+    mealFit:{dietCondition:dietcond,canPrepare:prep,deliveryReady:delivery,interested:interest,likelyMtmCandidate:mealFit}
+  }};
+  $("result").scrollIntoView({behavior:"smooth"});
+});
+
+$("copy").addEventListener("click", async () => {
+  try{ await navigator.clipboard.writeText(window.currentScreen.summary); alert("Copied."); }
+  catch{ alert("Copy blocked — select the text and copy manually."); }
+});
+$("dljson").addEventListener("click", () => {
+  const blob = new Blob([JSON.stringify(window.currentScreen.json,null,2)],{type:"application/json"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "sdoh_screen_" + ($("caseref").value||"case") + ".json";
+  a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),500);
+});
+})();
+</script>
+</body>
+</html>

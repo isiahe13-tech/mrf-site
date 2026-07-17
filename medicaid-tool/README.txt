@@ -393,3 +393,29 @@ NEW TAB: REG WATCH (daily-use regulatory tracker)
 - First refresh ran 7/17/2026: 43 items, 0 source errors.
 
 FILES ADDED: regwatch.py, Update_Regulatory_Watch.bat, regwatch_data.js
+
+
+ADDED SAME DAY: SDOH FIELD SCREENER (MOBILE COMPANION)
+======================================================
+File: SDOH_Field_Screener_Mobile.html - a standalone, phone-first
+screening form for community action agencies and clinic partners.
+
+- Built on VALIDATED public instruments: the CMS Accountable Health
+  Communities (AHC) HRSN core questions (housing, food, transportation,
+  utilities, safety w/ standard scoring) + the Hunger Vital Sign,
+  plus meal-program-fit questions (diet-sensitive condition,
+  preparation barrier, delivery readiness, interest).
+- DE-IDENTIFIED BY DESIGN: no PHI fields; site/case-reference codes
+  only; nothing is transmitted - data stays on the device until the
+  screener copies/downloads/shares the result into the organization's
+  own secure, authorized system.
+- Honest compliance posture (stated in the form itself): a form is
+  only as compliant as the system around it. For identified (PHI)
+  use, deploy inside BAA-covered infrastructure - the form carries
+  the 4-point deployment checklist (BAA hosting, encryption + access
+  controls + audit, minimum-necessary/retention policy, workforce
+  training + approved consent language).
+- Distribution: send the single HTML file to a partner (email, text,
+  AirDrop) - opens in any phone browser, no install, works offline.
+- Outputs: referral-ready text summary (copy/share) + structured JSON
+  download for upload into the covered system.
