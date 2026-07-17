@@ -165,6 +165,38 @@
     <p class="note">Export goes into YOUR organization's secure, authorized system. Nothing is transmitted by this form itself.</p>
   </div>
 
+  <div class="card">
+    <h2>Closed-Loop Referral Log <span style="font-weight:400;font-size:.8rem;color:var(--dim)">(this device · de-identified)</span></h2>
+    <p class="inst">A referral isn't help until it lands. Log each referral by case reference, then update its status when you follow up. The loop-closure rate — and interventions within 30 days of a positive screen, the HEDIS SNS-E numerator plans are measured on — is the number payers actually buy.</p>
+    <div class="grid2">
+      <div><label>Case reference</label><input type="text" id="refCase" placeholder="e.g., 2026-0451"></div>
+      <div><label>Referred to</label>
+        <select id="refDest" style="width:100%;font-size:16px;padding:12px;border:1px solid var(--line);border-radius:10px;background:#fbfdfe">
+          <option>Medically tailored meal program</option>
+          <option>Food pantry / food bank</option>
+          <option>SNAP / WIC navigation</option>
+          <option>Housing agency</option>
+          <option>Transportation assistance</option>
+          <option>Utility assistance (LIHEAP etc.)</option>
+          <option>Primary care / clinic</option>
+          <option>Behavioral health</option>
+          <option>Community action agency</option>
+          <option>Other</option>
+        </select>
+      </div>
+    </div>
+    <label>Note (non-PHI)</label>
+    <input type="text" id="refNote" placeholder="e.g., warm handoff to intake line">
+    <button class="btn" id="refAdd" style="margin-top:10px">Log Referral</button>
+    <div id="refStats" class="note" style="margin-top:10px"></div>
+    <div id="refList" style="margin-top:6px"></div>
+    <div class="btnrow" style="margin-top:8px">
+      <button class="btn ghost" id="refExport">Export log (JSON)</button>
+      <button class="btn ghost" id="refClear">Clear log</button>
+    </div>
+    <button class="btn ghost" id="refDemo" style="margin-top:8px">Load DEMO data (labeled — for presentations)</button>
+  </div>
+
   <details>
     <summary>Compliance architecture — read before deploying with real members (Louisiana build)</summary>
     <p style="margin-top:6px">This form runs in <b>de-identified mode</b>: no PHI fields, no transmission, data stays on the device until a user exports it. That design keeps the screening tool itself outside PHI flows and usable by community partners today.</p>
@@ -290,6 +322,71 @@ $("dljson").addEventListener("click", () => {
   a.download = "sdoh_screen_" + ($("caseref").value||"case") + ".json";
   a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),500);
 });
+
+// ---------------- Closed-loop referral log (device-local, de-identified) ----------------
+const REF_KEY = "sdoh-referral-log";
+const REF_STATUSES = ["Sent","Accepted","Service started","Completed","Declined","Unreachable"];
+const REF_INTERVENED = new Set(["Accepted","Service started","Completed"]);
+const REF_OUTCOME = new Set(["Completed","Declined","Unreachable"]);
+function refLoad(){ try { return JSON.parse(localStorage.getItem(REF_KEY)||"[]"); } catch { return []; } }
+function refSave(list){ localStorage.setItem(REF_KEY, JSON.stringify(list)); refRender(); }
+function daysBetween(a,b){ return Math.round((new Date(b)-new Date(a))/86400000); }
+function refStatsText(list){
+  if(!list.length) return "No referrals logged yet.";
+  const closed = list.filter(r=>REF_OUTCOME.has(r.status)).length;
+  const snse = list.filter(r=>REF_INTERVENED.has(r.status) && r.statusDate && daysBetween(r.date, r.statusDate)<=30).length;
+  const demo = list.some(r=>r.demo) ? " · CONTAINS DEMO DATA (say so when presenting)" : "";
+  return `${list.length} referral(s) · Loop closed (outcome known): ${closed} (${Math.round(closed/list.length*100)}%) · Intervention within 30 days of referral (SNS-E-style): ${snse} (${Math.round(snse/list.length*100)}%)${demo}`;
+}
+function refRender(){
+  const list = refLoad();
+  $("refStats").textContent = refStatsText(list);
+  $("refList").innerHTML = list.slice().reverse().map(r=>`
+    <div style="border:1px solid var(--line);border-radius:10px;padding:10px;margin-top:8px;background:#fbfdfe${r.demo?";border-style:dashed":""}">
+      <div style="font-weight:600;font-size:.92rem">${r.demo?"[DEMO] ":""}${r.caseRef} · ${r.dest}</div>
+      <div style="font-size:.8rem;color:var(--dim);margin:2px 0 6px">Referred ${r.date}${r.statusDate&&r.statusDate!==r.date?` · status updated ${r.statusDate}`:""}${r.note?` · ${r.note}`:""}</div>
+      <select data-refid="${r.id}" style="width:100%;font-size:16px;padding:10px;border:1px solid var(--line);border-radius:8px;background:#fff">
+        ${REF_STATUSES.map(s=>`<option ${s===r.status?"selected":""}>${s}</option>`).join("")}
+      </select>
+    </div>`).join("");
+  $("refList").querySelectorAll("select[data-refid]").forEach(sel=>sel.addEventListener("change",e=>{
+    const list2 = refLoad();
+    const rec = list2.find(x=>String(x.id)===e.target.dataset.refid);
+    if(rec){ rec.status = e.target.value; rec.statusDate = new Date().toISOString().slice(0,10); refSave(list2); }
+  }));
+}
+$("refAdd").addEventListener("click", () => {
+  const caseRef = ($("refCase").value || $("caseref").value || "").trim();
+  if(!caseRef){ alert("Enter a case reference (non-PHI) first."); return; }
+  const list = refLoad();
+  list.push({id: Date.now(), date: new Date().toISOString().slice(0,10), statusDate: new Date().toISOString().slice(0,10), caseRef, dest: $("refDest").value, note: ($("refNote").value||"").trim(), status: "Sent"});
+  refSave(list);
+  $("refCase").value=""; $("refNote").value="";
+});
+$("refExport").addEventListener("click", () => {
+  const blob = new Blob([JSON.stringify({generated:new Date().toISOString(), mode:"de-identified", entries: refLoad()},null,2)],{type:"application/json"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "sdoh_referrals_" + new Date().toISOString().slice(0,10) + ".json";
+  a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),500);
+});
+$("refClear").addEventListener("click", () => { if(confirm("Clear the entire referral log on this device?")) refSave([]); });
+$("refDemo").addEventListener("click", () => {
+  if(refLoad().length && !confirm("Replace the current log with clearly-labeled DEMO data?")) return;
+  const today = new Date();
+  const d = n => new Date(today - n*86400000).toISOString().slice(0,10);
+  refSave([
+    {id:1,date:d(42),statusDate:d(38),caseRef:"DEMO-001",dest:"Medically tailored meal program",note:"post-discharge CHF",status:"Completed",demo:true},
+    {id:2,date:d(35),statusDate:d(30),caseRef:"DEMO-002",dest:"Food pantry / food bank",note:"",status:"Completed",demo:true},
+    {id:3,date:d(28),statusDate:d(24),caseRef:"DEMO-003",dest:"SNAP / WIC navigation",note:"warm handoff",status:"Service started",demo:true},
+    {id:4,date:d(21),statusDate:d(21),caseRef:"DEMO-004",dest:"Transportation assistance",note:"",status:"Unreachable",demo:true},
+    {id:5,date:d(14),statusDate:d(9),caseRef:"DEMO-005",dest:"Medically tailored meal program",note:"diabetes + food barrier",status:"Accepted",demo:true},
+    {id:6,date:d(10),statusDate:d(10),caseRef:"DEMO-006",dest:"Housing agency",note:"",status:"Sent",demo:true},
+    {id:7,date:d(7),statusDate:d(4),caseRef:"DEMO-007",dest:"Community action agency",note:"utility + food flags",status:"Service started",demo:true},
+    {id:8,date:d(3),statusDate:d(3),caseRef:"DEMO-008",dest:"Primary care / clinic",note:"",status:"Declined",demo:true}
+  ]);
+});
+refRender();
 })();
 </script>
 </body>

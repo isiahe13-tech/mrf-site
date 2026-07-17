@@ -476,3 +476,42 @@ REG WATCH BASELINE ADDITIONS
   (CPT 98960-98962 / T1015/H2020, incident-to, caps + documentation
   discipline); Medicare CHI/PIN codes since 2024; G0136 remapped
   1/1/2026. The community screening layer is a BILLABLE service line.
+
+
+VERSION 13 - THE OPERATING LOOP (July 17, 2026)
+===============================================
+The release that closes the loop: intelligence -> pipeline -> artifact
+-> provable follow-through. Informed by the Team-Round Presentation &
+Operationalization Playbook.
+
+DEAL DESK (new tab)
+- Pipeline auto-seeded with every mapped account (19 across LA/NC/NY/CA;
+  exited plans excluded), tracked Research -> Outreach -> Discovery ->
+  Pilot Design -> Proposal/RFP -> Won/Parked; edits persist locally;
+  CSV export; "no account without a next action" rule enforced in stats.
+- Coverage discipline built in: required coverage = 1 / win rate
+  (the "3x pipeline" rule is retired) - at 20% that is ~5 active
+  pursuits per win, at 15% ~7. Editable win-rate input.
+- MEDDPICC card: the eight letters with Medicaid-specific meaning
+  (Paper Process = where Medicaid deals stall).
+
+BUYER ONE-PAGER (Pilot Builder)
+- One click renders the current pilot design as a clean printable
+  leave-behind: design table, five stat tiles (incl. break-even stays),
+  evidence bullets (peer-reviewed first), the CABS/Anthem architecture,
+  and the modeled-targets guardrail. Auto-opens print dialog.
+
+CLOSED-LOOP REFERRAL LOG (mobile field screener)
+- Log referral -> update status -> the tool computes the loop-closure
+  rate AND interventions-within-30-days (the HEDIS SNS-E numerator
+  shape) from de-identified, device-local data.
+- "Load DEMO data" button for presentations - rows are labeled [DEMO]
+  and the stats banner says so out loud.
+
+EVIDENCE ADDITIONS
+- Berkowitz Health Affairs 2018 dual-eligible anchor ($220/member/month
+  net; 50% fewer admissions; 70% fewer ED visits).
+- Vendor-reported comps added to the registry LABELED as grey
+  literature (Mom's Meals/AmeriHealth DC; UHC 45%; <8% benefit
+  engagement) - always ranked below peer-reviewed/actuarial.
+- Reg Watch baseline: HEDIS SNS-E measure added (fact #11).

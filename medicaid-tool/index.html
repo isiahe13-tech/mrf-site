@@ -25,6 +25,7 @@
     <button class="tab" data-panel="stakeholders">Stakeholder Map</button>
     <button class="tab" data-panel="pilot">Pilot Builder</button>
     <button class="tab" data-panel="playbook">National Playbook</button>
+    <button class="tab" data-panel="dealdesk">Deal Desk</button>
     <button class="tab" data-panel="rfp">RFP Builder</button>
     <button class="tab" data-panel="regwatch">Reg Watch</button>
     <button class="tab" data-panel="sdoh">Service-Need Screener</button>
@@ -312,6 +313,7 @@
       <div class="buttons">
         <button id="copyPilot" class="ghost">Copy</button>
         <button id="downloadPilot" class="ghost">Download .txt</button>
+        <button id="onePagerPilot" class="primary">Buyer one-pager (print/PDF)</button>
       </div>
     </article>
   </div>
@@ -350,6 +352,67 @@
       </table>
     </div>
     <div class="callout topgap"><b>How to read the tiers:</b> Tier 1 = a live, paying mechanism where CookUnity already operates — expansion, not persuasion. Tier 2 = a funded or signaled path that rewards early positioning (premium rate, restart window, or a relationship moat). Tier 3 = authority not yet stable — watch, don't spend cycles. This is the answer to "how would you prioritize states?" — mechanism first, evidence second, relationships as the tiebreaker.</div>
+  </article>
+</section>
+
+<section id="dealdesk" class="panel">
+  <div class="grid split">
+    <article class="card">
+      <h2>Deal Desk — The Working Pipeline</h2>
+      <p class="muted">Every mapped account across the four states, seeded automatically and tracked through the sales motion. Edits save on this machine (browser storage) — this is the operating layer the intelligence feeds.</p>
+      <div id="pipelineStats" class="callout"></div>
+      <div class="grid two">
+        <div><label>Assumed win rate (%) — Medicaid enterprise runs 15–25</label><input id="pipelineWinRate" type="number" min="1" max="100" value="20"></div>
+        <div><label>Coverage verdict</label><input id="pipelineCoverage" type="text" readonly></div>
+      </div>
+      <p class="muted">Coverage discipline: "3x pipeline" is a relic — required coverage = 1 ÷ win rate, stage-weighted. At sub-20% Medicaid win rates that means 4–7x, built through account DEPTH (multi-threading, MEDDPICC completeness), not volume — there are only ~20 named accounts.</p>
+      <div class="buttons">
+        <button id="pipelineReset" class="ghost">Re-seed missing accounts</button>
+        <button id="pipelineCsv" class="gold">Export CSV</button>
+      </div>
+    </article>
+    <article class="card">
+      <h2>Stage Discipline</h2>
+      <ol class="checklist">
+        <li><b>Research</b> — map the mechanism, cohort and buying committee (this tool).</li>
+        <li><b>Outreach</b> — warm-door first; the hook is on the account's stakeholder map.</li>
+        <li><b>Discovery</b> — funding authority, highest-cost cohort, incumbent pain, data path.</li>
+        <li><b>Pilot Design</b> — build it in the Pilot Builder; send the one-pager.</li>
+        <li><b>Proposal / RFP</b> — the RFP Builder scaffold + compliance matrix.</li>
+        <li><b>Won / Parked</b> — won moves to implementation; parked gets a revisit date, never a silent death.</li>
+      </ol>
+      <div class="callout amber"><b>Rule:</b> no account sits without a next action and a date. An empty "next action" is a parked deal you haven't admitted to.</div>
+    </article>
+  </div>
+  <article class="card topgap">
+    <h2>MEDDPICC Per Account — What "Depth" Means on a 20-Account Book</h2>
+    <p class="muted">Run every pipeline review on these eight, not on close dates. Work them into each account's notes field.</p>
+    <div class="grid two">
+      <div>
+        <ul>
+          <li><b>M — Metrics:</b> the plan's own numbers — PMPM trend, readmission penalties, HEDIS SNS-E gap, meal-benefit engagement (often &lt;8%).</li>
+          <li><b>E — Economic buyer:</b> plan CMO / CFO / VP population health (named on the Stakeholder Map, with source + date).</li>
+          <li><b>D — Decision criteria:</b> evidence standard, price band, delivery reliability, reporting.</li>
+          <li><b>D — Decision process:</b> committee, clinical sign-off, pilot-first vs. RFP.</li>
+        </ul>
+      </div>
+      <div>
+        <ul>
+          <li><b>P — Paper process:</b> procurement, security review, BAA, contracting — <b>where Medicaid deals actually stall.</b> Map it early.</li>
+          <li><b>I — Identify pain:</b> the cohort bleeding money (post-discharge CHF, high-acuity complex).</li>
+          <li><b>C — Champion:</b> who sells when you're not in the room.</li>
+          <li><b>C — Competition:</b> Mom's Meals, Instacart Health, NourishedRx, regional nonprofits — sell adherence, never price.</li>
+        </ul>
+      </div>
+    </div>
+  </article>
+  <article class="card topgap">
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Account</th><th>State</th><th>Stage</th><th>Next action</th><th>By when</th><th>Notes</th></tr></thead>
+        <tbody id="pipelineRows"></tbody>
+      </table>
+    </div>
   </article>
 </section>
 

@@ -5,7 +5,7 @@ const money = n => new Intl.NumberFormat("en-US",{style:"currency",currency:"USD
 const pct = n => `${Number(n||0).toFixed(0)}%`;
 const now = () => new Date().toISOString();
 const storeKey = "medicaid-market-intelligence-v2";
-const blankStore = {scenarios:[], opportunities:[], stakeholders:[], pilots:[], knowledge:[], briefs:[]};
+const blankStore = {scenarios:[], opportunities:[], stakeholders:[], pilots:[], knowledge:[], briefs:[], pipeline:[]};
 let db = loadStore();
 let applyingPilotPreset=false;
 let currentCalc = null, currentOpportunity = null, currentPilot = "", currentKnowledge = null, currentBrief = "";
@@ -514,6 +514,7 @@ $("buildPilot").addEventListener("click",buildPilot);
 $("savePilot").addEventListener("click",()=>{buildPilot();const e=pilotEconomics();saveItem("pilots",{type:"Pilot design",state:$("pilotState").value,cohort:$("pilotCohort").value,program:e.program,gross:e.gross,net:e.net,roi:e.roi,text:currentPilot});alert("Pilot saved.");});
 $("copyPilot").addEventListener("click",()=>copyText(currentPilot||$("pilotOutput").textContent));
 $("downloadPilot").addEventListener("click",()=>download("Medicaid_Pilot_Design.txt",currentPilot||$("pilotOutput").textContent));
+if($("onePagerPilot")) $("onePagerPilot").addEventListener("click",buildOnePager);
 $("pilotPitch").addEventListener("change",applyPilotPreset);
 $("pilotState").addEventListener("change",loadPilotDefaults);
 $("pilotCohort").addEventListener("change",loadPilotDefaults);
@@ -882,6 +883,128 @@ function renderRegWatch(){
     $("regFeedRows").innerHTML = `<tr><td colspan="4" class="mini">No feed file found. The standing policy baseline above is always available.</td></tr>`;
   }
 }
+const PIPELINE_STAGES = ["Research","Outreach","Discovery","Pilot Design","Proposal / RFP","Won","Parked"];
+function seedPipeline(){
+  if(!Array.isArray(db.pipeline)) db.pipeline = [];
+  const have = new Set(db.pipeline.map(r=>r.id));
+  let added = 0;
+  for(const st of Object.keys(TOOL_DATA.companies)){
+    for(const c of TOOL_DATA.companies[st]){
+      if(c.exited || have.has(c.id)) continue;
+      db.pipeline.push({id:c.id, account:c.name, state:st, stage:"Research", next:"", nextDate:"", notes:""});
+      added++;
+    }
+  }
+  if(added) persistPipeline(false);
+  return added;
+}
+function persistPipeline(rerender=true){ localStorage.setItem(storeKey, JSON.stringify(db)); if(rerender) renderPipeline(); }
+function renderPipeline(){
+  const rows=$("pipelineRows"); if(!rows) return;
+  const order = Object.fromEntries(PIPELINE_STAGES.map((s,i)=>[s,i]));
+  const list=[...db.pipeline].sort((a,b)=>(order[a.stage]??0)-(order[b.stage]??0) || (a.nextDate||"9999").localeCompare(b.nextDate||"9999") || a.account.localeCompare(b.account));
+  rows.innerHTML=list.map(r=>`<tr data-id="${escapeHtml(r.id)}">
+    <td><b>${escapeHtml(r.account)}</b></td>
+    <td>${escapeHtml(r.state)}</td>
+    <td><select data-k="stage">${PIPELINE_STAGES.map(s=>`<option ${s===r.stage?"selected":""}>${s}</option>`).join("")}</select></td>
+    <td><input data-k="next" value="${escapeHtml(r.next)}" placeholder="Next action — never blank"></td>
+    <td><input data-k="nextDate" type="date" value="${escapeHtml(r.nextDate)}"></td>
+    <td><textarea data-k="notes" placeholder="Discovery notes, champions, blockers...">${escapeHtml(r.notes)}</textarea></td>
+  </tr>`).join("");
+  rows.querySelectorAll("input,select,textarea").forEach(el=>el.addEventListener("change",e=>{
+    const id=e.target.closest("tr").dataset.id, rec=db.pipeline.find(x=>x.id===id);
+    if(rec){ rec[e.target.dataset.k]=e.target.value; persistPipeline(false); renderPipelineStats(); }
+  }));
+  renderPipelineStats();
+}
+function renderPipelineStats(){
+  const el=$("pipelineStats"); if(!el) return;
+  const total=db.pipeline.length;
+  const byStage=PIPELINE_STAGES.map(s=>[s,db.pipeline.filter(r=>r.stage===s).length]).filter(x=>x[1]>0);
+  const active=db.pipeline.filter(r=>!["Research","Won","Parked"].includes(r.stage)).length;
+  const noNext=db.pipeline.filter(r=>!["Won","Parked"].includes(r.stage) && !r.next.trim()).length;
+  const today=new Date().toISOString().slice(0,10);
+  const overdue=db.pipeline.filter(r=>r.nextDate && r.nextDate<today && !["Won","Parked"].includes(r.stage)).length;
+  el.innerHTML=`<b>${total} accounts</b> · ${byStage.map(([s,n])=>`${s}: ${n}`).join(" · ")}<br><b>In motion:</b> ${active} · <b>Missing a next action:</b> ${noNext} · <b>Overdue:</b> ${overdue}${noNext?` <span class="mini">— close the gaps; an empty next action is a silent park.</span>`:""}`;
+  const wrEl=$("pipelineWinRate"), covEl=$("pipelineCoverage");
+  if(wrEl && covEl){
+    const wr=Math.min(100,Math.max(1,+wrEl.value||20))/100;
+    const needed=Math.ceil(1/wr);
+    covEl.value=`1÷${Math.round(wr*100)}% = ~${needed} active pursuits per win · in motion: ${active}`;
+  }
+}
+function pipelineCsv(){
+  const head=["Account","State","Stage","Next action","By when","Notes"];
+  const lines=[head.join(",")].concat(db.pipeline.map(r=>[r.account,r.state,r.stage,r.next,r.nextDate,r.notes].map(v=>`"${String(v||"").replace(/"/g,'""')}"`).join(",")));
+  download("Medicaid_Deal_Desk.csv", lines.join("\n"), "text/csv");
+}
+function initDealDesk(){
+  if(!$("pipelineRows")) return;
+  seedPipeline(); renderPipeline();
+  $("pipelineReset").addEventListener("click",()=>{const n=seedPipeline(); renderPipeline(); alert(n?`${n} account(s) added.`:"All mapped accounts already present.");});
+  $("pipelineCsv").addEventListener("click",pipelineCsv);
+  if($("pipelineWinRate")) $("pipelineWinRate").addEventListener("input",renderPipelineStats);
+}
+
+function buildOnePager(){
+  buildPilot();
+  const state=$("pilotState").value, s=TOOL_DATA.states[state], cohort=$("pilotCohort").value;
+  const e=pilotEconomics();
+  const preset=(TOOL_DATA.pilotPresets.find(x=>x.id===$("pilotPitch").value)||{}).label||"Custom configuration";
+  const geo=$("pilotGeo").value||"Regional proof market";
+  const today=new Date().toLocaleDateString();
+  const html=`<!doctype html><html><head><meta charset="utf-8"><title>Medicaid Nutrition Pilot — One-Pager</title>
+<style>body{font-family:Georgia,'Times New Roman',serif;color:#16212b;max-width:720px;margin:24px auto;padding:0 18px;line-height:1.45;font-size:14px}
+h1{font-size:21px;margin:0 0 2px;color:#0b3d61}.sub{color:#5b6b7a;font-size:12px;margin-bottom:14px}
+h2{font-size:14px;color:#0b3d61;border-bottom:1.5px solid #0b3d61;padding-bottom:2px;margin:16px 0 6px}
+table{width:100%;border-collapse:collapse;font-size:13px}td,th{padding:4px 8px;border-bottom:1px solid #dfe7ec;text-align:left}
+.stats{display:flex;gap:10px;margin:10px 0}.stat{flex:1;border:1px solid #dfe7ec;border-radius:8px;padding:8px;text-align:center}
+.stat b{display:block;font-size:17px;color:#0b3d61}.stat span{font-size:11px;color:#5b6b7a}
+.foot{font-size:10.5px;color:#5b6b7a;margin-top:16px;border-top:1px solid #dfe7ec;padding-top:8px}
+ul{margin:4px 0 4px 18px;padding:0}li{margin:3px 0}@media print{body{margin:8px auto}}</style></head><body>
+<h1>Medicaid Nutrition Pilot — Working Design</h1>
+<div class="sub">${escapeHtml(preset)} · ${escapeHtml(s.name)} · Prepared ${today} · Planning document — modeled targets, not guaranteed savings</div>
+<h2>The Design</h2>
+<table>
+<tr><th>Population</th><td>${escapeHtml(TOOL_DATA.cohorts[cohort].label)}</td><th>Geography</th><td>${escapeHtml(geo)}</td></tr>
+<tr><th>Members</th><td>${e.members}</td><th>Duration</th><td>${e.weeks} weeks</td></tr>
+<tr><th>Intensity</th><td>${e.meals} medically tailored meals/week</td><th>Price basis</th><td>${money(e.mealCost)}/meal (published-market anchor; contracted pricing replaces)</td></tr>
+</table>
+<div class="stats">
+<div class="stat"><b>${money(e.program)}</b><span>Total program investment</span></div>
+<div class="stat"><b>${money(e.programPmpm)}</b><span>Program PMPM</span></div>
+<div class="stat"><b>${e.evidence.targetBcr.toFixed(2)}x</b><span>Target benefit-cost ratio</span></div>
+<div class="stat"><b>${money(e.netPmpm)}</b><span>Target net saving PMPM</span></div>
+<div class="stat"><b>${e.events.toFixed(0)}</b><span>Avoided stays to break even (@${money(e.eventCost)})</span></div>
+</div>
+<h2>Why Meals, Why This Cohort</h2>
+<ul>
+<li>High-acuity MTM evidence: <b>$753 PMPM</b> net total-cost difference after program cost (JAMA Internal Medicine, matched cohort; ≈$939 in 2026 dollars) — driven by fewer admissions.</li>
+<li>Massachusetts Medicaid (Nature Medicine, 2026): <b>31% fewer hospitalizations</b>, 20% fewer ED visits, ~98% of meal cost offset by reduced spending.</li>
+<li>North Carolina Healthy Opportunities evaluation (2026): <b>$164 PMPM</b> net Medicaid savings program-wide.</li>
+<li>Adherence is the engine: chef-crafted, culturally relevant, dietitian-governed meals members actually eat — a meal benefit nobody eats saves nobody money.</li>
+</ul>
+<h2>Proven Program Architecture</h2>
+<ul>
+<li><b>CABS Health Network × CookUnity (Brooklyn):</b> live Medicaid program — ≥500 members, up to 6 months each, NY 1115 Social Care Network funding.</li>
+<li><b>Anthem Blue Cross × CookUnity (Sacramento):</b> live Medi-Cal program — weekly MTM delivery up to 90 days under CalAIM Community Supports.</li>
+<li>This pilot applies the same architecture with payer-defined eligibility, care-management referral, and agreed outcome measurement.</li>
+</ul>
+<h2>What We Ask From the Plan</h2>
+<ul>
+<li>A claims-defined target cohort and baseline; an agreed attribution method before launch.</li>
+<li>A named clinical owner for eligibility and referral; data-sharing under BAA.</li>
+<li>An outcome threshold that triggers expansion — success should scale automatically.</li>
+</ul>
+<div class="foot">All savings figures are published evidence or modeled performance targets — not guarantees; payer claims decide results. Prepared with the Medicaid Market Intelligence &amp; AE Enablement Engine; every figure traces to a cited public source (registry available on request).</div>
+<script>window.onload=()=>window.print()</${"script"}></body></html>`;
+  const blob=new Blob([html],{type:"text/html"});
+  const url=URL.createObjectURL(blob);
+  const w=window.open(url,"_blank");
+  if(!w){ download("Medicaid_Pilot_OnePager.html", html, "text/html"); alert("Pop-up blocked — downloaded the one-pager instead. Open it and print to PDF."); }
+  setTimeout(()=>URL.revokeObjectURL(url), 60000);
+}
+
 function renderStatePlaybook(){
   const rows=$("playbookRows"), weather=$("playbookWeather"), stamp=$("playbookUpdated");
   if(!rows||!TOOL_DATA.statePlaybook) return;
@@ -955,7 +1078,7 @@ function applyEvidenceDefaults(){
   ["matchCohort","cohort","pilotCohort","briefCohort"].forEach(id=>{ if($(id) && [...$(id).options].some(o=>o.value==="complex")) $(id).value="complex"; });
 }
 function init(){
-  applyEvidenceDefaults(); renderCohortTable(); renderOpportunityQuestions(); renderHighAcuityScreen(); renderSources(); renderRateAnchors(); renderCookunityPrograms(); renderStatePlaybook(); initRfp(); renderRegWatch();
+  applyEvidenceDefaults(); renderCohortTable(); renderOpportunityQuestions(); renderHighAcuityScreen(); renderSources(); renderRateAnchors(); renderCookunityPrograms(); renderStatePlaybook(); initRfp(); renderRegWatch(); initDealDesk();
   refreshCompanyDropdown(); applyPilotPreset(); renderPresetComparison(); loadEconomicDefaults(); renderFunding(); calculateTam(); renderSaved();
 }
 init();
