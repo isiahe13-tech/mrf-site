@@ -25,7 +25,7 @@
     <button class="tab" data-panel="stakeholders">Stakeholder Map</button>
     <button class="tab" data-panel="pilot">Pilot Builder</button>
     <button class="tab" data-panel="playbook">National Playbook</button>
-    <button class="tab" data-panel="dealdesk">Deal Desk</button>
+    <button class="tab" data-panel="dealdesk">Pipeline</button>
     <button class="tab" data-panel="saleskit">Sales Kit</button>
     <button class="tab" data-panel="rfp">RFP Builder</button>
     <button class="tab" data-panel="regwatch">Reg Watch</button>
@@ -359,8 +359,8 @@
 <section id="dealdesk" class="panel">
   <div class="grid split">
     <article class="card">
-      <h2>Deal Desk — The Working Pipeline</h2>
-      <p class="muted">Every mapped account across the four states, seeded automatically and tracked through the sales motion. Edits save on this machine (browser storage) — this is the operating layer the intelligence feeds.</p>
+      <h2>Pipeline — The Working Book</h2>
+      <p class="muted">Every mapped account across the four states, seeded automatically and tracked through the sales motion. Edits save on this machine (browser storage). <b>Once inside a company: the corporate CRM is the system of record — this is the personal thinking layer, and the CSV below is the import bridge.</b> (A corporate "deal desk" is something different — the cross-functional approval function for pricing/terms exceptions; this tab deliberately doesn't claim that name.)</p>
       <div id="pipelineStats" class="callout"></div>
       <div class="grid two">
         <div><label>Assumed win rate (%) — Medicaid enterprise runs 15–25</label><input id="pipelineWinRate" type="number" min="1" max="100" value="20"></div>
@@ -369,7 +369,7 @@
       <p class="muted">Coverage discipline: "3x pipeline" is a relic — required coverage = 1 ÷ win rate, stage-weighted. At sub-20% Medicaid win rates that means 4–7x, built through account DEPTH (multi-threading, MEDDPICC completeness), not volume — there are only ~20 named accounts.</p>
       <div class="buttons">
         <button id="pipelineReset" class="ghost">Re-seed missing accounts</button>
-        <button id="pipelineCsv" class="gold">Export CSV</button>
+        <button id="pipelineCsv" class="gold">Export CSV (CRM import bridge)</button>
       </div>
     </article>
     <article class="card">
@@ -674,6 +674,7 @@
   <article class="card">
     <h2>Source & Assumption Registry</h2>
     <p class="muted">Each source records what it supports, its date and its limitations. Values labeled “starter estimate” must be replaced with state or payer-specific data.</p>
+    <div class="callout amber"><b>Claims discipline (healthcare selling is regulated speech):</b> everything in this registry is for internal planning and buyer-education use. Any figure that reaches external marketing, member-facing material, or a binding proposal needs the company's marketing/legal claims-approval process first — the FTC's substantiation standard for health-benefit claims is "competent and reliable scientific evidence," and implied claims are held to the same bar as express ones. The registry's job is to make that review easy: every claim already carries its source, date and limitation.</div>
     <div class="tablewrap">
       <table><thead><tr><th>Source</th><th>Supports</th><th>Date</th><th>Confidence</th><th>Important limitation</th><th>Link</th></tr></thead><tbody id="sourceTable"></tbody></table>
     </div>

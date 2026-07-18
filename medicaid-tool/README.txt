@@ -515,3 +515,21 @@ EVIDENCE ADDITIONS
   literature (Mom's Meals/AmeriHealth DC; UHC 45%; <8% benefit
   engagement) - always ranked below peer-reviewed/actuarial.
 - Reg Watch baseline: HEDIS SNS-E measure added (fact #11).
+
+
+V13.2 - TEAM-SCALE HARDENING (July 17, 2026, from the build/buy gap analysis)
+=============================================================================
+- "Deal Desk" tab RENAMED "Pipeline" - a corporate deal desk is the
+  cross-functional pricing/terms APPROVAL function, not a pipeline
+  list; the tab now says so (RevOps fluency, not a naming collision).
+- Pipeline moved to its OWN storage key (medicaid-pipeline-v1) with
+  automatic one-time migration - "Clear Saved Data" can no longer
+  touch the working book. Confirm dialog says so.
+- CSV export reframed as the CRM IMPORT BRIDGE
+  (Medicaid_Pipeline_CRM_Import.csv): the corporate CRM is the system
+  of record; this tool is the personal thinking layer.
+- Claims-governance discipline surfaced: Sources tab callout + one-pager
+  footer note that external/member-facing use of any evidence figure
+  requires marketing/legal claims review (FTC substantiation standard).
+- Team-scale doctrine (in the master handoff): keep the verified-facts
+  edge personal, buy the commodity stack, govern before a second user.

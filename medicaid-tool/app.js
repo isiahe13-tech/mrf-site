@@ -884,25 +884,37 @@ function renderRegWatch(){
   }
 }
 const PIPELINE_STAGES = ["Research","Outreach","Discovery","Pilot Design","Proposal / RFP","Won","Parked"];
+// Pipeline lives in its OWN storage key so "Clear Saved Data" (which wipes
+// the scenario/library store) can never take the working book with it.
+const PIPE_KEY = "medicaid-pipeline-v1";
+let pipelineData = (() => {
+  try {
+    const own = JSON.parse(localStorage.getItem(PIPE_KEY) || "null");
+    if(Array.isArray(own)) return own;
+  } catch {}
+  // one-time migration from the old shared store
+  const legacy = Array.isArray(db.pipeline) ? db.pipeline : [];
+  if(legacy.length) localStorage.setItem(PIPE_KEY, JSON.stringify(legacy));
+  return legacy.slice();
+})();
 function seedPipeline(){
-  if(!Array.isArray(db.pipeline)) db.pipeline = [];
-  const have = new Set(db.pipeline.map(r=>r.id));
+  const have = new Set(pipelineData.map(r=>r.id));
   let added = 0;
   for(const st of Object.keys(TOOL_DATA.companies)){
     for(const c of TOOL_DATA.companies[st]){
       if(c.exited || have.has(c.id)) continue;
-      db.pipeline.push({id:c.id, account:c.name, state:st, stage:"Research", next:"", nextDate:"", notes:""});
+      pipelineData.push({id:c.id, account:c.name, state:st, stage:"Research", next:"", nextDate:"", notes:""});
       added++;
     }
   }
   if(added) persistPipeline(false);
   return added;
 }
-function persistPipeline(rerender=true){ localStorage.setItem(storeKey, JSON.stringify(db)); if(rerender) renderPipeline(); }
+function persistPipeline(rerender=true){ localStorage.setItem(PIPE_KEY, JSON.stringify(pipelineData)); if(rerender) renderPipeline(); }
 function renderPipeline(){
   const rows=$("pipelineRows"); if(!rows) return;
   const order = Object.fromEntries(PIPELINE_STAGES.map((s,i)=>[s,i]));
-  const list=[...db.pipeline].sort((a,b)=>(order[a.stage]??0)-(order[b.stage]??0) || (a.nextDate||"9999").localeCompare(b.nextDate||"9999") || a.account.localeCompare(b.account));
+  const list=[...pipelineData].sort((a,b)=>(order[a.stage]??0)-(order[b.stage]??0) || (a.nextDate||"9999").localeCompare(b.nextDate||"9999") || a.account.localeCompare(b.account));
   rows.innerHTML=list.map(r=>`<tr data-id="${escapeHtml(r.id)}">
     <td><b>${escapeHtml(r.account)}</b></td>
     <td>${escapeHtml(r.state)}</td>
@@ -912,19 +924,19 @@ function renderPipeline(){
     <td><textarea data-k="notes" placeholder="Discovery notes, champions, blockers...">${escapeHtml(r.notes)}</textarea></td>
   </tr>`).join("");
   rows.querySelectorAll("input,select,textarea").forEach(el=>el.addEventListener("change",e=>{
-    const id=e.target.closest("tr").dataset.id, rec=db.pipeline.find(x=>x.id===id);
+    const id=e.target.closest("tr").dataset.id, rec=pipelineData.find(x=>x.id===id);
     if(rec){ rec[e.target.dataset.k]=e.target.value; persistPipeline(false); renderPipelineStats(); }
   }));
   renderPipelineStats();
 }
 function renderPipelineStats(){
   const el=$("pipelineStats"); if(!el) return;
-  const total=db.pipeline.length;
-  const byStage=PIPELINE_STAGES.map(s=>[s,db.pipeline.filter(r=>r.stage===s).length]).filter(x=>x[1]>0);
-  const active=db.pipeline.filter(r=>!["Research","Won","Parked"].includes(r.stage)).length;
-  const noNext=db.pipeline.filter(r=>!["Won","Parked"].includes(r.stage) && !r.next.trim()).length;
+  const total=pipelineData.length;
+  const byStage=PIPELINE_STAGES.map(s=>[s,pipelineData.filter(r=>r.stage===s).length]).filter(x=>x[1]>0);
+  const active=pipelineData.filter(r=>!["Research","Won","Parked"].includes(r.stage)).length;
+  const noNext=pipelineData.filter(r=>!["Won","Parked"].includes(r.stage) && !r.next.trim()).length;
   const today=new Date().toISOString().slice(0,10);
-  const overdue=db.pipeline.filter(r=>r.nextDate && r.nextDate<today && !["Won","Parked"].includes(r.stage)).length;
+  const overdue=pipelineData.filter(r=>r.nextDate && r.nextDate<today && !["Won","Parked"].includes(r.stage)).length;
   el.innerHTML=`<b>${total} accounts</b> · ${byStage.map(([s,n])=>`${s}: ${n}`).join(" · ")}<br><b>In motion:</b> ${active} · <b>Missing a next action:</b> ${noNext} · <b>Overdue:</b> ${overdue}${noNext?` <span class="mini">— close the gaps; an empty next action is a silent park.</span>`:""}`;
   const wrEl=$("pipelineWinRate"), covEl=$("pipelineCoverage");
   if(wrEl && covEl){
@@ -935,8 +947,8 @@ function renderPipelineStats(){
 }
 function pipelineCsv(){
   const head=["Account","State","Stage","Next action","By when","Notes"];
-  const lines=[head.join(",")].concat(db.pipeline.map(r=>[r.account,r.state,r.stage,r.next,r.nextDate,r.notes].map(v=>`"${String(v||"").replace(/"/g,'""')}"`).join(",")));
-  download("Medicaid_Deal_Desk.csv", lines.join("\n"), "text/csv");
+  const lines=[head.join(",")].concat(pipelineData.map(r=>[r.account,r.state,r.stage,r.next,r.nextDate,r.notes].map(v=>`"${String(v||"").replace(/"/g,'""')}"`).join(",")));
+  download("Medicaid_Pipeline_CRM_Import.csv", lines.join("\n"), "text/csv");
 }
 function initDealDesk(){
   if(!$("pipelineRows")) return;
@@ -1058,7 +1070,7 @@ ul{margin:4px 0 4px 18px;padding:0}li{margin:3px 0}@media print{body{margin:8px 
 <li>A named clinical owner for eligibility and referral; data-sharing under BAA.</li>
 <li>An outcome threshold that triggers expansion — success should scale automatically.</li>
 </ul>
-<div class="foot">All savings figures are published evidence or modeled performance targets — not guarantees; payer claims decide results. Prepared with the Medicaid Market Intelligence &amp; AE Enablement Engine; every figure traces to a cited public source (registry available on request).</div>
+<div class="foot">All savings figures are published evidence or modeled performance targets — not guarantees; payer claims decide results. Internal planning and buyer-education document — external or member-facing use requires marketing/legal claims review. Prepared with the Medicaid Market Intelligence &amp; AE Enablement Engine; every figure traces to a cited public source (registry available on request).</div>
 <script>window.onload=()=>window.print()</${"script"}></body></html>`;
   const blob=new Blob([html],{type:"text/html"});
   const url=URL.createObjectURL(blob);
@@ -1134,7 +1146,7 @@ $("importData").addEventListener("change",e=>{
   const file=e.target.files[0]; if(!file)return;
   const reader=new FileReader(); reader.onload=()=>{try{db={...blankStore,...JSON.parse(reader.result)};persist();alert("Backup imported.");}catch{alert("Invalid backup file.");}};reader.readAsText(file);
 });
-$("clearData").addEventListener("click",()=>{if(confirm("Delete all saved local tool data?")){db=structuredClone(blankStore);persist();}});
+$("clearData").addEventListener("click",()=>{if(confirm("Delete all saved scenarios, maps, pilots, screens and briefs? (The Pipeline tab is stored separately and is NOT affected.)")){db=structuredClone(blankStore);persist();}});
 
 function applyEvidenceDefaults(){
   ["matchCohort","cohort","pilotCohort","briefCohort"].forEach(id=>{ if($(id) && [...$(id).options].some(o=>o.value==="complex")) $(id).value="complex"; });
