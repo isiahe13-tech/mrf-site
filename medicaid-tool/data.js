@@ -1228,7 +1228,7 @@ TOOL_DATA.pilotPresets.splice(TOOL_DATA.pilotPresets.findIndex(p => p.id === "cu
     evidenceBasis:"pitch", scenario:"base", bcr:{low:1.20,base:1.60,high:2.00}, funding:"ca_calaim",
     intervention:"Medically tailored home-delivered meals", geo:"Sacramento County (statewide Medi-Cal expansion planned 2026)",
     trigger:"CookUnity's second live Medicaid program: weekly MTM delivery up to 90 days under CalAIM Community Supports (announced November 2025), phase 1 = hundreds of households",
-    note:"Models the live Sacramento program at the DHCS benchmark midpoint ($9.50). The 12-week duration IS the DHCS cap (eff. 1/1/2026) — a regulatory shape, not a guess. Expansion story: statewide Medi-Cal in 2026." }
+    note:"Models the live Sacramento program at the DHCS benchmark midpoint ($9.50). The 12-week duration IS the DHCS cap (eff. 1/1/2026) — a regulatory shape, not a guess. Dosing note: if California's updated MTM definition's two-thirds-of-daily-food standard applies to the program, intensity moves toward 14–21 meals/week (2–3/day) — confirm the required dosing in plan design before pricing. Expansion story: statewide Medi-Cal in 2026." }
 );
 
 // The National Playbook — state prioritization (rendered in its own tab).

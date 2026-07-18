@@ -803,7 +803,7 @@ STATUS: DRAFT SCAFFOLD — edit every section against the actual RFP document, i
 
 1. COVER LETTER (skeleton)
 [Addressee from the RFP cover page]
-CookUnity respectfully submits this response to ${entity}. CookUnity operates live Medicaid medically-tailored-meal programs in New York (CABS Health Network, 1115 Social Care Network funding) and California (Anthem Blue Cross, CalAIM Community Supports), and proposes to bring that proven program architecture to this opportunity.
+CookUnity respectfully submits this response to ${entity}. CookUnity delivers live Medicaid medically-tailored-meal programs in New York (with CABS Health Network under 1115 Social Care Network funding) and California (with Anthem Blue Cross under CalAIM Community Supports), and proposes to bring that proven program architecture to this opportunity.
 [Signature block / authorized representative]
 
 2. EXECUTIVE SUMMARY
