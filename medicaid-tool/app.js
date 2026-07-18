@@ -555,7 +555,7 @@ function scoreHighAcuityScreen(){
     if(answer==="yes"){
       total+=q.points;
       if(q.domain==="Medical urgency") medical+=q.points;
-      if(q.domain==="Nutrition / SDOH barrier") barrier+=q.points;
+      if(q.domain==="Nutrition / HRSN barrier") barrier+=q.points;
       if(q.domain==="Intervention fit") fit+=q.points;
       if(q.hard) flags[q.hard]=true;
       yes.push(q.question);
@@ -603,7 +603,7 @@ function scoreHighAcuityScreen(){
       <div class="scoreband">${escapeHtml(tier.label)}</div>
       <div class="screenScores">
         <div><span>Medical</span><strong>${medical}</strong></div>
-        <div><span>SDOH barrier</span><strong>${barrier}</strong></div>
+        <div><span>HRSN barrier</span><strong>${barrier}</strong></div>
         <div><span>Service fit</span><strong>${fit}</strong></div>
         <div><span>Unknown</span><strong>${unknown}</strong></div>
       </div>
@@ -625,7 +625,7 @@ RESULT
 ${tier.label}
 Total score: ${Math.max(0,total)}
 Medical urgency: ${medical}
-Nutrition / SDOH barrier: ${barrier}
+Nutrition / HRSN barrier: ${barrier}
 Intervention fit: ${fit}
 Unknown responses: ${unknown}
 Rapid high-priority rule met: ${rapidRule?"Yes":"No"}
@@ -685,7 +685,7 @@ function useScreenInPilot(){
     $("pilotPitch").value=preset;
     applyPilotPreset();
   }
-  $("pilotTrigger").value=`Service-need screen: ${result.tier}. Medical ${result.medical}; SDOH barrier ${result.barrier}; service fit ${result.fit}. ${result.rapidRule?"Rapid high-priority rule met.":"Requires further qualification."}`;
+  $("pilotTrigger").value=`Service-need screen: ${result.tier}. Medical ${result.medical}; HRSN barrier ${result.barrier}; service fit ${result.fit}. ${result.rapidRule?"Rapid high-priority rule met.":"Requires further qualification."}`;
   document.querySelector('button[data-panel="pilot"]').click();
 }
 $("scoreScreen").addEventListener("click",scoreHighAcuityScreen);

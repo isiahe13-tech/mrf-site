@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<title>SDOH Field Screener — Community Partner Edition</title>
+<title>HRSN Field Screener — Community Partner Edition</title>
 <style>
   *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
   :root{--teal:#0e7d6f;--ink:#16212b;--dim:#5b6b7a;--line:#dfe7ec;--bg:#f4f7f9;--amber:#b45309;--red:#b3261e;--green:#1e7d46}
@@ -40,7 +40,7 @@
 </style>
 </head>
 <body>
-  <h1>SDOH Field Screener</h1>
+  <h1>HRSN Field Screener</h1>
   <p class="sub">Community Partner Edition · built on the CMS Accountable Health Communities (AHC) HRSN core questions + the Hunger Vital Sign™ (validated, public instruments)</p>
 
   <div class="mode"><b>DE-IDENTIFIED MODE.</b> Do not enter a name, date of birth, address, phone number, or Medicaid ID anywhere on this form. Use the case reference your organization assigns. Screening data stays on this device until you export it into your organization's secure system.</div>
@@ -280,7 +280,7 @@ $("score").addEventListener("click", () => {
     : "Route by flagged domains. A food-insecure member without a diet-sensitive condition may fit groceries/produce or SNAP navigation better than intensive medically tailored meals.";
 
   const summary =
-`SDOH FIELD SCREEN (de-identified)
+`HRSN FIELD SCREEN (de-identified)
 Site: ${$("site").value||"-"} | Screener: ${$("screener").value||"-"} | Case ref: ${$("caseref").value||"-"} | Date: ${$("sdate").value}
 Instruments: AHC-HRSN core + Hunger Vital Sign
 
@@ -297,7 +297,7 @@ Enter this result into your organization's authorized system and follow its refe
 
   $("summary").textContent = summary;
   $("result").style.display = "block";
-  if(navigator.share){ $("share").style.display="block"; $("share").onclick = () => navigator.share({title:"SDOH screen "+($("caseref").value||""), text: summary}).catch(()=>{}); }
+  if(navigator.share){ $("share").style.display="block"; $("share").onclick = () => navigator.share({title:"HRSN screen "+($("caseref").value||""), text: summary}).catch(()=>{}); }
   window.currentScreen = {summary, json:{
     mode:"de-identified", instruments:["AHC-HRSN core","Hunger Vital Sign"],
     site:$("site").value, screener:$("screener").value, caseRef:$("caseref").value, date:$("sdate").value,
