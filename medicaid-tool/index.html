@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Medicaid Market Intelligence & AE Enablement Engine</title>
   <meta name="description" content="Funding, opportunity scoring, stakeholder mapping, pilot design, cohort economics and high-acuity service-need screening for Medicaid nutrition programs.">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=14.2">
 </head>
 <body>
 <header class="hero">
@@ -315,8 +315,9 @@
       <div class="buttons">
         <button id="copyPilot" class="ghost">Copy</button>
         <button id="downloadPilot" class="ghost">Download .txt</button>
-        <button id="onePagerPilot" class="primary">Buyer one-pager (print/PDF)</button>
+        <button id="onePagerPilot" class="primary">Buyer one-pager (appears below)</button>
       </div>
+      <div id="onePagerMount" class="reportMount"></div>
     </article>
   </div>
   <article class="card topgap">
@@ -500,8 +501,9 @@
         <div><label>Non-food referrals routed to care mgmt</label><input id="ahReferrals" type="number" min="0" value="388"></div>
       </div>
       <div class="buttons">
-        <button id="ahBuild" class="primary">Generate report (print/PDF)</button>
+        <button id="ahBuild" class="primary">Generate report (appears below)</button>
       </div>
+      <div id="ahReportMount" class="reportMount"></div>
       <div class="callout amber"><b>Data honesty:</b> defaults are DEMONSTRATION numbers (say so out loud in any room). The production version runs on real program data; the &lt;8% utilization benchmark is industry/company-reported context, labeled as such in the report.</div>
     </article>
     <article class="card">
@@ -729,8 +731,8 @@
 </main>
 
 <footer><div class="wrap">Medicaid Market Intelligence & AE Enablement Engine · Standalone local edition · Data stays in this browser unless exported.</div></footer>
-<script src="regwatch_data.js?v=14.1"></script>
-<script src="data.js?v=14.1"></script>
-<script src="app.js?v=14.1"></script>
+<script src="regwatch_data.js?v=14.2"></script>
+<script src="data.js?v=14.2"></script>
+<script src="app.js?v=14.2"></script>
 </body>
 </html>

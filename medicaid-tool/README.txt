@@ -592,3 +592,12 @@ V14.1 (July 19, 2026) - Stars 2026 precision + competitive intel layer
   procurement can score; internal push: pursue FoodMed Certified.
 - 3 new sourced entries (53 total); cache-busting version tags added
   to script includes so a demo never loads a stale data file.
+
+V14.2 (July 19, 2026) - Instant inline reports (pop-up blockers defeated)
+- Account Health reports and the Buyer One-Pager now render INSTANTLY
+  inside the page, directly below the Generate button - no pop-up
+  window, so pop-up blockers can never eat a report again.
+- Each report ships with a Print / Save as PDF button (prints just the
+  report) and a Download HTML button (standalone file you can email).
+- Both Account Health modes (MA Renewal Defense + Medicaid Evidence
+  Pack) and the One-Pager verified end-to-end in-browser, zero errors.

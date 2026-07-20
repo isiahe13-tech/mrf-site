@@ -21,6 +21,18 @@ function download(name, text, type="text/plain"){
   const blob=new Blob([text],{type}); const a=document.createElement("a");
   a.href=URL.createObjectURL(blob); a.download=name; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),500);
 }
+// Renders a generated report INLINE (never a pop-up — pop-up blockers were eating the reports).
+// Print/Save-PDF prints just the report iframe; Download saves the standalone HTML file.
+function showReport(html, mountId, filename){
+  const mount=$(mountId);
+  if(!mount){ download(filename, html, "text/html"); return; }
+  mount.innerHTML=`<div class="reportBar"><span class="reportBarLabel">Report ready — live below.</span><button class="primary" data-act="print">Print / Save as PDF</button><button class="ghost" data-act="dl">Download HTML</button></div><iframe class="reportFrame" title="Generated report"></iframe>`;
+  const frame=mount.querySelector("iframe");
+  frame.srcdoc=html;
+  mount.querySelector('[data-act="print"]').addEventListener("click",()=>{ frame.contentWindow.focus(); frame.contentWindow.print(); });
+  mount.querySelector('[data-act="dl"]').addEventListener("click",()=>download(filename, html, "text/html"));
+  mount.scrollIntoView({behavior:"smooth",block:"nearest"});
+}
 async function copyText(text){ try{await navigator.clipboard.writeText(text); alert("Copied.");}catch{alert("Copy was blocked. Select the text and copy manually.");}}
 function stateOptions(){
   return Object.entries(TOOL_DATA.states).map(([k,v])=>`<option value="${k}">${v.name}</option>`).join("");
@@ -1082,12 +1094,8 @@ th{color:#5b6b7a;font-size:11px;text-transform:uppercase}
 <h2>The sentence this report earns</h2>
 <div class="story">${closing}</div>
 <div class="foot">CONCEPT INSTRUMENT — demonstration data unless populated from program systems. Benchmarks: &lt;8% meal-benefit utilization is industry/company-reported context; NC HOP $164 PMPM (summative evaluation) and the March 31, 2027 NYHER expiration are cited public reference points. Production version runs on real program data inside the company's reporting stack.</div>
-<script>window.onload=()=>window.print()</${"script"}></body></html>`;
-  const blob=new Blob([html],{type:"text/html"});
-  const url=URL.createObjectURL(blob);
-  const w=window.open(url,"_blank");
-  if(!w){ download("Account_Health_Report.html", html, "text/html"); alert("Pop-up blocked — downloaded the report instead. Open it and print to PDF."); }
-  setTimeout(()=>URL.revokeObjectURL(url), 60000);
+</body></html>`;
+  showReport(html, "ahReportMount", "Account_Health_Report.html");
 }
 function initAccountHealth(){
   if(!$("ahMode")) return;
@@ -1147,12 +1155,8 @@ ul{margin:4px 0 4px 18px;padding:0}li{margin:3px 0}@media print{body{margin:8px 
 <li>An outcome threshold that triggers expansion — success should scale automatically.</li>
 </ul>
 <div class="foot">All savings figures are published evidence or modeled performance targets — not guarantees; payer claims decide results. Internal planning and buyer-education document — external or member-facing use requires marketing/legal claims review. Prepared with the Medicaid Market Intelligence &amp; AE Enablement Engine; every figure traces to a cited public source (registry available on request).</div>
-<script>window.onload=()=>window.print()</${"script"}></body></html>`;
-  const blob=new Blob([html],{type:"text/html"});
-  const url=URL.createObjectURL(blob);
-  const w=window.open(url,"_blank");
-  if(!w){ download("Medicaid_Pilot_OnePager.html", html, "text/html"); alert("Pop-up blocked — downloaded the one-pager instead. Open it and print to PDF."); }
-  setTimeout(()=>URL.revokeObjectURL(url), 60000);
+</body></html>`;
+  showReport(html, "onePagerMount", "Medicaid_Pilot_OnePager.html");
 }
 
 function renderStatePlaybook(){

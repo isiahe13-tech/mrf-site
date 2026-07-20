@@ -12,3 +12,10 @@
 .proofcard h3{font-size:18px;margin-bottom:6px}
 .compactout{min-height:310px}
 @media(max-width:700px){.screenScores{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* v14.2 — inline report rendering (no pop-ups) */
+.reportMount{margin-top:12px}
+.reportMount:empty{display:none}
+.reportBar{display:flex;gap:8px;align-items:center;margin-bottom:8px;flex-wrap:wrap}
+.reportBarLabel{font-size:.85rem;color:var(--teal);font-weight:700;margin-right:auto}
+.reportFrame{width:100%;height:72vh;border:1px solid var(--line);border-radius:10px;background:#fff}
