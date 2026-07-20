@@ -27,6 +27,7 @@
     <button class="tab" data-panel="playbook">National Playbook</button>
     <button class="tab" data-panel="dealdesk">Pipeline</button>
     <button class="tab" data-panel="saleskit">Sales Kit</button>
+    <button class="tab" data-panel="health">Account Health</button>
     <button class="tab" data-panel="rfp">RFP Builder</button>
     <button class="tab" data-panel="regwatch">Reg Watch</button>
     <button class="tab" data-panel="sdoh">Service-Need Screener</button>
@@ -469,6 +470,50 @@
   </article>
 </section>
 
+<section id="health" class="panel">
+  <div class="grid split">
+    <article class="card">
+      <h2>Account Health — The Report That Wins the Renewal</h2>
+      <p class="muted">Renewals die on unprovable value: meal benefits are often used by fewer than 8% of eligible members, and vendors can show shipments but not engagement. This generator turns program data into the renewal story — in the account team's language, per book of business.</p>
+      <label>Report mode</label>
+      <select id="ahMode">
+        <option value="ma">MA Renewal Defense — D-SNP / supplemental benefit (retention + Stars story)</option>
+        <option value="scn">Medicaid Evidence Pack — SCN / 1115 program (waiver-renewal readiness)</option>
+      </select>
+      <div id="ahModeNote" class="callout"></div>
+      <div class="grid two">
+        <div><label>Account / program name</label><input id="ahAccount" placeholder="Example: Gulf Coast Health Plan (DEMO)"></div>
+        <div><label>Reporting period</label><input id="ahPeriod" placeholder="Q2 2026"></div>
+      </div>
+      <div class="grid three">
+        <div><label>Eligible members</label><input id="ahEligible" type="number" min="1" value="12400"></div>
+        <div><label>Activated (%)</label><input id="ahActivated" type="number" min="0" max="100" value="34"></div>
+        <div><label>Reorder rate (%)</label><input id="ahReorder" type="number" min="0" max="100" value="81"></div>
+      </div>
+      <div class="grid three">
+        <div><label>Satisfaction (out of 5)</label><input id="ahSat" type="number" min="0" max="5" step="0.1" value="4.6"></div>
+        <div><label>Members screened</label><input id="ahScreened" type="number" min="0" value="4216"></div>
+        <div><label>Positive screens (%)</label><input id="ahPositive" type="number" min="0" max="100" value="37"></div>
+      </div>
+      <div class="grid two">
+        <div><label>Intervention ≤ 30 days of positive screen (%)</label><input id="ahIntervened" type="number" min="0" max="100" value="96"></div>
+        <div><label>Non-food referrals routed to care mgmt</label><input id="ahReferrals" type="number" min="0" value="388"></div>
+      </div>
+      <div class="buttons">
+        <button id="ahBuild" class="primary">Generate report (print/PDF)</button>
+      </div>
+      <div class="callout amber"><b>Data honesty:</b> defaults are DEMONSTRATION numbers (say so out loud in any room). The production version runs on real program data; the &lt;8% utilization benchmark is industry/company-reported context, labeled as such in the report.</div>
+    </article>
+    <article class="card">
+      <h2>Why This Wins Each Book</h2>
+      <div class="callout"><b>MA mode (the retention seat):</b> renewals are decided by the plan's benefit-value review. The two numbers institutional food can't show — <b>activation vs. the &lt;8% norm and the reorder rate</b> (adherence) — are the two numbers this report leads with. The activation plan rides the mid-year unused-benefit notices (first wave mailed June 30–July 31, 2026): the letters that threaten low-utilization benefits become the campaign that fixes them.</div>
+      <div class="callout"><b>Medicaid/SCN mode (the waiver cliff):</b> New York's 1115 authority expires <b>March 31, 2027</b> — every SCN-funded program's future depends on renewal-proof evidence generated NOW. This pack converts a program's quarter into the evidence a state and CMS conversation needs: enrollment, completion, loop closure, and documented follow-through against the NC HOP $164 PMPM reference point.</div>
+      <div class="callout"><b>Stars mechanics (the revenue WHY behind MA retention, statutory and stable):</b> plans at <b>4.0+ stars earn a 5% quality bonus</b> on their benchmark, and the rebate share plans keep rises by rating tier (50% → 65% → 70%). Member-experience measures are scored from real member surveys — which is why a benefit members actually use, love and mention by name is Stars ammunition, and why this report captures satisfaction and reorder behavior every quarter. The dollar math is county- and plan-specific — the plan's Stars team owns it; this report feeds it.</div>
+      <div class="callout amber"><b>Roadmap (next build):</b> Provider Referral &amp; Dual-Trigger Documentation Helper — a clinic-facing order sheet capturing the nutrition-sensitive condition + screened need + Z-code in one pass, so referrals arrive clean and medical necessity is documented from day one. Built for the care-coordination and provider-partnership motion.</div>
+    </article>
+  </div>
+</section>
+
 <section id="rfp" class="panel">
   <div class="grid split">
     <article class="card">
@@ -540,7 +585,7 @@
   <article class="card">
     <h2>Medicaid Regulatory Watch</h2>
     <p class="muted" id="regwatchStamp"></p>
-    <div class="callout"><b>Refresh is AUTOMATIC:</b> a Windows scheduled task ("Medicaid Reg Watch Daily") runs the updater every morning at 7:30 (or on next wake if the machine was asleep) — check the stamp below to confirm today's run, then reload this page. Manual fallback anytime: double-click <b>Update_Regulatory_Watch.bat</b> in the tool folder. Feed items are LEADS — click through and verify before citing anything.</div>
+    <div class="callout"><b>Refresh is AUTOMATIC on the author's machine</b> (a Windows scheduled task runs the updater every morning at 7:30, or on next wake) — check the stamp below to confirm today's run, then reload this page. <b>If you received this tool as a copy:</b> double-click <b>Update_Regulatory_Watch.bat</b> in the tool folder to refresh manually. Feed items are LEADS — click through and verify before citing anything.</div>
     <div id="regwatchErrors"></div>
   </article>
   <article class="card topgap">

@@ -533,3 +533,40 @@ V13.2 - TEAM-SCALE HARDENING (July 17, 2026, from the build/buy gap analysis)
   requires marketing/legal claims review (FTC substantiation standard).
 - Team-scale doctrine (in the master handoff): keep the verified-facts
   edge personal, buy the commodity stack, govern before a second user.
+
+==================================================================
+WHAT'S NEW IN V13 (July 2026)
+==================================================================
+- PIPELINE TAB ("The Working Book"): every mapped account across the 4
+  states auto-seeded (exited plans excluded), tracked through 6 stages
+  with next actions + dates. Edits save on this machine, in their own
+  storage (the Saved Library "Clear Saved Data" button CANNOT touch it).
+  Win-rate-driven coverage math + CSV export as the CRM import bridge.
+- BUYER ONE-PAGER: one click in the Pilot Builder prints a clean
+  leave-behind of the current pilot design (auto print dialog; if the
+  pop-up is blocked it downloads instead).
+- CLOSED-LOOP REFERRAL LOG (mobile screener): log referral -> status ->
+  outcome, de-identified, device-local, JSON export. The loop-closure %
+  is the number payers buy.
+- REG WATCH hardening: a failed update can no longer overwrite a good
+  feed with an empty one; a known-good backup (.bak) sits in this folder.
+
+
+VERSION 14 - ACCOUNT HEALTH (July 19, 2026)
+===========================================
+New tab: the report that wins the renewal, one engine, two books.
+- MA RENEWAL DEFENSE mode: activation vs the <8% industry norm, reorder
+  rate as the adherence proof, closed-loop documentation, notice-wave
+  activation plan (mid-year unused-benefit letters, first wave June
+  30 - July 31 2026), member-experience ammunition for Stars.
+- MEDICAID EVIDENCE PACK mode: waiver-renewal readiness - NYHER 1115
+  authority expires March 31, 2027; the pack converts each quarter
+  into renewal-proof evidence (enrollment, completion, loop closure,
+  documented follow-through).
+- Stars mechanics card (statutory, stable): 4.0+ stars = 5% quality
+  bonus; rebate share rises 50% -> 65% -> 70% by rating tier. The
+  dollar math is county/plan-specific - the plan's Stars team owns it;
+  this report feeds it.
+- Roadmap card: Provider Referral & Dual-Trigger Documentation Helper
+  (condition + screened need + Z-code in one pass).
+- All defaults are DEMONSTRATION data, labeled in-tool and on-report.

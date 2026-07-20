@@ -803,7 +803,7 @@ STATUS: DRAFT SCAFFOLD — edit every section against the actual RFP document, i
 
 1. COVER LETTER (skeleton)
 [Addressee from the RFP cover page]
-CookUnity respectfully submits this response to ${entity}. CookUnity delivers live Medicaid medically-tailored-meal programs in New York (with CABS Health Network under 1115 Social Care Network funding) and California (with Anthem Blue Cross under CalAIM Community Supports), and proposes to bring that proven program architecture to this opportunity.
+CookUnity respectfully submits this response to ${entity}. CookUnity delivers live Medicaid medically-tailored-meal programs in New York (with CABS Health Network under 1115 Social Care Network funding) and California (with Anthem Blue Cross under CalAIM Community Supports), and proposes to bring that live, documented program architecture to this opportunity.
 [Signature block / authorized representative]
 
 2. EXECUTIVE SUMMARY
@@ -822,7 +822,7 @@ ${pb ? "Market timing: " + pb.whyNow : ""}
 
 5. EVIDENCE BASE (peer-reviewed and program evidence — cited honestly)
 - Berkowitz et al., JAMA Internal Medicine (2019): high-acuity MTM recipients showed a $753 PMPM net total-cost difference after program cost (~$939 in 2026 dollars; observational matched cohort).
-- Hager et al., Nature Medicine (June 2026, Massachusetts Medicaid): 31% fewer hospitalizations, 20% fewer ED visits, $3,433 lower per-person cost; meal cost ~98% offset by reduced spending.
+- Nature Medicine (June 2026, Massachusetts Medicaid; observational, receipt-based, n=1,866 vs 1,372 comparators): 31% fewer hospitalizations, 20% fewer ED visits, $3,433 lower per-person cost; meal cost ~98% offset by reduced spending.
 - North Carolina Healthy Opportunities summative evaluation (June 2026): $164.49 PMPM net Medicaid savings program-wide (all HRSN domains).
 - National models (Health Affairs 2025; JAMA Network Open 2022) project multibillion-dollar net savings from MTM coverage at scale.
 All figures are presented as published evidence, not guaranteed outcomes for this program.
@@ -845,7 +845,7 @@ ${anchors}
 CookUnity will discuss an outcomes-based component where the procurement permits — shared risk, not just spend.
 
 10. COMPLIANCE & MEMBER SAFETY
-HIPAA-compliant data handling; no PHI outside authorized workflows; non-duplication-of-benefits verification; delivery-safety and failed-delivery escalation protocols; member consent and choice throughout.
+Data handling designed for BAA-covered deployment; no PHI outside authorized workflows; non-duplication-of-benefits verification; delivery-safety and failed-delivery escalation protocols; member consent and choice throughout.
 
 11. WIN THEMES (formula: buyer hot-button + discriminator + proof point — keep 3–4, thread everywhere)
 ${diffs.map(d=>"- "+d).join("\n")}
@@ -879,7 +879,8 @@ function renderRegWatch(){
     $("regFeedRows").innerHTML = live.items.map(i=>`<tr><td>${escapeHtml(i.bucket||"")}</td><td>${escapeHtml(i.date||"")}</td><td><a class="sourceurl" href="${escapeHtml(i.url||"#")}" target="_blank" rel="noopener">${escapeHtml(i.title||"")}</a><div class="mini">${escapeHtml(i.note||"")}</div></td><td>${escapeHtml(i.source||"")}</td></tr>`).join("");
     if(live.errors && live.errors.length) $("regwatchErrors").innerHTML = `<div class="callout amber"><b>Updater warnings:</b> ${live.errors.map(escapeHtml).join(" · ")}</div>`;
   } else {
-    $("regwatchStamp").textContent = "Live feed not yet generated on this machine — double-click Update_Regulatory_Watch.bat, then reload.";
+    const emptyErrs=(typeof window!=="undefined" && window.REGWATCH_DATA && Array.isArray(window.REGWATCH_DATA.errors) && window.REGWATCH_DATA.errors.length) ? window.REGWATCH_DATA.errors : null;
+    $("regwatchStamp").textContent = emptyErrs ? `Feed file present but EMPTY — the last update failed on all sources (network?). Restore the .bak backup or re-run Update_Regulatory_Watch.bat on a working connection. First error: ${emptyErrs[0]}` : "Live feed not yet generated on this machine — double-click Update_Regulatory_Watch.bat, then reload.";
     $("regFeedRows").innerHTML = `<tr><td colspan="4" class="mini">No feed file found. The standing policy baseline above is always available.</td></tr>`;
   }
 }
@@ -914,7 +915,7 @@ function persistPipeline(rerender=true){ localStorage.setItem(PIPE_KEY, JSON.str
 function renderPipeline(){
   const rows=$("pipelineRows"); if(!rows) return;
   const order = Object.fromEntries(PIPELINE_STAGES.map((s,i)=>[s,i]));
-  const list=[...pipelineData].sort((a,b)=>(order[a.stage]??0)-(order[b.stage]??0) || (a.nextDate||"9999").localeCompare(b.nextDate||"9999") || a.account.localeCompare(b.account));
+  const list=[...pipelineData].sort((a,b)=>(order[a.stage]??0)-(order[b.stage]??0) || (a.nextDate||"9999").localeCompare(b.nextDate||"9999") || (a.account||"").localeCompare(b.account||""));
   rows.innerHTML=list.map(r=>`<tr data-id="${escapeHtml(r.id)}">
     <td><b>${escapeHtml(r.account)}</b></td>
     <td>${escapeHtml(r.state)}</td>
@@ -934,8 +935,8 @@ function renderPipelineStats(){
   const total=pipelineData.length;
   const byStage=PIPELINE_STAGES.map(s=>[s,pipelineData.filter(r=>r.stage===s).length]).filter(x=>x[1]>0);
   const active=pipelineData.filter(r=>!["Research","Won","Parked"].includes(r.stage)).length;
-  const noNext=pipelineData.filter(r=>!["Won","Parked"].includes(r.stage) && !r.next.trim()).length;
-  const today=new Date().toISOString().slice(0,10);
+  const noNext=pipelineData.filter(r=>!["Won","Parked"].includes(r.stage) && !(r.next||"").trim()).length;
+  const d=new Date(), today=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
   const overdue=pipelineData.filter(r=>r.nextDate && r.nextDate<today && !["Won","Parked"].includes(r.stage)).length;
   el.innerHTML=`<b>${total} accounts</b> · ${byStage.map(([s,n])=>`${s}: ${n}`).join(" · ")}<br><b>In motion:</b> ${active} · <b>Missing a next action:</b> ${noNext} · <b>Overdue:</b> ${overdue}${noNext?` <span class="mini">— close the gaps; an empty next action is a silent park.</span>`:""}`;
   const wrEl=$("pipelineWinRate"), covEl=$("pipelineCoverage");
@@ -1020,6 +1021,81 @@ function initSalesKit(){
   $("battlecardRows").innerHTML = (TOOL_DATA.battlecards||[]).map(b=>`<tr><td><b>${escapeHtml(b.competitor)}</b></td><td>${escapeHtml(b.strength)}</td><td>${escapeHtml(b.gap)}</td><td>${escapeHtml(b.counter)}</td></tr>`).join("");
 }
 
+const AH_MODE_NOTES = {
+  ma: "MA Renewal Defense: leads with activation vs. the <8% industry norm and the reorder rate (the adherence proof), closes with the notice-wave activation plan and the member-experience ammunition the plan's Stars team can use.",
+  scn: "Medicaid Evidence Pack: waiver-renewal framing — NY's 1115 authority expires March 31, 2027, so the pack converts the program's quarter into renewal-proof evidence: enrollment, completion, loop closure, documented follow-through."
+};
+function buildHealthReport(){
+  const mode=$("ahMode").value;
+  const acct=$("ahAccount").value||"Demo Health Plan (DEMO)";
+  const period=$("ahPeriod").value||"This quarter";
+  const eligible=+$("ahEligible").value||0, act=+$("ahActivated").value||0, reorder=+$("ahReorder").value||0;
+  const sat=+$("ahSat").value||0, screened=+$("ahScreened").value||0, pos=+$("ahPositive").value||0;
+  const intv=+$("ahIntervened").value||0, refs=+$("ahReferrals").value||0;
+  const activatedN=Math.round(eligible*act/100);
+  const isMa = mode==="ma";
+  const title = isMa ? "Meal Benefit — Renewal Defense Report" : "Nutrition Program — Evidence Pack (Waiver-Renewal Readiness)";
+  const frame = isMa
+    ? "At renewal, the question is never \"were meals shipped\" — it's \"did members value it, and can you prove follow-through.\" Engagement and adherence are the two numbers institutional food vendors cannot show. This report instruments them."
+    : "Programs funded under time-limited authority survive on evidence. With New York's 1115 authority expiring March 31, 2027, the programs that get renewed are the ones that can hand the state and CMS a documented record: who enrolled, who completed, and what happened after every positive screen.";
+  const closing = isMa
+    ? `"Your meal benefit is used at ${act>0?Math.round(act/8*10)/10:0}x the industry norm, ${intv}% of positive screens got an intervention within 30 days, and members talk about it by name — this is the supplemental benefit to keep."`
+    : `"This program can show the state a documented chain from screen to intervention for every member — ${intv}% loop closure inside 30 days — with engagement (${act}% activation, ${reorder}% reorder) no institutional vendor reports. That is what renewal-proof evidence looks like."`;
+  const nextTable = isMa
+    ? `<tr><td>Notice-wave follow-up: plan-sent, food-first outreach to eligible non-activators (mid-year unused-benefit letters mailed June 30–July 31)</td><td>Raise activation</td></tr>
+       <tr><td>Caregiver-proxy enrollment path for members 75+</td><td>Reach the oldest cohort</td></tr>
+       <tr><td>Reorder-lapse win-back (idle 3+ weeks)</td><td>Protect the adherence number</td></tr>`
+    : `<tr><td>Close evidence gaps: baseline utilization pull + agreed attribution method with the plan/network lead</td><td>Renewal-grade rigor</td></tr>
+       <tr><td>Quarterly evidence file to the SCN lead / state contact — enrollment, completion, loop closure</td><td>Continuous renewal case</td></tr>
+       <tr><td>Member-story bank (consented, de-identified) for public-comment and legislative moments</td><td>The human record</td></tr>`;
+  const html=`<!doctype html><html><head><meta charset="utf-8"><title>${escapeHtml(title)}</title>
+<style>body{font-family:Georgia,'Times New Roman',serif;color:#16212b;max-width:760px;margin:22px auto;padding:0 18px;line-height:1.45;font-size:14px}
+h1{font-size:20px;margin:0 0 2px;color:#0b3d61}.sub{color:#5b6b7a;font-size:12px;margin-bottom:12px}
+h2{font-size:13.5px;color:#0b3d61;border-bottom:1.5px solid #0b3d61;padding-bottom:2px;margin:16px 0 6px}
+table{width:100%;border-collapse:collapse;font-size:13px}td,th{padding:5px 8px;border-bottom:1px solid #dfe7ec;text-align:left}
+th{color:#5b6b7a;font-size:11px;text-transform:uppercase}
+.tiles{display:flex;gap:10px;margin:10px 0;flex-wrap:wrap}.tile{flex:1;min-width:110px;border:1px solid #dfe7ec;border-radius:8px;padding:8px;text-align:center}
+.tile b{display:block;font-size:17px;color:#0e7d6f}.tile span{font-size:10.5px;color:#5b6b7a}
+.story{background:#f2f8f6;border-left:4px solid #0e7d6f;padding:10px 12px;margin:8px 0;font-size:13px}
+.foot{font-size:10.5px;color:#5b6b7a;margin-top:14px;border-top:1px solid #dfe7ec;padding-top:8px}
+@media print{body{margin:8px auto}}</style></head><body>
+<h1>${escapeHtml(title)}</h1>
+<div class="sub">${escapeHtml(acct)} · ${escapeHtml(period)} · Quarterly account-health instrument — demonstration data unless replaced with program data</div>
+<div class="story">${frame}</div>
+<h2>Engagement — the numbers renewals turn on</h2>
+<div class="tiles">
+<div class="tile"><b>${eligible.toLocaleString()}</b><span>Eligible members</span></div>
+<div class="tile"><b>${act}%</b><span>Activated (${activatedN.toLocaleString()} members) — vs. &lt;8% industry norm (industry/company-reported context)</span></div>
+<div class="tile"><b>${reorder}%</b><span>Reorder rate — the adherence proof</span></div>
+<div class="tile"><b>${sat}/5</b><span>Member satisfaction</span></div>
+</div>
+<h2>Documented follow-through (screen → intervention)</h2>
+<table>
+<tr><th>Measure</th><th>${escapeHtml(period)}</th></tr>
+<tr><td>Members screened (housing · food · transportation domains)</td><td>${screened.toLocaleString()}</td></tr>
+<tr><td>Positive screens</td><td>${pos}%</td></tr>
+<tr><td>Positive food screens receiving the meal intervention ≤ 30 days</td><td><b>${intv}%</b></td></tr>
+<tr><td>Non-food flags routed to care management</td><td>${refs.toLocaleString()} referrals</td></tr>
+</table>
+<h2>Next quarter</h2>
+<table><tr><th>Move</th><th>Objective</th></tr>${nextTable}</table>
+<h2>The sentence this report earns</h2>
+<div class="story">${closing}</div>
+<div class="foot">CONCEPT INSTRUMENT — demonstration data unless populated from program systems. Benchmarks: &lt;8% meal-benefit utilization is industry/company-reported context; NC HOP $164 PMPM (summative evaluation) and the March 31, 2027 NYHER expiration are cited public reference points. Production version runs on real program data inside the company's reporting stack.</div>
+<script>window.onload=()=>window.print()</${"script"}></body></html>`;
+  const blob=new Blob([html],{type:"text/html"});
+  const url=URL.createObjectURL(blob);
+  const w=window.open(url,"_blank");
+  if(!w){ download("Account_Health_Report.html", html, "text/html"); alert("Pop-up blocked — downloaded the report instead. Open it and print to PDF."); }
+  setTimeout(()=>URL.revokeObjectURL(url), 60000);
+}
+function initAccountHealth(){
+  if(!$("ahMode")) return;
+  const note=()=>{$("ahModeNote").innerHTML=`<b>Mode:</b> ${AH_MODE_NOTES[$("ahMode").value]}`;};
+  $("ahMode").addEventListener("change",note); note();
+  $("ahBuild").addEventListener("click",buildHealthReport);
+}
+
 function buildOnePager(){
   buildPilot();
   const state=$("pilotState").value, s=TOOL_DATA.states[state], cohort=$("pilotCohort").value;
@@ -1054,11 +1130,11 @@ ul{margin:4px 0 4px 18px;padding:0}li{margin:3px 0}@media print{body{margin:8px 
 <h2>Why Meals, Why This Cohort</h2>
 <ul>
 <li>High-acuity MTM evidence: <b>$753 PMPM</b> net total-cost difference after program cost (JAMA Internal Medicine, matched cohort; ≈$939 in 2026 dollars) — driven by fewer admissions.</li>
-<li>Massachusetts Medicaid (Nature Medicine, 2026): <b>31% fewer hospitalizations</b>, 20% fewer ED visits, ~98% of meal cost offset by reduced spending.</li>
+<li>Massachusetts Medicaid (Nature Medicine, 2026; observational, receipt-based): <b>31% fewer hospitalizations</b>, 20% fewer ED visits, ~98% of meal cost offset by reduced spending.</li>
 <li>North Carolina Healthy Opportunities evaluation (2026): <b>$164 PMPM</b> net Medicaid savings program-wide.</li>
 <li>Adherence is the engine: chef-crafted, culturally relevant, dietitian-governed meals members actually eat — a meal benefit nobody eats saves nobody money.</li>
 </ul>
-<h2>Proven Program Architecture</h2>
+<h2>Live, Documented Program Architecture</h2>
 <ul>
 <li><b>CABS Health Network × CookUnity (Brooklyn):</b> live Medicaid program — ≥500 members, up to 6 months each, NY 1115 Social Care Network funding.</li>
 <li><b>Anthem Blue Cross × CookUnity (Sacramento):</b> live Medi-Cal program — weekly MTM delivery up to 90 days under CalAIM Community Supports.</li>
@@ -1141,10 +1217,10 @@ function renderSaved(){
     const key=x.type==="Stakeholder map"?"stakeholders":x.type==="Pilot design"?"pilots":(x.type==="SDOH knowledge card"||x.type==="High-acuity service screen")?"knowledge":"briefs"; removeSaved(key,x.id);
   });
 }
-$("exportData").addEventListener("click",()=>download("Medicaid_Tool_Backup.json",JSON.stringify(db,null,2),"application/json"));
+$("exportData").addEventListener("click",()=>download("Medicaid_Tool_Backup.json",JSON.stringify({...db, pipeline: pipelineData},null,2),"application/json"));
 $("importData").addEventListener("change",e=>{
   const file=e.target.files[0]; if(!file)return;
-  const reader=new FileReader(); reader.onload=()=>{try{db={...blankStore,...JSON.parse(reader.result)};persist();alert("Backup imported.");}catch{alert("Invalid backup file.");}};reader.readAsText(file);
+  const reader=new FileReader(); reader.onload=()=>{try{const parsed=JSON.parse(reader.result); const clean={...blankStore}; Object.keys(blankStore).forEach(k=>{ if(Array.isArray(parsed[k])) clean[k]=parsed[k]; }); db=clean; persist(); if(Array.isArray(parsed.pipeline)&&parsed.pipeline.length){ pipelineData=parsed.pipeline; persistPipeline(); renderPipeline(); renderPipelineStats(); } alert("Backup imported.");}catch{alert("Invalid backup file.");}finally{e.target.value="";}};reader.readAsText(file);
 });
 $("clearData").addEventListener("click",()=>{if(confirm("Delete all saved scenarios, maps, pilots, screens and briefs? (The Pipeline tab is stored separately and is NOT affected.)")){db=structuredClone(blankStore);persist();}});
 
@@ -1152,7 +1228,7 @@ function applyEvidenceDefaults(){
   ["matchCohort","cohort","pilotCohort","briefCohort"].forEach(id=>{ if($(id) && [...$(id).options].some(o=>o.value==="complex")) $(id).value="complex"; });
 }
 function init(){
-  applyEvidenceDefaults(); renderCohortTable(); renderOpportunityQuestions(); renderHighAcuityScreen(); renderSources(); renderRateAnchors(); renderCookunityPrograms(); renderStatePlaybook(); initRfp(); renderRegWatch(); initDealDesk(); initSalesKit();
+  applyEvidenceDefaults(); renderCohortTable(); renderOpportunityQuestions(); renderHighAcuityScreen(); renderSources(); renderRateAnchors(); renderCookunityPrograms(); renderStatePlaybook(); initRfp(); renderRegWatch(); initDealDesk(); initSalesKit(); initAccountHealth();
   refreshCompanyDropdown(); applyPilotPreset(); renderPresetComparison(); loadEconomicDefaults(); renderFunding(); calculateTam(); renderSaved();
 }
 init();
