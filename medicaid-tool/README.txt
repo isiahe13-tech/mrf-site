@@ -570,3 +570,25 @@ New tab: the report that wins the renewal, one engine, two books.
 - Roadmap card: Provider Referral & Dual-Trigger Documentation Helper
   (condition + screened need + Z-code in one pass).
 - All defaults are DEMONSTRATION data, labeled in-tool and on-report.
+
+V14.1 (July 19, 2026) - Stars 2026 precision + competitive intel layer
+- Stars card corrected/sharpened: CMS cut member-experience/CAHPS
+  weight 4x -> 2x for 2026 Stars (~22% of the overall rating, down
+  from ~33%) - activation and adherence evidence leads; satisfaction
+  supports. Health Equity Index replaces the reward factor for 2027
+  Stars (documented reach into LIS/dual/disabled members = rated asset).
+- Competitor evidence bar in MA Renewal Defense mode: Mom's Meals
+  markets its own survey claiming 97% of benefit-users were likelier
+  to retain their plan (vendor-stated) - this report answers a survey
+  claim with program data (double retention: the benefit retains the
+  member; the report retains the contract).
+- D-SNP playbook row hardened with KFF 2026 numbers: food/produce
+  SSBCI offered to 8% of individual-plan enrollees (~1.8M) vs 93% of
+  SNP enrollees - the food benefit is structurally a SNP/D-SNP product.
+- VBID termination specifics added: ~$2.3B (CY2021) / ~$2.2B (CY2022)
+  excess costs, 62 organizations, ~7M enrollees.
+- Mom's Meals battlecard upgraded: FoodMed Certified founding member
+  (FIMC accreditation is nonprofit-only) - a credential gap payer
+  procurement can score; internal push: pursue FoodMed Certified.
+- 3 new sourced entries (53 total); cache-busting version tags added
+  to script includes so a demo never loads a stale data file.
