@@ -620,3 +620,23 @@ Helper BUILT (was the roadmap card)
 - Clinical edges (RDN assessment content, condition list, coder Z-code
   preference) deliberately left open for clinical partners to shape.
 - Renders inline (no pop-ups), same Print/Save-PDF + Download pattern.
+
+V14.4 (July 20, 2026) - RFP SHREDDER (the "days not weeks" engine)
+- New card at the top of the RFP tab: paste any RFP/solicitation text
+  -> automatic requirement extraction (shall/must/describe/provide
+  language), mandatory form + deadline + page-limit detection, scoring
+  criteria pulled so you write to the rubric.
+- Auto-built compliance matrix: every requirement gets an ID, type
+  (NARRATIVE / FORM / PRICING / QUALIFICATION), suggested owner
+  (Sales / Clinical-RD / Finance / Legal), library match, and status.
+- Response shell: each narrative requirement mapped to a draft block
+  from a 12-block response library (capacity, experience, staffing,
+  implementation, evidence, reporting, HIPAA, pricing anchors,
+  eligibility/dual-trigger, references, financials, subcontracting) -
+  with [COMPANY FACT NEEDED] flags marking every internal hunt.
+- Days-not-weeks sprint plan printed on every shred (Day 0 shred ->
+  Day 5 red-team vs matrix -> submit 24h early).
+- Honesty rails: parser is a flagger, human verifies every row; the
+  matrix is the audit trail; pricing = finance sign-off, never sales.
+- Includes a labeled SYNTHETIC sample RFP for demos. Renders inline
+  (no pop-ups) with Print/Save-PDF + Download.

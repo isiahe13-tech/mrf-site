@@ -759,6 +759,97 @@ $("copyBrief").addEventListener("click",()=>copyText(currentBrief||$("briefOutpu
 $("downloadBrief").addEventListener("click",()=>download("Medicaid_AE_Account_Brief.txt",currentBrief||$("briefOutput").textContent));
 
 let currentRfp = "";
+/* ===== v14.4 RFP SHREDDER — paste RFP text -> requirement extraction + compliance matrix + response shell ===== */
+function shredClassify(t){
+  const s=t.toLowerCase();
+  if(/(price|pricing|cost proposal|rate|budget|fee schedule|compensation)/.test(s)) return "PRICING";
+  if(/(attachment|exhibit|appendix|certification form|\bform\b)/.test(s) && /(complete|completed|submit|include|sign|signed|attach|notariz)/.test(s)) return "FORM";
+  if(/(experience|reference|financial statement|audited|insurance|licens|years in business|qualification|past performance)/.test(s)) return "QUALIFICATION";
+  return "NARRATIVE";
+}
+function shredOwner(type,s){
+  if(type==="PRICING") return "Finance (sales assembles)";
+  if(type==="FORM") return "Legal / Compliance";
+  if(type==="QUALIFICATION") return "Ops + Finance";
+  if(/(dietitian|clinical|nutrition assessment|medical necessity)/.test(s)) return "Clinical (RD team)";
+  if(/(hipaa|privacy|security|phi)/.test(s)) return "Data / Compliance (sales drafts)";
+  return "Sales (drafts)";
+}
+function shredMatchBank(s){
+  const low=s.toLowerCase();
+  let best=null,score=0;
+  (TOOL_DATA.rfpAnswerBank||[]).forEach(b=>{
+    const hits=b.keywords.filter(k=>low.includes(k)).length;
+    if(hits>score){score=hits;best=b;}
+  });
+  return best;
+}
+function shredRfp(){
+  const raw=$("shredInput").value.trim();
+  if(!raw){ alert("Paste the RFP text first, or load the sample."); return; }
+  const lines=raw.split(/\n+/).flatMap(l=>l.split(/(?<=\.)\s+(?=[A-Z0-9])/)).map(x=>x.trim()).filter(x=>x.length>15);
+  const reqRe=/\b(shall|must|is required|are required|required to|will provide|responsible for)\b/i;
+  const promptRe=/^(?:section\s+\d+[\s\S]{0,40}?)?(?:\d+[\.\)\d]*\s*)?(describe|provide|explain|demonstrate|identify|list|detail|submit|include|attach|complete|state)\b/i;
+  const reqs=[],deadlines=[],scoring=[],limits=[];
+  const CAP=400; let capped=false;
+  lines.forEach(l=>{
+    const low=l.toLowerCase();
+    if(/(points|weight|evaluation criteria|scored as follows|will be scored)/i.test(l)&&/\d/.test(l)) scoring.push(l);
+    if(/(due|deadline|no later than|submitted by|submission date)/i.test(low)&&/\d/.test(l)) deadlines.push(l);
+    if(/(not exceed|page limit|maximum of)/.test(low)&&/page/.test(low)) limits.push(l);
+    if(reqRe.test(l)||promptRe.test(l)){
+      if(reqs.length>=CAP){capped=true;return;}
+      const type=shredClassify(l);
+      reqs.push({text:l,type,owner:shredOwner(type,low),bank:shredMatchBank(l)});
+    }
+  });
+  const forms=reqs.filter(r=>r.type==="FORM");
+  const narr=reqs.filter(r=>r.type==="NARRATIVE"||r.type==="QUALIFICATION");
+  const matrixRows=reqs.map((r,i)=>`<tr><td>R-${String(i+1).padStart(3,"0")}</td><td>${escapeHtml(r.text.length>260?r.text.slice(0,260)+"…":r.text)}</td><td><b>${r.type}</b></td><td>${escapeHtml(r.owner)}</td><td>${r.bank?escapeHtml(r.bank.label):"— (write fresh)"}</td><td>☐ Not started</td></tr>`).join("");
+  const shellSections=narr.map((r,i)=>{
+    const id="R-"+String(reqs.indexOf(r)+1).padStart(3,"0");
+    return `<h3>${id} — response draft</h3><div class="req">"${escapeHtml(r.text)}"</div>${r.bank?`<div class="draft"><b>Draft block (${escapeHtml(r.bank.label)}):</b> ${escapeHtml(r.bank.block)}</div>`:`<div class="draft warn"><b>No library match — write fresh.</b> Answer their exact question, in their order, citing sourced facts only.</div>`}`;
+  }).join("");
+  const html=`<!doctype html><html><head><meta charset="utf-8"><title>RFP Shred — Compliance Matrix + Response Shell</title>
+<style>body{font-family:Georgia,'Times New Roman',serif;color:#16212b;max-width:900px;margin:20px auto;padding:0 16px;line-height:1.45;font-size:13.5px}
+h1{font-size:19px;margin:0 0 2px;color:#0b3d61}.sub{color:#5b6b7a;font-size:11.5px;margin-bottom:10px}
+h2{font-size:13.5px;color:#0b3d61;border-bottom:1.5px solid #0b3d61;padding-bottom:2px;margin:16px 0 6px}
+h3{font-size:12.5px;color:#0e7d6f;margin:12px 0 4px}
+table{width:100%;border-collapse:collapse;font-size:12px}td,th{padding:5px 7px;border-bottom:1px solid #dfe7ec;text-align:left;vertical-align:top}
+th{color:#5b6b7a;font-size:10.5px;text-transform:uppercase}
+.tiles{display:flex;gap:10px;margin:10px 0;flex-wrap:wrap}.tile{flex:1;min-width:110px;border:1px solid #dfe7ec;border-radius:8px;padding:8px;text-align:center}
+.tile b{display:block;font-size:17px;color:#0e7d6f}.tile span{font-size:10.5px;color:#5b6b7a}
+.req{background:#f7fafb;border-left:3px solid #0b3d61;padding:8px 10px;font-size:12.5px;font-style:italic;margin:4px 0}
+.draft{background:#f2f8f6;border-left:3px solid #0e7d6f;padding:8px 10px;font-size:12.5px;margin:4px 0 10px}
+.draft.warn{background:#fff4e5;border-left-color:#b45309}
+.sprint{background:#0d1923;color:#fff;border-radius:8px;padding:10px 14px;font-size:12.5px;margin:10px 0}
+.foot{font-size:10px;color:#5b6b7a;margin-top:14px;border-top:1px solid #dfe7ec;padding-top:7px;line-height:1.5}
+@media print{body{margin:8px auto}}</style></head><body>
+<h1>RFP Shred — Compliance Matrix + Response Shell</h1>
+<div class="sub">Generated by the RFP engine · requirement language auto-extracted · EVERY row verified by a human against the actual document before use</div>
+<div class="tiles">
+<div class="tile"><b>${reqs.length}${capped?"+":""}</b><span>Requirements extracted${capped?" (capped at 400 — shred in sections)":""}</span></div>
+<div class="tile"><b>${forms.length}</b><span>Mandatory forms / attachments (miss one = disqualified)</span></div>
+<div class="tile"><b>${deadlines.length}</b><span>Deadline lines found</span></div>
+<div class="tile"><b>${scoring.length}</b><span>Scoring / evaluation lines</span></div>
+</div>
+<div class="sprint"><b>The days-not-weeks sprint:</b> Day 0 — shred + verify matrix. Day 1 — every row gets an owner and the mandatory-forms list goes out. Days 2–3 — facts come back. Day 4 — assemble + edit. Day 5 — red-team the draft AGAINST the matrix row by row. Submit at least 24 hours early: portals fail on deadline day.</div>
+${deadlines.length?`<h2>Deadlines detected (verify against the document — the minute matters)</h2><table>${deadlines.map(d=>`<tr><td>${escapeHtml(d)}</td></tr>`).join("")}</table>`:""}
+${limits.length?`<h2>Page / format limits detected</h2><table>${limits.map(d=>`<tr><td>${escapeHtml(d)}</td></tr>`).join("")}</table>`:""}
+${scoring.length?`<h2>Scoring criteria — write to this rubric, allocate effort by the points</h2><table>${scoring.map(s=>`<tr><td>${escapeHtml(s)}</td></tr>`).join("")}</table>`:""}
+<h2>Compliance matrix (${reqs.length} rows — this table is the audit trail)</h2>
+<table><tr><th>Req #</th><th>Requirement (verbatim, truncated)</th><th>Type</th><th>Suggested owner</th><th>Library match</th><th>Status</th></tr>${matrixRows}</table>
+<h2>Response shell — narrative sections with mapped draft blocks</h2>
+${shellSections||"<p>No narrative requirements detected — check that requirement sentences were pasted.</p>"}
+<div class="foot">DRAFT SCAFFOLD — not a submission. The parser flags requirement-signal language (shall/must/describe/provide…); it can miss requirements phrased another way, so the human read of the full document is mandatory. Every [COMPANY FACT NEEDED] flag is an internal hunt with an owner and a deadline. Every claim in the draft blocks traces to the tool's source registry. Pricing sections are finance sign-offs, never sales drafts.</div>
+</body></html>`;
+  showReport(html,"shredMount","RFP_Compliance_Matrix_and_Shell.html");
+}
+function initRfpShredder(){
+  if(!$("shredBtn")) return;
+  $("shredBtn").addEventListener("click",shredRfp);
+  $("shredSample").addEventListener("click",()=>{ $("shredInput").value=TOOL_DATA.rfpSampleText||""; });
+}
 function initRfp(){
   if(!$("rfpType")) return;
   $("rfpType").innerHTML = TOOL_DATA.rfpTypes.map(t=>`<option value="${t.id}">${escapeHtml(t.label)}</option>`).join("");
@@ -1232,7 +1323,7 @@ function applyEvidenceDefaults(){
   ["matchCohort","cohort","pilotCohort","briefCohort"].forEach(id=>{ if($(id) && [...$(id).options].some(o=>o.value==="complex")) $(id).value="complex"; });
 }
 function init(){
-  applyEvidenceDefaults(); renderCohortTable(); renderOpportunityQuestions(); renderHighAcuityScreen(); renderSources(); renderRateAnchors(); renderCookunityPrograms(); renderStatePlaybook(); initRfp(); renderRegWatch(); initDealDesk(); initSalesKit(); initAccountHealth();
+  applyEvidenceDefaults(); renderCohortTable(); renderOpportunityQuestions(); renderHighAcuityScreen(); renderSources(); renderRateAnchors(); renderCookunityPrograms(); renderStatePlaybook(); initRfp(); initRfpShredder(); renderRegWatch(); initDealDesk(); initSalesKit(); initAccountHealth();
   refreshCompanyDropdown(); applyPilotPreset(); renderPresetComparison(); loadEconomicDefaults(); renderFunding(); calculateTam(); renderSaved();
 }
 init();

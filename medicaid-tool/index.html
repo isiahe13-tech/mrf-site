@@ -517,6 +517,16 @@
 </section>
 
 <section id="rfp" class="panel">
+  <article class="card">
+    <h2>RFP Shredder — paste the document, get the compliance matrix + response shell</h2>
+    <p class="muted">Step 1 of any response: paste the RFP / RFI / solicitation text below (copy straight from the PDF). The shredder extracts every requirement sentence, flags mandatory forms and deadlines, pulls the scoring criteria so you write to the rubric, builds the compliance matrix with suggested owners, and maps each narrative requirement to a draft block from the response library. <b>The parser flags requirement language — a human verifies every row against the actual document. The matrix IS the audit trail.</b></p>
+    <textarea id="shredInput" rows="9" placeholder="Paste the full RFP text here..."></textarea>
+    <div class="buttons">
+      <button id="shredBtn" class="primary">Shred it (matrix + shell appear below)</button>
+      <button id="shredSample" class="ghost">Load sample RFP excerpt (demo)</button>
+    </div>
+    <div id="shredMount" class="reportMount"></div>
+  </article>
   <div class="grid split">
     <article class="card">
       <h2>RFP Response Builder</h2>
@@ -731,8 +741,8 @@
 </main>
 
 <footer><div class="wrap">Medicaid Market Intelligence & AE Enablement Engine · Standalone local edition · Data stays in this browser unless exported.</div></footer>
-<script src="regwatch_data.js?v=14.2"></script>
-<script src="data.js?v=14.2"></script>
-<script src="app.js?v=14.2"></script>
+<script src="regwatch_data.js?v=14.4"></script>
+<script src="data.js?v=14.4"></script>
+<script src="app.js?v=14.4"></script>
 </body>
 </html>
