@@ -601,3 +601,22 @@ V14.2 (July 19, 2026) - Instant inline reports (pop-up blockers defeated)
   report) and a Download HTML button (standalone file you can email).
 - Both Account Health modes (MA Renewal Defense + Medicaid Evidence
   Pack) and the One-Pager verified end-to-end in-browser, zero errors.
+
+V14.3 (July 19, 2026) - Provider Referral & Dual-Trigger Documentation
+Helper BUILT (was the roadmap card)
+- New standalone clinic-facing tool: Provider_Referral_Helper.html
+  (linked from the Account Health tab). One pass captures the
+  nutrition-sensitive condition (9 ICD-10 families), the screened need
+  (instrument + date + Z59.41/Z59.48), routed housing/transport flags,
+  and the funding mechanism (CalAIM / NY SCN / NC HOP / MassHealth /
+  SSBCI / MCO value-add) - then generates a printable referral order
+  sheet with an auto-composed medical-necessity statement and a
+  closed-loop report-back table.
+- INTEGRITY FEATURE: refuses to generate an MTM order when the dual
+  trigger is not met (negative/missing screen = "DO NOT ORDER").
+- De-identified by design: patient identifiers are handwritten on the
+  printed sheet inside the clinic's records environment - never typed
+  into the tool. Production version = EHR-integrated under BAA.
+- Clinical edges (RDN assessment content, condition list, coder Z-code
+  preference) deliberately left open for clinical partners to shape.
+- Renders inline (no pop-ups), same Print/Save-PDF + Download pattern.
