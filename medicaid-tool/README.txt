@@ -756,3 +756,21 @@ V14.9 (July 21, 2026) - CONSOLIDATION + champions + live feeds
   report due into Dustin Miller's committee (Miller = verified chair,
   NO FiM action of his own - never attribute one).
 - All 12 tabs click-tested, zero console errors.
+
+V14.9b (July 21, 2026) - Champions round 2 (8-state scan) + FQHC
+check-writing recipe
+- Champions card now 17 rows. Round-2 verified adds: WASHINGTON HB
+  2211 SIGNED 3/24/2026 (Reeves + Nobles) - the only ENACTED state
+  MTM standards statute (House 93-0; vendor-priority clause shapes WA
+  market entry); NJ Singleton S1829 = live $5M Food is Medicine
+  pilot bill (+ McCoy coverage-mandate refile watch); PA bipartisan
+  Kosierowski(D,RN)+Mihalek(R) memo riding Gov. Shapiro's $900K FiM
+  budget line; IL Collins+Hernandez (both bills stalled - labeled
+  honestly); CO HB24-1322 SIGNED 6/3/2024 (Brown D + Kirkmeyer R -
+  Republican prime sponsor proof point).
+- Honest no-champion states: OR (new OHP food benefits launched July
+  2026, executive-driven), HI (waiver-driven), AZ (champion left) -
+  lesson printed: engage the agency, not the statehouse.
+- "How the check actually gets written" callout added to the FQHC/
+  340B area: FQHC direct deal = small-business sale (three yeses +
+  a board nod); size like a grant program; seed-capital exit frame.
