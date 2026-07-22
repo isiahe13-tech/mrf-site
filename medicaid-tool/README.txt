@@ -732,3 +732,27 @@ playbooks: MCO/D-SNP + FQHC targeting)
   signature authority (market president vs parent master agreement;
   Centene FiM ~30 states), NC HOP summative stats (food = 84% of
   services, 61% of spend; restart one-time and undersized).
+
+V14.9 (July 21, 2026) - CONSOLIDATION + champions + live feeds
+- Tabs condensed 16 -> 12 with zero JS changes (all element IDs
+  preserved): Hunting Engine merged INTO Stakeholder Map = one
+  "Targeting & Hunting" tab (personas, triggers, Mechanism Gate,
+  national parents, state directors, FQHCs, 340B wallet - one place);
+  Opportunity Score merged into "Pipeline & Scoring"; AE Brief merged
+  into Sales Kit; Sources merged into "Library & Sources."
+- LIVE DATA FEEDS card (Targeting tab): one-click links to the public
+  pipes - plan-enrollment API (data.medicaid.gov), Core Set dashboard,
+  EQRO hub, CalAIM county elections, CMS PBP "already buys" files,
+  340B OPAIS nightly directory (named AO/PC contacts), MSSP ACO risk
+  list, KFF waiver tracker, ProPublica 990 API, FAC audits. Nightly
+  scripted pulls (Reg Watch architecture) = the v15 roadmap; demo
+  never depends on external uptime.
+- FOOD-IS-MEDICINE CHAMPIONS card (Reg Watch tab): 12 verified
+  legislators w/ bill numbers - federal S.2834/H.R.5439 MTM pilot
+  pair (Booker/Marshall/CASSIDY-LA + McGovern/Malliotakis), Kelly's
+  FOOD for Health Act; NY S.1912-A PASSED Senate 46-7 (4/16/2026, a
+  mechanism being born in a home state); CA Bonta AB1975/workgroup;
+  LA: McMath SB14, Landry/Chassion HR246 -> LDH Medicaid-nutrition
+  report due into Dustin Miller's committee (Miller = verified chair,
+  NO FiM action of his own - never attribute one).
+- All 12 tabs click-tested, zero console errors.
