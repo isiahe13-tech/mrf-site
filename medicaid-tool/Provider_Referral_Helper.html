@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Provider Referral & Dual-Trigger Documentation Helper (CONCEPT)</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{--navy:#0b3d61;--teal:#0e7d6f;--ink:#16212b;--mut:#5b6b7a;--line:#dfe7ec;--bg:#eef2f5;--amber:#b45309}
+  body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.45;padding:16px 10px 40px}
+  .wrap{max-width:820px;margin:0 auto}
+  .band{background:#0d1923;color:#fff;border-radius:14px 14px 0 0;padding:18px 22px}
+  .band .tag{color:#7fd6c6;font-size:.72rem;letter-spacing:.13em;text-transform:uppercase;margin-bottom:4px}
+  .band h1{font-size:1.25rem;letter-spacing:-.3px}
+  .band .sub{color:#9fb3c2;font-size:.83rem;margin-top:4px}
+  .card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-top:12px}
+  .card h2{font-size:.85rem;color:var(--navy);text-transform:uppercase;letter-spacing:.07em;border-bottom:2px solid var(--navy);padding-bottom:4px;margin-bottom:10px}
+  .seventy{background:#f2f8f6;border:1.5px solid var(--teal);border-radius:12px;padding:16px 18px;margin-top:12px}
+  .seventy h2{color:var(--teal);font-size:.9rem;text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px}
+  .seventy p{font-size:.93rem;margin-bottom:8px}
+  .seventy p:last-child{margin-bottom:0}
+  .seventy b{color:var(--teal)}
+  label{display:block;font-size:.78rem;font-weight:700;color:var(--mut);text-transform:uppercase;letter-spacing:.04em;margin:12px 0 4px}
+  select,input[type=date],input[type=text]{width:100%;padding:9px 10px;border:1.5px solid var(--line);border-radius:8px;font-size:.95rem;background:#fff;color:var(--ink)}
+  .row{display:flex;gap:12px;flex-wrap:wrap}.row>div{flex:1;min-width:220px}
+  .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
+  .chip{display:flex;align-items:center;gap:6px;border:1.5px solid var(--line);border-radius:999px;padding:6px 12px;font-size:.85rem;cursor:pointer;user-select:none}
+  .chip input{accent-color:var(--teal)}
+  .radio-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:4px}
+  .radio-row label{display:flex;align-items:center;gap:6px;text-transform:none;font-size:.9rem;font-weight:600;color:var(--ink);border:1.5px solid var(--line);border-radius:8px;padding:8px 12px;cursor:pointer;margin:0}
+  .radio-row input{accent-color:var(--teal)}
+  .codebox{font-size:.83rem;color:var(--mut);background:#f7fafb;border:1px dashed var(--line);border-radius:8px;padding:8px 10px;margin-top:6px}
+  .btnrow{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}
+  button{padding:10px 18px;border-radius:8px;font-size:.95rem;font-weight:700;cursor:pointer;border:1.5px solid var(--navy)}
+  .primary{background:var(--navy);color:#fff}
+  .ghost{background:#fff;color:var(--navy)}
+  .reportMount{margin-top:14px}
+  .reportMount:empty{display:none}
+  .reportBar{display:flex;gap:8px;align-items:center;margin-bottom:8px;flex-wrap:wrap}
+  .reportBarLabel{font-size:.85rem;color:var(--teal);font-weight:800;margin-right:auto}
+  .reportFrame{width:100%;height:75vh;border:1px solid var(--line);border-radius:10px;background:#fff}
+  .foot{font-size:.75rem;color:var(--mut);margin-top:14px;line-height:1.5}
+  .warnbox{background:#fff4e5;border-left:4px solid var(--amber);border-radius:8px;padding:10px 12px;font-size:.85rem;margin-top:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="band">
+    <div class="tag">Concept Demo · De-identified by Design · No Patient Data Is Ever Entered Here</div>
+    <h1>Provider Referral &amp; Dual-Trigger Documentation Helper</h1>
+    <div class="sub">A clinic-facing order sheet that captures the nutrition-sensitive condition + the screened need + the Z-code in one pass — so referrals arrive clean and medical necessity is documented from day one.</div>
+  </div>
+
+  <div class="seventy">
+    <h2>Built to help, never to replace</h2>
+    <p><b>Your clinical work — the diagnosis, the assessment, the judgment — belongs to you.</b> Nothing on this page changes it, grades it, or tells you how to practice. Several lines are deliberately left open (the RDN assessment content, the condition list, the coder's Z-code preference) because those calls are yours to make, not ours to guess.</p>
+    <p><b>The only thing this sheet carries is documentation friction:</b> the screen evidence, the Z-code, the medical-necessity language, and the payable-benefit mapping — the paperwork that gets referrals bounced and gets good programs defunded at renewal.</p>
+    <p><b>You win</b> (clean referrals, closed-loop reporting back to you, quality-measure credit). <b>We win</b> (a member who actually gets fed). <b>The member wins most.</b> That's the whole deal.</p>
+  </div>
+
+  <div class="card">
+    <h2>Step 1 — The clinical trigger (your call, always)</h2>
+    <label for="cond">Nutrition-sensitive condition (primary)</label>
+    <select id="cond">
+      <option value="t2d">Type 2 diabetes — E11.- family</option>
+      <option value="chf">Heart failure — I50.- family</option>
+      <option value="ckd">Chronic kidney disease, stage 3–5 / ESRD — N18.3- to N18.6</option>
+      <option value="htn">Hypertension — I10</option>
+      <option value="copd">COPD — J44.- family</option>
+      <option value="preg">High-risk pregnancy incl. gestational diabetes — O24.4- family</option>
+      <option value="maln">Malnutrition / frailty — E43 / E44.- family</option>
+      <option value="hiv">HIV — B20</option>
+      <option value="onc">Malignancy in active treatment — C00–C96 (+ Z51.11 chemo encounter)</option>
+    </select>
+    <div class="codebox">Codes shown are family-level starting points — your coding staff confirms the exact chart code. The tool never overrides the chart.</div>
+    <div class="chips" style="margin-top:10px">
+      <label class="chip"><input type="checkbox" id="postDischarge"> Post-discharge context (adds the 30-day transition note)</label>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Step 2 — The screened need (the second trigger)</h2>
+    <label>Food-security screen result</label>
+    <div class="radio-row">
+      <label><input type="radio" name="screen" value="pos" checked> POSITIVE (need identified)</label>
+      <label><input type="radio" name="screen" value="neg"> Negative / not screened</label>
+    </div>
+    <div class="row">
+      <div>
+        <label for="instrument">Instrument used</label>
+        <select id="instrument">
+          <option>Hunger Vital Sign (2-question)</option>
+          <option>CMS AHC-HRSN core (food items)</option>
+          <option>Plan HRA — food-security items</option>
+          <option>Other validated instrument</option>
+        </select>
+      </div>
+      <div>
+        <label for="screenDate">Screen date</label>
+        <input type="date" id="screenDate">
+      </div>
+    </div>
+    <div class="codebox">Positive food screen documents <b>Z59.41 (food insecurity)</b> — or <b>Z59.48</b> (other specified lack of adequate food) where your coder prefers it. The Z-code is what turns a good deed into countable, renewable evidence.</div>
+    <label style="margin-top:12px">Additional needs flagged (routed to plan care management — NOT a meals order)</label>
+    <div class="chips">
+      <label class="chip"><input type="checkbox" id="needHousing"> Housing instability (Z59.0- family)</label>
+      <label class="chip"><input type="checkbox" id="needTransport"> Transportation insecurity (Z59.82)</label>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Step 3 — The funding mechanism (we carry this part)</h2>
+    <label for="mech">Program / mechanism this referral rides on</label>
+    <select id="mech">
+      <option value="calaim">California — CalAIM Community Supports (MTM)</option>
+      <option value="nyscn">New York — 1115 Social Care Network</option>
+      <option value="nchop">North Carolina — Healthy Opportunities Pilot (restart pending)</option>
+      <option value="ma1115">Massachusetts — 1115 HRSN Supplemental Services</option>
+      <option value="ssbci">Medicare Advantage / D-SNP — SSBCI food benefit</option>
+      <option value="mcova">MCO value-add / ILOS / quality budget (Louisiana &amp; other states)</option>
+    </select>
+    <div class="row">
+      <div>
+        <label for="clinRole">Ordering clinician role</label>
+        <select id="clinRole">
+          <option>Physician (MD/DO)</option>
+          <option>Nurse Practitioner (APRN)</option>
+          <option>Physician Assistant (PA)</option>
+          <option>Registered Dietitian Nutritionist (RDN)</option>
+          <option>Care manager (on clinician order)</option>
+        </select>
+      </div>
+      <div>
+        <label for="clinic">Clinic / practice name (no patient data)</label>
+        <input type="text" id="clinic" placeholder="e.g., Community Health Clinic (DEMO)">
+      </div>
+    </div>
+  </div>
+
+  <div class="btnrow">
+    <button class="primary" id="buildSheet">Generate order sheet (appears below)</button>
+  </div>
+  <div class="warnbox"><b>De-identified by design:</b> patient identifiers are NEVER typed into this tool. The printed sheet has a blank identifier box you complete on paper, inside your clinic's own records environment. The production version lives inside the EHR under a BAA — this concept proves the workflow, not the plumbing.</div>
+  <div id="sheetMount" class="reportMount"></div>
+
+  <div class="foot"><b>CONCEPT DEMO.</b> This is a workflow demonstration, not medical advice and not a claims-submission document. Diagnosis and treatment decisions belong entirely to the treating clinician. ICD-10 codes are family-level starting points — confirm exact codes with coding staff. Mechanism rules summarized from public sources (verify against the current state policy guide before clinical use). Built by Isiah Edwards as a concept for clinic partners; the closed-loop reporting described feeds the same quarterly evidence pack that defends program funding at renewal.</div>
+</div>
+
+<script>
+(function(){
+  const $=id=>document.getElementById(id);
+  const CONDS={
+    t2d:{label:"Type 2 diabetes",code:"E11.- family"},
+    chf:{label:"Heart failure",code:"I50.- family"},
+    ckd:{label:"Chronic kidney disease (stage 3–5 / ESRD)",code:"N18.3- to N18.6"},
+    htn:{label:"Hypertension",code:"I10"},
+    copd:{label:"COPD",code:"J44.- family"},
+    preg:{label:"High-risk pregnancy (incl. gestational diabetes)",code:"O24.4- family"},
+    maln:{label:"Malnutrition / frailty",code:"E43 / E44.- family"},
+    hiv:{label:"HIV",code:"B20"},
+    onc:{label:"Malignancy in active treatment",code:"C00–C96 (+ Z51.11)"}
+  };
+  const MECHS={
+    calaim:{label:"CalAIM Community Supports — Medically Tailored Meals (California)",
+      note:"CalAIM requires the DUAL TRIGGER: a nutrition-sensitive condition PLUS documented need — meals addressing food insecurity alone are NOT covered. An RDN-conducted or RDN-overseen nutrition assessment is required; medically tailored meals constitute roughly two-thirds of the member's food; standard course 12 weeks (extendable with documentation, per the current DHCS policy guide — verify before ordering)."},
+    nyscn:{label:"NY 1115 Social Care Network — nutrition services (New York)",
+      note:"Referral must document eligibility against the SCN's criteria-defined populations (high-utilizer / condition-based). Nutrition reimbursement live since January 2025; up to 6 months of meals, renewable once (longer for high-risk pregnancy). The SCN closes the loop in its referral platform — this sheet gives them everything in one pass."},
+    nchop:{label:"NC Healthy Opportunities Pilot (North Carolina — restart pending)",
+      note:"HOP historically required a qualifying condition AND a documented social risk factor — the dual trigger, by regulation. Program restart funded in the July 2026 budget; verify current service rules and the fee schedule before ordering."},
+    ma1115:{label:"MassHealth 1115 HRSN Supplemental Services (Massachusetts)",
+      note:"Authorized through 12/31/2027. Document the qualifying condition and the screened need; up to 21 meals/week under the published fee schedule."},
+    ssbci:{label:"Medicare Advantage / D-SNP — SSBCI food benefit",
+      note:"SSBCI requires the plan-verified three-prong gate: (1) a qualifying chronic condition, (2) high risk of hospitalization or adverse outcomes, (3) reasonable expectation the benefit improves or maintains health. This sheet documents prongs 1 and the supporting evidence; the plan confirms eligibility. Note: the broad VBID food pathway terminated end-2025 — SSBCI is the lane."},
+    mcova:{label:"MCO value-add / ILOS / quality budget (Louisiana &amp; other states)",
+      note:"Plan-funded benefit from the MCO's own capitation or quality budget. The dual trigger isn't federally required here — document it anyway: it is exactly the evidence that keeps the program funded at renewal and earns HEDIS SNS-E credit for the plan."}
+  };
+  function esc(v){return String(v||"").replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]));}
+  function fmtDate(v){ if(!v) return "____________"; const p=v.split("-"); return p.length===3?`${p[1]}/${p[2]}/${p[0]}`:v; }
+
+  function buildSheet(){
+    const c=CONDS[$("cond").value];
+    const mech=MECHS[$("mech").value];
+    const pos=document.querySelector('input[name="screen"]:checked').value==="pos";
+    const inst=$("instrument").value, sdate=fmtDate($("screenDate").value);
+    const role=$("clinRole").value, clinic=$("clinic").value||"________________________________";
+    const post=$("postDischarge").checked;
+    const housing=$("needHousing").checked, transport=$("needTransport").checked;
+    const dual = pos; // condition always selected; screen must be positive
+    const trigBanner = dual
+      ? `<div class="ok"><b>DUAL TRIGGER DOCUMENTED ✓</b> — nutrition-sensitive condition + positive screened need. This referral meets the documentation standard condition-gated programs require.</div>`
+      : `<div class="stop"><b>DUAL TRIGGER NOT MET — DO NOT ORDER MEDICALLY TAILORED MEALS under a condition-gated mechanism.</b> A negative or missing food-security screen means this member does not meet the documented-need standard (in California, food-insecurity-only meals are non-covered — and condition-only referrals bounce). Screen first, or route to the plan's care-management team for the appropriate service. A tool that helps you says no when the answer is no.</div>`;
+    const necessity = dual
+      ? `Patient carries a diagnosis of <b>${c.label}</b> (${c.code}), a nutrition-sensitive condition, with a <b>positive ${esc(inst)}</b> screen documented <b>${sdate}</b> (<b>Z59.41</b> food insecurity${post?"; patient is in a post-discharge transition window (30-day)":""}). Medically tailored meals are clinically indicated to support disease management and reduce avoidable utilization. This referral meets the dual-trigger documentation standard.`
+      : `Documentation incomplete — the screened-need element is missing. Complete a validated food-security screen (e.g., Hunger Vital Sign) and regenerate.`;
+    const routed = (housing||transport)
+      ? `<tr><td>Additional flagged needs routed to plan care management (NOT part of the meals order)</td><td>${[housing?"Housing instability (Z59.0- family)":"",transport?"Transportation insecurity (Z59.82)":""].filter(Boolean).join(" · ")}</td></tr>` : "";
+    const html=`<!doctype html><html><head><meta charset="utf-8"><title>Referral Order Sheet — ${esc(c.label)}</title>
+<style>body{font-family:Georgia,'Times New Roman',serif;color:#16212b;max-width:740px;margin:20px auto;padding:0 16px;line-height:1.45;font-size:13.5px}
+h1{font-size:19px;margin:0 0 2px;color:#0b3d61}.sub{color:#5b6b7a;font-size:11.5px;margin-bottom:10px}
+h2{font-size:13px;color:#0b3d61;border-bottom:1.5px solid #0b3d61;padding-bottom:2px;margin:14px 0 6px}
+table{width:100%;border-collapse:collapse;font-size:12.8px}td,th{padding:5px 8px;border-bottom:1px solid #dfe7ec;text-align:left;vertical-align:top}
+th{color:#5b6b7a;font-size:10.5px;text-transform:uppercase}
+.ok{background:#e9f7ef;border-left:4px solid #1e7d46;padding:9px 12px;margin:8px 0;font-size:13px}
+.stop{background:#fdecea;border-left:4px solid #b3261e;padding:9px 12px;margin:8px 0;font-size:13px}
+.idbox{border:1.5px solid #16212b;border-radius:6px;padding:10px 12px;margin:8px 0;font-size:12.5px}
+.idbox .line{display:inline-block;border-bottom:1px solid #16212b;min-width:180px;margin-left:6px}
+.note{background:#f7fafb;border:1px dashed #c9d5dd;border-radius:6px;padding:8px 10px;font-size:12px;color:#40525f;margin:8px 0}
+.sig{margin-top:16px;font-size:12.5px}.sig .line{display:inline-block;border-bottom:1px solid #16212b;min-width:220px;margin:0 18px 0 6px}
+.foot{font-size:10px;color:#5b6b7a;margin-top:14px;border-top:1px solid #dfe7ec;padding-top:7px;line-height:1.5}
+.demo{color:#b3261e;font-weight:bold;letter-spacing:.08em;font-size:11px}
+@media print{body{margin:8px auto}}</style></head><body>
+<div class="demo">CONCEPT DEMO — NOT FOR CLINICAL USE</div>
+<h1>Medically Tailored Meals — Referral Order Sheet</h1>
+<div class="sub">${esc(clinic)} · Mechanism: ${mech.label} · One pass: condition + screened need + Z-code</div>
+<div class="idbox"><b>Patient identifiers — handwritten only, inside your records environment (never typed into this tool):</b><br><br>
+Name <span class="line"></span> &nbsp; DOB <span class="line" style="min-width:110px"></span> &nbsp; MRN <span class="line" style="min-width:110px"></span></div>
+${trigBanner}
+<h2>The two triggers, in one place</h2>
+<table>
+<tr><th>Element</th><th>Documentation</th></tr>
+<tr><td><b>1 — Clinical trigger</b> (clinician's diagnosis — unchanged by this tool)</td><td>${esc(c.label)} — ${c.code} <i>(coding staff confirms exact chart code)</i>${post?"<br>Post-discharge transition context noted (30-day window)":""}</td></tr>
+<tr><td><b>2 — Screened need</b></td><td>${pos?`POSITIVE — ${esc(inst)}, ${sdate}<br><b>Z-code: Z59.41</b> (food insecurity) — or Z59.48 per coder preference`:`NOT DOCUMENTED — screen required before this order is valid`}</td></tr>
+${routed}
+<tr><td><b>RDN nutrition assessment</b></td><td>☐ Completed &nbsp; ☐ Ordered &nbsp; — required where the mechanism demands it (CalAIM: RDN-conducted or RDN-overseen). The RDN owns this line.</td></tr>
+</table>
+<h2>Medical-necessity statement</h2>
+<div class="note">${necessity}</div>
+<h2>Mechanism note (the part we carry)</h2>
+<div class="note">${mech.note}</div>
+<h2>What your clinic gets back — the closed loop</h2>
+<table>
+<tr><th>The program reports back</th><th>Why it matters to you</th></tr>
+<tr><td>Referral accepted + first delivery date</td><td>No "bridge to nowhere" — you know the referral landed</td></tr>
+<tr><td>Activation and reorder (adherence) for your referred members, quarterly</td><td>Evidence your referral worked — and HEDIS SNS-E intervention-within-30-days credit for the plan</td></tr>
+<tr><td>Flags routed onward (housing / transport) with disposition</td><td>The whole screen gets answered, not just the food line</td></tr>
+</table>
+<div class="sig">Ordering clinician (${esc(role)}): <span class="line"></span> Date: <span class="line" style="min-width:120px"></span></div>
+<div class="foot">CONCEPT DEMONSTRATION — de-identified by design; no patient data was entered in or transmitted by the generating tool. Not medical advice; not a claims document. ICD-10 codes are family-level starting points. Mechanism rules summarized from public sources — verify against the current state policy guide. Production version: EHR-integrated under BAA, inside the clinic's compliance environment. The quarterly closed-loop data feeds the same evidence pack that defends program funding at renewal — when the program survives, the referrals keep flowing: you win, we win, the member wins.</div>
+</body></html>`;
+    const mount=$("sheetMount");
+    mount.innerHTML=`<div class="reportBar"><span class="reportBarLabel">Order sheet ready — live below.</span><button class="primary" data-act="print">Print / Save as PDF</button><button class="ghost" data-act="dl">Download HTML</button></div><iframe class="reportFrame" title="Referral order sheet"></iframe>`;
+    const frame=mount.querySelector("iframe"); frame.srcdoc=html;
+    mount.querySelector('[data-act="print"]').addEventListener("click",()=>{frame.contentWindow.focus();frame.contentWindow.print();});
+    mount.querySelector('[data-act="dl"]').addEventListener("click",()=>{
+      const blob=new Blob([html],{type:"text/html"});const a=document.createElement("a");
+      a.href=URL.createObjectURL(blob);a.download="Referral_Order_Sheet_DEMO.html";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),500);
+    });
+    mount.scrollIntoView({behavior:"smooth",block:"nearest"});
+  }
+  $("buildSheet").addEventListener("click",buildSheet);
+})();
+</script>
+</body>
+</html>

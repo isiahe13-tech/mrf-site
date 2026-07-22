@@ -1,0 +1,983 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Medicaid Market Intelligence & AE Enablement Engine</title>
+  <meta name="description" content="Funding, opportunity scoring, stakeholder mapping, pilot design, cohort economics and high-acuity service-need screening for Medicaid nutrition programs.">
+  <link rel="stylesheet" href="styles.css?v=14.2">
+</head>
+<body>
+<header class="hero">
+  <div class="wrap">
+    <p class="kicker">Medicaid Commercial Intelligence</p>
+    <h1>Funding, Cohort Economics & AE Enablement Engine</h1>
+    <p class="lede">Turn state research into a qualified opportunity, stakeholder plan, evidence-aligned high-acuity cohort, fundable pilot and CRM-ready account brief.</p>
+    <p class="caution">Planning tool only. Outputs are modeled estimates—not audited Medicaid claims, legal advice, confirmed funding eligibility or guaranteed savings.</p>
+  </div>
+</header>
+
+<nav class="nav">
+  <div class="wrap tabs" role="tablist" aria-label="Tool sections">
+    <button class="tab active" data-panel="funding">Funding Match</button>
+    <button class="tab" data-panel="economics">Cohort Economics</button>
+    <button class="tab" data-panel="stakeholders">Targeting &amp; Hunting</button>
+    <button class="tab" data-panel="pilot">Pilot Builder</button>
+    <button class="tab" data-panel="playbook">National Playbook</button>
+    <button class="tab" data-panel="dealdesk">Pipeline &amp; Scoring</button>
+    <button class="tab" data-panel="saleskit">Sales Kit</button>
+    <button class="tab" data-panel="health">Account Health</button>
+    <button class="tab" data-panel="rfp">RFP Builder</button>
+    <button class="tab" data-panel="regwatch">Reg Watch</button>
+    <button class="tab" data-panel="sdoh">Service-Need Screener</button>
+    <button class="tab" data-panel="saved">Library &amp; Sources</button>
+  </div>
+</nav>
+
+<main class="wrap">
+<section id="funding" class="panel active">
+  <div class="grid split">
+    <article class="card">
+      <h2>Funding-to-Cohort Matcher</h2>
+      <p class="muted">Ranks the available routes by state status, cohort fit, speed and evidence requirements.</p>
+      <div class="grid two">
+        <div><label>State</label><select id="matchState"></select></div>
+        <div><label>Priority cohort</label><select id="matchCohort"></select></div>
+      </div>
+      <label>Commercial objective</label>
+      <select id="matchObjective">
+        <option value="pilot">Launch a controlled pilot</option>
+        <option value="benefit">Build a recurring covered service</option>
+        <option value="provider">Partner with a risk-bearing provider</option>
+        <option value="bridge">Use bridge funding while Medicaid authority develops</option>
+      </select>
+      <button id="runMatch" class="primary wide">Rank Funding Routes</button>
+      <div id="stateSummary" class="callout"></div>
+    </article>
+
+    <article class="card">
+      <h2>Qualification Gate</h2>
+      <ol class="checklist">
+        <li>Is the target population eligible?</li>
+        <li>Is the nutrition service allowable?</li>
+        <li>Who owns budget and authorization?</li>
+        <li>What contracting, credentialing or procurement is required?</li>
+        <li>What data and outcome threshold unlock renewal or scale?</li>
+      </ol>
+      <div class="callout amber"><b>Guardrail:</b> “Possible route” means investigate. It does not mean the state or MCO has approved CookUnity for payment.</div>
+    </article>
+  </div>
+  <div id="fundingMatches" class="grid two topgap"></div>
+</section>
+
+<section id="economics" class="panel">
+  <div class="grid split">
+    <article class="card">
+      <h2>Cohort Cost & Savings Model</h2>
+      <p class="muted">Public benchmarks provide a starting point. Replace them with MCO claims and an agreed attribution method before presenting a business case.</p>
+      <div class="grid two">
+        <div><label>State</label><select id="econState"></select></div>
+        <div><label>Cohort</label><select id="cohort"></select></div>
+      </div>
+      <div class="grid two">
+        <div><label>Estimated affected adults</label><input id="affected" type="number" min="0"></div>
+        <div><label>Annual attributable cost / person</label><input id="annualCost" type="number" min="0"></div>
+      </div>
+      <div class="grid two">
+        <div><label>High-risk targetable share (%)</label><input id="targetRate" type="number" min="0" max="100" step="0.1"></div>
+        <div><label>Pilot members</label><input id="pilotMembers" type="number" min="1"></div>
+      </div>
+      <div class="grid three">
+        <div><label>Weeks</label><input id="weeks" type="number" min="1"></div>
+        <div><label>Meals / week</label><input id="mealsWeek" type="number" min="1"></div>
+        <div><label>Cost / meal</label><input id="mealCost" type="number" min="0" step="0.01"></div>
+      </div>
+      <div class="grid two">
+        <div><label>Additional implementation allowance (%)</label><input id="programOverhead" type="number" min="0" max="100" step="0.1" value="2"></div>
+        <div><label>Calculated total program PMPM</label><input id="programPmpmDisplay" type="text" readonly></div>
+      </div>
+      <div class="grid three">
+        <div>
+          <label>Evidence basis</label>
+          <select id="evidenceBasis">
+            <option value="auto">Recommended state/cohort profitability model</option>
+            <option value="planning">State/cohort profitability target</option>
+            <option value="jama">National high-acuity MTM study</option>
+            <option value="ncAdult">North Carolina HOP — nonpregnant adults</option>
+            <option value="ncOverall">North Carolina HOP — all participants</option>
+            <option value="custom">Custom payer-claims assumption</option>
+          </select>
+        </div>
+        <div>
+          <label>Evidence scenario</label>
+          <select id="savingsScenario">
+            <option value="low">Low</option>
+            <option value="base" selected>Base</option>
+            <option value="high">High</option>
+            <option value="custom">Custom PMPM</option>
+          </select>
+        </div>
+        <div><label>Modeled gross medical reduction PMPM</label><input id="pmpm" type="number" min="0" step="1"></div>
+      </div>
+      <div class="grid three">
+        <div><label>Published / modeled net savings PMPM</label><input id="netPmpmDisplay" type="text" readonly></div>
+        <div><label>Target benefit-cost ratio</label><input id="economicTargetBcrDisplay" type="text" readonly></div>
+        <div><label>Implied gross medical reduction rate (%)</label><input id="savingRate" type="number" min="0" max="100" step="0.1" readonly></div>
+      </div>
+      <div id="savingsBasis" class="callout"></div><div class="callout amber"><b>How to read the toggle:</b> The default profitability model calculates what each state/cohort design must achieve to produce a positive return. National MTM and North Carolina HOP remain external evidence anchors. The target is a sales-planning threshold—not a guaranteed outcome.</div>
+      <div id="evidenceNote" class="callout amber"></div>
+      <div class="buttons">
+        <button id="calculate" class="primary">Calculate</button>
+        <button id="saveScenario" class="gold">Save Scenario</button>
+      </div>
+    </article>
+
+    <div>
+      <div class="grid two">
+        <div class="stat dark"><span>Modeled state burden</span><strong id="burdenOut">$0</strong><small>Do not add overlapping cohorts.</small></div>
+        <div class="stat dark"><span>Targetable burden</span><strong id="targetOut">$0</strong><small>Selected high-risk share.</small></div>
+      </div>
+      <div class="grid two topgap">
+        <div class="stat"><span>Pilot cost</span><strong id="programOut">$0</strong></div>
+        <div class="stat"><span>Gross modeled savings</span><strong id="grossOut">$0</strong></div>
+        <div class="stat"><span>Net modeled savings</span><strong id="netOut">$0</strong></div>
+        <div class="stat"><span>Modeled ROI</span><strong id="roiOut">0.00x</strong></div>
+      </div>
+      <div class="grid two topgap">
+        <div class="stat"><span>Meal price used</span><strong id="mealPriceOut">$0</strong><small>Editable public benchmark.</small></div>
+        <div class="stat"><span>Total program PMPM</span><strong id="programPmpmOut">$0</strong><small>Meals plus added allowance.</small></div>
+      </div>
+      <article class="card topgap">
+        <h3>Scenario Range</h3>
+        <div id="scenarioRange"></div>
+      </article>
+      <div class="callout danger topgap"><b>Decision rule:</b> Statewide burden creates urgency. Member-level claims establish the payer business case.</div>
+    </div>
+  </div>
+  <article class="card topgap">
+    <h2>High-Acuity Market-Sizing Funnel — Louisiana pilot model (the method runs on any state's enrollment file)</h2>
+    <p class="muted">This converts the domain ranges into an interview-ready planning estimate. The domains overlap and must never be added together.</p>
+    <div class="grid three">
+      <div><label>Total Louisiana Medicaid members (June 2026 LDH: 1,378,186)</label><input id="tamTotal" type="number" min="0" value="1380000"></div>
+      <div><label>Risk score above 1.00 — low (%)</label><input id="tamRiskLow" type="number" min="0" max="100" value="15"></div>
+      <div><label>Risk score above 1.00 — high (%)</label><input id="tamRiskHigh" type="number" min="0" max="100" value="25"></div>
+    </div>
+    <div class="grid three">
+      <div><label>Food / meal-preparation barrier (%)</label><input id="tamFood" type="number" min="0" max="100" value="15"></div>
+      <div><label>Recent hospitalization / trigger (%)</label><input id="tamTrigger" type="number" min="0" max="100" value="25"></div>
+      <div><label>Clinical + operational eligibility (%)</label><input id="tamEligible" type="number" min="0" max="100" value="40"></div>
+    </div>
+    <div class="buttons">
+      <button id="calculateTam" class="primary">Calculate High-Acuity Funnel</button>
+      <button id="useTamEstimate" class="gold">Use Base Estimate in Economics</button>
+    </div>
+    <div id="tamResult" class="callout"></div>
+  </article>
+
+  <article class="card topgap">
+    <h2>Priority Cohorts and the Recommended Proof Population</h2>
+    <div class="tablewrap"><table><thead><tr><th>Cohort</th><th>Cost logic</th><th>Nutrition fit</th><th>First buyer question</th></tr></thead><tbody id="cohortTable"></tbody></table></div>
+  </article>
+</section>
+
+<section id="stakeholders" class="panel">
+  <article class="card">
+    <h2>National Parent Accounts — the enterprise layer (verified 7/21/2026 where named)</h2>
+    <p class="muted">Every state plan answers to a national parent. The state dropdowns below map modeled state markets; this grid is the national buying layer above them. Named contacts appear ONLY where verified against a dated source — everything else ships as a role to hunt, never a guess.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Parent</th><th>Verified national leadership (source · date)</th><th>Roles to map under them</th><th>Door strategy</th></tr></thead>
+      <tbody>
+        <tr><td><b>UnitedHealthcare Community &amp; State</b></td><td><b>Mike Cotton</b> — leads the Medicaid division (Becker's/Fierce, 2026; ex-Select Health CEO). Above him: <b>Bobby Hunter</b>, CEO of Government Programs — Medicare + Medicaid now unified (Fierce/Healthcare Dive, 2026)</td><td>State health-plan CEOs (hired per state), VP Care Management, health-equity leads</td><td>Their own published FaM case studies (45% readmission spotlight) = the door-opening artifact; unified gov-programs structure favors the MA+Medicaid dual-book pitch</td></tr>
+        <tr><td><b>CVS / Aetna (Aetna Better Health)</b></td><td><b>Katerina Guerraz</b> — president, Aetna Medicaid (Becker's, 2026; promoted from Aetna COO)</td><td>State plan CEOs, community-development/marketing directors (side-door rich), CMOs</td><td>Community/HRSN teams active and visible; a Louisiana side-door relationship is live proof the door works</td></tr>
+        <tr><td><b>Humana (Healthy Horizons + D-SNP)</b></td><td><b>John Barger</b> — president, Medicaid &amp; Dual Eligible programs (Humana leadership page, 2026)</td><td>Healthy Horizons state leads, D-SNP product owners, Stars/quality directors</td><td>The MA/D-SNP durable-path thesis + his Humana producer alumni credibility</td></tr>
+        <tr><td><b>Centene</b></td><td><b>Daniel Finke</b> — Group President, Markets &amp; Commercial (oversees Medicaid; Centene press release + Healthcare Dive, 4/6/2026). CEO above him: Sarah London. Note: Finke is ex-president of Aetna at CVS — payer-native buyer</td><td>State plan CEOs (e.g., Louisiana Healthcare Connections), corporate population-health &amp; quality leadership</td><td>Largest Medicaid footprint; one state pilot = the national reference; LHCC already runs an MTM benefit — expansion story, not cold pitch</td></tr>
+        <tr><td><b>Elevance Health</b></td><td><b>Aimée Dailey</b> — President, Government Business: Medicaid + Medicare consolidated under her (Elevance newsroom, 3/31/2026; the prior standalone Medicaid president left for CareFirst in May 2026 — org in transition = priorities in motion = a door)</td><td>Anthem Medicaid state leads, Healthy Blue plan CEOs, the CalAIM program team</td><td>Warmest national account in the book: the LIVE Anthem Sacramento program — expand to sibling states</td></tr>
+        <tr><td><b>Molina Healthcare</b></td><td><b>Debra Bacon</b> — EVP, Medicaid (Molina investor-relations leadership page; in role since Oct 2023, SEC filings current 3/2026)</td><td>State plan presidents, corporate healthcare-services leadership</td><td>Pure-play government carrier — Medicaid IS the business; no commercial distraction</td></tr>
+        <tr><td><b>CareSource</b></td><td><b>Erhardt Preitauer</b> — President &amp; CEO (caresource.com leadership page, live 7/21/2026; Medicaid-first company, the CEO IS the segment lead). Markets lead: Scott Markovich, EVP Markets &amp; Products</td><td>State market presidents, health-equity and life-services leadership</td><td>Nonprofit multi-state plan — mission-framed HRSN pitch lands natively</td></tr>
+        <tr><td><b>AmeriHealth Caritas</b></td><td><b>Gregg MacDonald</b> — INTERIM President (company newsroom, 10/1/2025; prior CEO promoted to run parent Independence Health Group; no permanent successor as of 7/21/2026 — interim leadership = agenda up for grabs; RE-VERIFY before outreach)</td><td>State market presidents (incl. Louisiana), population-health leadership</td><td>Already funds meals (the DC case study is the competitor's flagship) — the completion-rate comparison pitch</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout amber"><b>Freshness rule:</b> executive names churn constantly (UHC's Medicaid CEO changed twice since 2024). Re-verify every named contact against a current source immediately before outreach — the name in this grid is a starting point with a date, never a cold-email license.</div>
+  </article>
+
+  <article class="card">
+    <h2>State-Level Targets — the Medicaid Directors (all five PROVEN against official state sources, 7/21/2026)</h2>
+    <p class="muted">The JD names "Medicaid Directors" and "state/local government agencies" as target buyers. These are the five that matter for the modeled markets — each verified against the state's own pages, with the published office channel where one exists.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>State</th><th>Who</th><th>Published office channel</th><th>Currency note</th></tr></thead>
+      <tbody>
+        <tr><td><b>California</b></td><td><b>Michelle Baass</b> — Director, DHCS · <b>Tyler Sadwith</b> — State Medicaid Director &amp; Chief Deputy Director (dhcs.ca.gov bios; signing 2026 correspondence)</td><td>DHCS Director's Office: (916) 440-7400</td><td>Baass since 2021; Sadwith since March 2024 — both active on 2026 documents</td></tr>
+        <tr><td><b>New York</b></td><td><b>Amir Bassiri</b> — Medicaid Director &amp; Deputy Commissioner, Office of Health Insurance Programs, NYSDOH (NAMD profile + signed NYHER approval letter 3/26/2026)</td><td>Empire State Plaza, Corning Tower Rm 1466, Albany (no direct line published)</td><td>In seat since 2022; testified before Congress June 2026 — definitively current</td></tr>
+        <tr><td><b>Massachusetts</b></td><td><b>Ryan Schwarz, MD, MBA</b> — Medicaid Director &amp; Assistant Secretary for MassHealth (mass.gov appointment release)</td><td>None published</td><td><b>NEW as of June 8, 2026</b> — predecessor Mike Levine stepped down; any list showing Levine is stale. Promoted from within (ran MassHealth accountable care) — knows the HRSN portfolio cold</td></tr>
+        <tr><td><b>North Carolina</b></td><td><b>Melanie Bush</b> — Deputy Secretary of Medicaid, NCDHHS Division of Health Benefits (ncdhhs.gov release 4/21/2026 + live leadership bio)</td><td>NCDHHS main line: 1-800-662-7030</td><td>Promoted April 2026 from Assistant Secretary/COO; legislative confirmation pending but title live — SHE owns the HOP restart vendor decisions</td></tr>
+        <tr><td><b>Louisiana</b></td><td><b>Seth Gold</b> — Medicaid Executive Director, LDH (ldh.la.gov appointment release 11/14/2025; quoted in-role 6/16/2026)</td><td>LDH main office: (225) 342-9500</td><td>Ex-U.S. House Energy &amp; Commerce staff; reports to Secretary Bruce Greenstein — the relationship lane for the beachhead story</td></tr>
+      </tbody>
+    </table></div>
+  </article>
+
+  <article class="card">
+    <h2>The FQHC Layer — largest community health center per state (sized from HRSA's own federal UDS 2024 data, not marketing claims)</h2>
+    <p class="muted">The JD's second named buyer: "Community Health Centers/provider organizations serving Medicaid clients." One anchor account per state — the biggest, verified against the federal dataset every FQHC files with HRSA. Where an org's marketing claim conflicts with the federal data, the notes say so.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>State</th><th>FQHC (HRSA UDS 2024 patients)</th><th>Chief executive</th><th>Main channel</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td><b>California</b></td><td><b>AltaMed Health Services</b> — 295,386 patients (largest in the nation by UDS)</td><td>Cástulo de la Rocha, President &amp; CEO</td><td>(888) 499-9303 · altamed.org/contact-us</td><td>Don't confuse with Remí de la Rocha (runs the AltaMed IPA/MSO subsidiary). Org markets "500K+" incl. PACE lives — UDS is the honest comparable</td></tr>
+        <tr><td><b>New York</b></td><td><b>Sun River Health</b> (Peekskill) — 241,440 patients; no NY FQHC is close (#2 is ~173K)</td><td>Anne Kauffman Nolon, MPH, CEO</td><td>(844) 400-1975 · sunriver.org</td><td>CEO since 1977 (~50-year tenure) — succession watch; a leadership change here is a trigger event</td></tr>
+        <tr><td><b>Massachusetts</b></td><td><b>NeighborHealth</b> (Boston) — 87,626 patients</td><td>Greg Wilmot, President &amp; CEO</td><td>(617) 569-5800 · neighborhealth.com</td><td>Rebranded from East Boston Neighborhood Health Center June 2024 — use the NEW name in outreach or read as stale</td></tr>
+        <tr><td><b>North Carolina</b></td><td><b>Kintegra Health</b> (Gastonia; legal name Gaston Family Health Services) — 102,886 patients, 26 practices, 19 counties</td><td>Robert "Bob" Spencer, CEO (HRSA-filed + NACHC; not displayed on their own site)</td><td>(704) 874-1900 · kintegra.org</td><td>Goshen Medical Center's "largest in NC" claim is STALE — they're #3 by federal data. Knowing that is a fluency flex</td></tr>
+        <tr><td><b>Louisiana</b></td><td><b>Access Health Louisiana</b> (Luling) — 54,764 patients across 12 parishes</td><td>Mark F. Keiser, MBA, MHA, MPH, FACHE — President/CEO</td><td>(866) 530-6111 · accesshealthla.org</td><td>DePaul CHC (New Orleans) self-claims "largest network in LA" — #2 by federal data. Access Health = the LA anchor account</td></tr>
+        <tr><td><b>Louisiana — the governance door</b></td><td><b>Baton Rouge Primary Care Collaborative (BRPCC)</b> — small safety-net FQHC, two sites incl. Baton Rouge's Health Care for the Homeless clinic (Plank Rd + Central Rd)</td><td>CEO: Dr. Stacie M. Bland · Board Chairperson: <b>Eldridge Etienne</b> (verified on the org's own IRS Form 990, FY2025 filed 5/2026 — 8 consecutive years of board service: Treasurer → President → Chair)</td><td>(225) 774-1120 · brpcc.org</td><td>NOT a revenue account — a community-trust node: FQHC boards are majority-consumer by federal rule, so the board chair IS the community's voice. The right role for a small FQHC in the model: referral partner in a plan-funded pilot, never a direct-pay target. (Do not confuse BRPCC physician Traci Woodard with Humana's Dr. Theresa Woodard.)</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout"><b>Why FQHCs matter in this sales motion:</b> they are provider organizations, referral sources, AND community trust infrastructure in one account — the dual-trigger referral helper is built for exactly their workflow, and CHW/enabling-services reimbursement makes the screening layer self-funding on their side of the table.</div>
+
+    <h2 style="margin-top:18px">The 340B Wallet — the capacity SIGNAL (not the stated funding source) · public filings, verified 7/21/2026</h2>
+    <p class="muted">340B lets FQHCs buy drugs at a 20–50% federal discount (GAO) and keep the margin. <b>Read the margin as proof of capacity and pharmacy sophistication — not as the budget you name in the pitch.</b> For a Section 330 grantee, 340B savings are grant <b>program income</b>, legally locked to the approved scope of project: food/nutrition supports CAN qualify as permissible reinvestment (HRSA/NACHC list them), but a new food service may require a formal Change in Scope, and a careful pharmacy director will resist any deal framed as "paid out of 340B." The winning frame: <b>340B proves they CAN afford it; HRSN/plan dollars or VBC savings are what you propose actually PAYS for it.</b> Exact savings are never published (no CA/NY/MA/NC/LA disclosure law), but 990s and audits disclose the economics below — every figure labeled by what it measures; revenue is NOT savings.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>FQHC</th><th>Disclosed pharmacy / 340B economics (source · year)</th><th>What it signals</th><th>Pilot fit (sized to the disclosed economics)</th></tr></thead>
+      <tbody>
+        <tr><td><b>AltaMed (CA)</b></td><td>Pharmacy revenue <b>$123.4M</b> (IRS 990, CY2024) on $1.72B total revenue; ~13–17 in-house pharmacies</td><td>A pharmacy operation bigger than most hospital systems' — the largest 340B engine of the five by an order of magnitude (no savings figure published)</td><td>A $200K flagship pilot is a rounding error here — pitch PROGRAM, not pilot; their PACE program (they run one of the nation's biggest) is a second direct-pay door</td></tr>
+        <tr><td><b>Sun River Health (NY)</b></td><td>The cleanest big disclosure: 990 line literally labeled "340B PHARMACY" — <b>$24.9M revenue vs $14.1M expense</b> (CY2024) → ~$10.8M net (computed from the two disclosed lines, labeled as arithmetic)</td><td>A ~$10M/yr discretionary reinvestment pool, disclosed in their own filing</td><td>Standard 150-member pilot (~$200K) ≈ <b>~2% of one year's disclosed 340B net</b> — a board-friendly ask; NY SCN billing path stacks on top</td></tr>
+        <tr><td><b>NeighborHealth (MA)</b></td><td>Pharmacy revenue <b>$38.1M</b> + 552K prescriptions (FY2023 990; FY2024 reclassified into patient revenue — a reporting change, not a decline)</td><td>340B participant since 1997; big program, no savings figure published</td><td>Named door: <b>Dr. Sebastian Hamilton, VP &amp; Chief Pharmacy Officer</b> (340B-credentialed, hired 2025) — the 340B decision-maker IS on staff; pitch him the reinvestment story directly</td></tr>
+        <tr><td><b>Kintegra Health (NC)</b></td><td>NOT DISCLOSED — only the expense side shows: <b>$23.2M pharmaceutical-supplies expense</b> (FY2024 990) across ~10 in-house pharmacies on a $135M org</td><td>The heaviest in-house pharmacy build of the five relative to size — the margin exists, the number doesn't (treat any estimate as a model, never a disclosure)</td><td>Discovery question does the work: "you run ten pharmacies — how do you decide where the program's margin gets reinvested?" Then size to their answer</td></tr>
+        <tr><td><b>Access Health Louisiana</b></td><td>The textbook disclosure: audited statements Note 13 — <b>340B revenue $4.2M vs $2.6M expense</b> (FY2024) → ~$1.6M net, and 340B revenue GREW 67% year-over-year</td><td>A growing program with a dedicated 340B coordinator (<b>Shikenya Johnson</b>) under CEO Keiser — small but real discretionary capacity</td><td>Size the pilot to the wallet: 50–75 members (~$70–100K) ≈ 4–6% of disclosed net — credible; or use them as the referral partner in a plan-funded triangle and spend zero of their money</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout amber"><b>The pitch frame (corrected 7/21 — two budgets, two champions):</b> inside an FQHC, map BOTH money lanes. Lane 1 — <b>Pharmacy + CFO</b> guard the 340B/program-income dollars (scope-of-project constrained; NEUTRALIZE the pharmacy director with clean separation — "the meal program never touches your 340B operation" — don't sell to them). Lane 2 — <b>VP Population Health / Care Management own the HRSN-plan dollars and referrals: they are the TRUE champion.</b> The line for the CEO/CFO: "Your pharmacy program proves the organizational capacity; the funding I'm proposing is plan dollars — CalAIM, the SCN, or your MCO's value-add budget — with your clinics as the referral engine, and we hand you the quarterly evidence pack that proves it worked." Rails: never claim to know their margin (revenue ≠ savings); never quote a computed number as their disclosure; JAMA 2024 median FQHC clears only ~$334K/yr from 340B — the self-funded pitch fits LARGE programs only, and even there, plan-funded beats self-funded every time a mechanism exists.</div>
+    <div class="callout"><b>How the check actually gets written (the part nobody explains):</b> an FQHC direct deal is a SMALL-BUSINESS sale, not a procurement. Three people say yes — the champion (VP Population Health or CMO: "our diabetic patients need this"), the economic buyer (the CEO: mission + board optics), and the gate (the CFO: "which fund does it come from" — their problem to solve, never name 340B yourself). The ask is sized like a GRANT PROGRAM, their native unit of spending: 50–150 patients, 12 weeks, a defined dollar cap, a start and an end date. The frame is "a patient-services program with quarterly evidence" — never "a vendor contract." Two sweeteners close it: offer to co-pursue grant money with them (GusNIP/foundation — their "own money" is often other people's money they've won), and the exit: "you fund the first 12 weeks; the results are what we take to your MCO to make the plan fund it permanently — your spend is seed capital, not a recurring cost."</div>
+  </article>
+  <div class="grid split">
+    <article class="card">
+      <h2>Buying Committee Map</h2>
+      <p class="muted">Track the decision-makers required to move a complex Medicaid opportunity — state plan or national parent. The state dropdown maps the modeled state markets; the grid above covers the enterprise layer.</p>
+      <div class="grid three">
+        <div><label>State</label><select id="stakeState"></select></div>
+        <div><label>Company / account</label><select id="stakeCompany"></select></div>
+        <div><label>Account name</label><input id="stakeAccount" placeholder="Account name"></div>
+      </div>
+      <div id="contactFreshness" class="callout amber"></div>
+      <div class="buttons">
+        <button id="loadStakeholders" class="primary">Load Company Map</button>
+        <button id="addStakeholder" class="ghost">Add Role</button>
+        <button id="saveStakeholders" class="gold">Save Map</button>
+      </div>
+    </article>
+    <article class="card">
+      <h2>Coverage Analysis</h2>
+      <div id="stakeholderAnalysis" class="empty">Load the default buying committee.</div>
+    </article>
+  </div>
+  <article class="card topgap">
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Role</th><th>Person</th><th>Contact quality</th><th>Sales status</th><th>Influence</th><th>Last verified / source</th><th>Notes / next move</th><th></th></tr></thead>
+        <tbody id="stakeholderRows"></tbody>
+      </table>
+    </div>
+  </article>
+
+
+  <article class="card">
+    <h2>The Hunting Engine — self-sourced pipeline, found on purpose</h2>
+    <p class="muted">This seat inherits no book: the pipeline is built from zero, warm-first, intro-driven. This tab is the doctrine — who to hunt, how to find them, what event to move on, and in what order. <b>Live proof of the method: the community-development director behind a Louisiana MCO's food program was identified and on the phone within four days — via the side door, not the switchboard.</b></p>
+  </article>
+
+  <article class="card">
+    <h2>Layer 1 + Layer 2 — the two-door persona grid</h2>
+    <p class="muted">The named buyers sign; the side door answers. Work both, in the right order.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Persona</th><th>Door</th><th>What they own</th><th>Why they take the call</th><th>Opener angle</th></tr></thead>
+      <tbody>
+        <tr><td><b>Chief Medical Officer</b></td><td>Named buyer</td><td>Clinical strategy, utilization</td><td>Avoidable admissions in a defined cohort</td><td>Break-even math on THEIR highest-cost members; evidence hierarchy, no savings promises</td></tr>
+        <tr><td><b>VP, Care Management</b></td><td>Named buyer</td><td>Care plans, transitions, HRSN follow-through</td><td>Post-discharge gaps + closed-loop documentation</td><td>Screen-to-intervention ≤30 days (SNS-E shape) — meals as the intervention that documents itself</td></tr>
+        <tr><td><b>Chief Health Equity Officer</b></td><td>Named buyer</td><td>Equity strategy, HRSN screening compliance</td><td>Reach into LIS/dual/disabled members = rated asset (HEI 2027)</td><td>Completion-by-modality data + equity reach reporting</td></tr>
+        <tr><td><b>Medicaid Director (plan or state)</b></td><td>Named buyer</td><td>The program / the contract</td><td>Renewal-proof evidence; benefit-value review ammunition</td><td>Quarterly evidence pack: activation, adherence, loop closure</td></tr>
+        <tr><td><b>Chief Actuary</b></td><td><b>GATEKEEPER</b></td><td>Rate development, MLR treatment — certifies whether the spend can live in the rate</td><td>They don't take calls — they get brought in. If they aren't convinced, nothing else matters; rate assumptions lock 3–6 months pre-period</td><td>The one sentence: "rate-funded ILOS spend that lands in your medical numerator as incurred claims — not an administrative draw." Engage 9–12 months before the rating period</td></tr>
+        <tr><td><b>Community Development / Community Engagement / Marketing Director</b></td><td><b>SIDE DOOR</b></td><td>Community programs, food partnerships, member events</td><td>They're PROUD of the food work — praise it honestly and they teach you the org</td><td>Learning-frame call: "how did it come together?" They know where the budget pain is and who owns the clinical side</td></tr>
+        <tr><td><b>Quality / Stars / HEDIS Director</b></td><td>SIDE DOOR → <b>strongest champion</b></td><td>Measure performance — and their bonus rides on it</td><td>Meals move exactly their measures: HbA1c &gt;9% (2024 national median 38.8% — every point above it is a citable gap), blood-pressure control, readmissions, SNS-E, CAHPS</td><td>Bring their own plan's gap from the state's public EQRO report + Core Set dashboard — "here's your deviation from the median, and here's the intervention that moves it"</td></tr>
+        <tr><td><b>Population Health / FaM Program Manager</b></td><td>SIDE DOOR</td><td>Runs the current vendor's program</td><td>Their vendor's engagement numbers embarrass them</td><td>Completion-rate comparison on the high-acuity cohort</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout amber"><b>Side-door rule:</b> the side door is a LEARNING call, never a pitch. Praise the work, ask how it came together, ask who drives the clinical side — and let them walk you upstairs. People defend what they co-own.</div>
+  </article>
+
+  <article class="card">
+    <h2>Trigger events — money moves, then you move</h2>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Event</th><th>What it means</th><th>The move</th></tr></thead>
+      <tbody>
+        <tr><td>Plan exits / enters a state (e.g., a carrier exit reassigning ~330K members)</td><td>Member churn = every receiving plan needs continuity + engagement wins</td><td>Land with the reassigned-member engagement pitch inside 90 days of the transition</td></tr>
+        <tr><td>RFP / solicitation posts on a procurement portal</td><td>Live, appropriated budget</td><td>Shred it same-day (RFP tab); bid/no-bid decision within 48 hours</td></tr>
+        <tr><td>Waiver renewal / expiration approaching (NYHER 3/31/2027)</td><td>Every funded program needs renewal-proof evidence NOW</td><td>Evidence-pack conversation with programs on the expiring authority</td></tr>
+        <tr><td>Leadership change (new CMO, new Medicaid director)</td><td>New priorities, no incumbent loyalty</td><td>Congratulations note + market-intel offer within 2 weeks of announcement</td></tr>
+        <tr><td>Competitor program launches at a plan</td><td>Validated budget + a bar to beat</td><td>Ladder pitch: their program proved the plan funds food — the clinical rung is open</td></tr>
+        <tr><td>State budget line / new mechanism (ILOS election, value-add filing)</td><td>New authority = new addressable market</td><td>Map the mechanism (Playbook tab), then hunt the plans inside it</td></tr>
+        <tr><td>Mid-year unused-benefit notices (June 30–July 31 wave)</td><td>Low-utilization benefits publicly exposed</td><td>Renewal-defense conversation with MA/D-SNP plans holding under-used food benefits</td></tr>
+      </tbody>
+    </table></div>
+  </article>
+
+  <article class="card">
+    <h2>The Mechanism Gate — qualify the money before the meeting (the doctrine that decides every MCO deal)</h2>
+    <p class="muted"><b>The binary:</b> food paid as an approved <b>ILOS / Community Support / 1115 HRSN benefit</b> is built into the capitation rate and counts in the plan's <b>MLR numerator as incurred medical claims</b> — state-funded, margin-neutral, alive. The identical food as a <b>value-added service</b> comes out of the plan's own retained margin — and dies in actuarial review. Qualify the mechanism before spending a minute on clinical value. Bonus tailwind: a plan running under its 85% MLR floor owes remittance — ILOS food converts their margin problem into medical spend.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Public source</th><th>What it hands you</th></tr></thead>
+      <tbody>
+        <tr><td><b>State EQRO technical reports</b> (federally required, public, finalized each April 30)</td><td>Plan-by-plan strengths/weaknesses on quality measures — the per-plan pain map, written by the state's own reviewer</td></tr>
+        <tr><td><b>CMS Core Set dashboard</b></td><td>Plan/state performance on the measures meals move — HbA1c &gt;9% (2024 median 38.8%), blood-pressure control, readmissions, diabetes/heart-failure admission rates</td></tr>
+        <tr><td><b>CMS PBP benefit files</b> (MA/D-SNP)</td><td>Every plan already carrying a food benefit (meals + SSBCI food &amp; produce) — the "already buys" list, joinable to Star ratings to find buyers WITH gaps</td></tr>
+        <tr><td><b>CalAIM "Community Supports Elections by MCP and County"</b> (DHCS publishes the PDF)</td><td>Literally which California plan offers MTM in which county — and every county WITHOUT it is named, immediate pipeline</td></tr>
+        <tr><td><b>OPAIS Covered Entity Daily Report</b> (340B registry, rebuilt nightly, free JSON/Excel)</td><td>Every FQHC's contract-pharmacy count (scale proxy) — PLUS the registered <b>Authorizing Official and Primary Contact names, titles, and phones</b>: free named-contact intelligence for the entire FQHC universe</td></tr>
+        <tr><td><b>Job postings</b></td><td>The strongest buildout signal there is: a plan hiring an "ILOS Program Manager" or an FQHC posting a "Food is Medicine Coordinator" is IN-MARKET now</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout amber"><b>The five qualifying questions (one call tells you if a plan is real):</b> Is food an approved ILOS/Community Support in your state contract, or would this be value-added? · How is nutrition spend treated in your rate development and MLR today? · Which meal-sensitive measures are you under the state median on — and what's the Stars dollar value of closing them? · Do you contract nutrition at the parent or the market level? · When do next year's rate assumptions lock?</div>
+  </article>
+
+  <article class="card">
+    <h2>The person-finding stack — in evidence order</h2>
+    <ul>
+      <li><b>1. First-party sources (PROVEN tier):</b> plan leadership pages and press releases; state Medicaid advisory-committee minutes and rate-hearing records (names ON the record); state agency org charts; conference speaker pages (Food as Medicine Summit, MESC/Medicaid Enterprise, state managed-care conferences — speakers self-identify as the people who own the topic).</li>
+      <li><b>2. Association layer:</b> state primary-care associations (every FQHC's leadership, one roster); Medicaid health-plan association memberships; community-action association networks (they know every plan's community staff by first name).</li>
+      <li><b>3. LinkedIn recipes (copy, paste, hunt):</b><br>
+        <code>"community development" OR "community engagement" director "[plan name]"</code><br>
+        <code>"VP" "care management" "[parent org]" Medicaid</code><br>
+        <code>"chief health equity officer" OR "health equity" director Medicaid [state]</code><br>
+        <code>"quality" OR "Stars" OR "HEDIS" director "[plan name]"</code></li>
+      <li><b>4. Enrichment discipline (no naked names):</b> every target ships with a proven channel — email/phone + confidence tier (PROVEN / STRONG / INFERRED) + source. Broker-site data is a lead, not proof. Two hard bounces at a domain = stop guessing, switch channels.</li>
+      <li><b>5. Sequencing:</b> association/community intro → side-door learning call → champion walks you up to the named buyer. Plain-text, money-first first touch (Sales Kit composer). Never cold-call what you can co-locate. Coverage math lives on the Pipeline tab: coverage = 1 ÷ win rate.</li>
+    </ul>
+  </article>
+
+  <article class="card">
+    <h2>The parent-org ladder — a state relationship is a national door</h2>
+    <p class="muted">Every state Medicaid plan answers to a national parent that owns dozens of state plans. Win one state, and the parent's national Medicaid team becomes a warm call.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>National parent</th><th>Medicaid vehicle</th><th>The door</th></tr></thead>
+      <tbody>
+        <tr><td>Centene</td><td>Largest Medicaid footprint in the country; state plans incl. Louisiana Healthcare Connections</td><td>A single state plan's pilot = the reference for the national portfolio</td></tr>
+        <tr><td>Elevance Health</td><td>Healthy Blue plans + Anthem Medicaid; ALREADY a CookUnity partner (CalAIM Sacramento)</td><td>The live Anthem program is the internal reference — expansion sell, not cold sell</td></tr>
+        <tr><td>CVS / Aetna</td><td>Aetna Better Health plans, multi-state</td><td>Community/HRSN teams are active and visible — side-door rich</td></tr>
+        <tr><td>UnitedHealthcare Community &amp; State</td><td>Largest carrier; published FaM case studies</td><td>Their own published meal-benefit results = the door-opening artifact</td></tr>
+        <tr><td>Molina Healthcare</td><td>Pure-play government programs carrier</td><td>Medicaid IS the whole business — no commercial distraction</td></tr>
+        <tr><td>Humana</td><td>Humana Healthy Horizons (Medicaid) + the D-SNP machine</td><td>His carrier alumni network + the MA/D-SNP durable-path thesis</td></tr>
+        <tr><td>CareSource</td><td>Nonprofit multi-state Medicaid plan</td><td>Mission-framed HRSN pitch lands natively</td></tr>
+        <tr><td>AmeriHealth Caritas</td><td>Multi-state Medicaid specialist (incl. Louisiana); Mom's Meals' flagship case study lives HERE (DC)</td><td>The completion-rate comparison pitch — they already fund meals</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout"><b>The Louisiana leverage, stated honestly:</b> Louisiana has no funded statewide food benefit today — so LA relationships are NOT near-term revenue. They are DOORS: each LA plan's parent (Aetna/CVS, Centene, Elevance, AmeriHealth Caritas) owns dozens of state plans where the money IS live. The beachhead story walks into national rooms.</div>
+  </article>
+
+  <article class="card">
+    <h2>Live Data Feeds — the public pipes behind this tab (one click each)</h2>
+    <p class="muted">Every list on this tab traces to a public dataset. The Reg Watch tab already pulls the Federal Register API automatically every morning — the same nightly-script architecture extends to each of these (scripted pulls, never in-browser calls, so a demo never depends on someone else's uptime). Until then: one click to the live source.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Feed</th><th>What it answers</th><th>Open</th></tr></thead>
+      <tbody>
+        <tr><td>Medicaid managed-care enrollment by plan (API-backed)</td><td>TAM per plan, per state — plan × parent × enrollment</td><td><a href="https://data.medicaid.gov/dataset/0bef7b8a-c663-5b14-9a46-0b5c2b86b0fe" target="_blank" rel="noopener">data.medicaid.gov</a></td></tr>
+        <tr><td>CMS Core Set dashboard</td><td>Each plan/state's performance on the measures meals move (HbA1c &gt;9% median 38.8%)</td><td><a href="https://www.medicaid.gov/medicaid/quality-of-care/performance-measurement/adult-and-child-health-care-quality-measures/index.html" target="_blank" rel="noopener">medicaid.gov Core Set</a></td></tr>
+        <tr><td>State EQRO technical reports</td><td>Plan-by-plan strengths/weaknesses, written by the state's own reviewer (search "[state] EQR technical report")</td><td><a href="https://www.medicaid.gov/medicaid/quality-of-care/medicaid-managed-care-quality/quality-of-care-external-quality-review" target="_blank" rel="noopener">EQR hub</a></td></tr>
+        <tr><td>CalAIM Community Supports elections</td><td>Which CA plan offers MTM in which county — the county gaps are named pipeline</td><td><a href="https://www.dhcs.ca.gov/CalAIM/Pages/CalAIM.aspx" target="_blank" rel="noopener">DHCS CalAIM</a></td></tr>
+        <tr><td>CMS MA plan benefit (PBP) files</td><td>Every MA/D-SNP plan already carrying a food benefit — the "already buys" list</td><td><a href="https://www.cms.gov/data-research/statistics-trends-reports/medicare-advantagepart-d-contract-and-enrollment-data/benefits-data" target="_blank" rel="noopener">CMS PBP data</a></td></tr>
+        <tr><td>340B OPAIS daily report (JSON/Excel, rebuilt nightly)</td><td>Every FQHC's contract-pharmacy count + named Authorizing Official / Primary Contact with phones</td><td><a href="https://340bopais.hrsa.gov/" target="_blank" rel="noopener">340B OPAIS</a></td></tr>
+        <tr><td>CMS MSSP ACO participant list</td><td>Which FQHCs bear risk (a P&amp;L reason to buy meals)</td><td><a href="https://data.cms.gov/medicare-shared-savings-program/accountable-care-organization-participants" target="_blank" rel="noopener">data.cms.gov</a></td></tr>
+        <tr><td>KFF Medicaid waiver tracker</td><td>Which states hold live 1115 nutrition authority — the mechanism map of record</td><td><a href="https://www.kff.org/medicaid/issue-brief/medicaid-waiver-tracker-approved-and-pending-section-1115-waivers-by-state/" target="_blank" rel="noopener">KFF tracker</a></td></tr>
+        <tr><td>ProPublica Nonprofit Explorer (API-backed)</td><td>Any FQHC's 990 — pharmacy revenue, reserves, exec comp — by EIN</td><td><a href="https://projects.propublica.org/nonprofits/" target="_blank" rel="noopener">Nonprofit Explorer</a></td></tr>
+        <tr><td>Federal Audit Clearinghouse</td><td>FQHC audited financials + 340B notes (Single Audits are public)</td><td><a href="https://app.fac.gov/dissemination/search/" target="_blank" rel="noopener">fac.gov</a></td></tr>
+      </tbody>
+    </table></div>
+  </article>
+</section>
+
+<section id="pilot" class="panel">
+  <div class="grid split">
+    <article class="card">
+      <h2>Pilot Design Builder</h2>
+      <p class="muted">Choose a pitch preset to load a distinct, positive commercial design. Each preset has different service intensity, pricing, target ROI and required savings. These are performance targets—not guaranteed outcomes.</p>
+      <label>Pilot pitch preset</label><select id="pilotPitch"></select>
+      <div id="pilotPitchNote" class="callout"></div>
+      <div class="grid two">
+        <div><label>State</label><select id="pilotState"></select></div>
+        <div><label>Cohort</label><select id="pilotCohort"></select></div>
+      </div>
+      <div class="grid three">
+        <div><label>Population universe basis</label><select id="pilotPopulationBasis"></select></div>
+        <div><label>Official / selected universe count</label><input id="pilotUniverseCount" type="text" readonly></div>
+        <div><label>Estimated intervention-eligible share (%)</label><input id="pilotEligibleShare" type="number" min="0" max="100" step="0.1" value="2"></div>
+      </div>
+      <div class="grid two">
+        <div><label>Estimated addressable candidate pool</label><input id="pilotCandidatePool" type="text" readonly></div>
+        <div><label>Population-data status</label><input id="pilotPopulationStatus" type="text" readonly></div>
+      </div>
+      <label>Funding route</label><select id="pilotFunding"></select>
+      <label>Intervention</label>
+      <select id="pilotIntervention">
+        <option>Medically tailored home-delivered meals</option>
+        <option>Healthy home-delivered meals</option>
+        <option>Healthy food box plus nutrition support</option>
+        <option>Fruit and vegetable prescription</option>
+      </select>
+      <div class="grid three">
+        <div><label>Members</label><input id="pilotSize" type="number" value="150" min="1"></div>
+        <div><label>Weeks</label><input id="pilotWeeks" type="number" value="12" min="1"></div>
+        <div><label>Meals / week</label><input id="pilotMeals" type="number" value="10" min="1"></div>
+      </div>
+      <div class="grid three">
+        <div><label>Cost / meal</label><input id="pilotMealCost" type="number" min="0" step="0.01"></div>
+        <div>
+          <label>Evidence basis</label>
+          <select id="pilotEvidenceBasis">
+            <option value="auto">Recommended pitch-specific profitability model</option>
+            <option value="pitch">Pitch-specific profitability target</option>
+            <option value="planning">State/cohort profitability target</option>
+            <option value="jama">National high-acuity MTM study</option>
+            <option value="ncAdult">North Carolina HOP — nonpregnant adults</option>
+            <option value="ncOverall">North Carolina HOP — all participants</option>
+            <option value="custom">Custom payer-claims assumption</option>
+          </select>
+        </div>
+        <div><label>Savings scenario</label><select id="pilotSavingsScenario"><option value="low">Low</option><option value="base" selected>Base</option><option value="high">High</option><option value="custom">Custom</option></select></div>
+      </div>
+      <div id="rateAnchors" class="callout"></div>
+      <div class="grid three">
+        <div><label>Required gross medical reduction PMPM</label><input id="pilotPmpm" type="number" min="0" step="1"></div>
+        <div><label>Target net savings PMPM</label><input id="pilotNetPmpmDisplay" type="text" readonly></div>
+        <div><label>Target benefit-cost ratio</label><input id="pilotTargetBcrDisplay" type="text" readonly></div>
+      </div>
+      <div class="grid two">
+        <div><label>Additional implementation allowance (%)</label><input id="pilotOverhead" type="number" min="0" max="100" step="0.1" value="2"></div>
+        <div><label>Calculated total program PMPM</label><input id="pilotProgramPmpmDisplay" type="text" readonly></div>
+      </div>
+      <div class="grid two">
+        <div><label>Annual attributable cost / member</label><input id="pilotAnnualCost" type="number" min="0"></div>
+        <div><label>Avoided-event benchmark ($; HCUP 2022 Medicaid avg stay ≈ $14,550)</label><input id="pilotEventCost" type="number" min="0" value="14550"></div>
+      </div>
+      <div id="pilotEconomicsSummary" class="callout"></div><div id="pilotCaseStatus" class="callout"></div>
+      <label>Geography / delivery area</label><input id="pilotGeo" placeholder="Regional proof market">
+      <label>Known account trigger</label><textarea id="pilotTrigger" placeholder="Quality gap, avoidable utilization, state priority, executive sponsor, RFP..."></textarea>
+      <div class="buttons">
+        <button id="buildPilot" class="primary">Build Pilot</button>
+        <button id="savePilot" class="gold">Save Pilot</button>
+      </div>
+    </article>
+    <article class="card">
+      <h2>Generated Pilot Design</h2>
+      <div class="callout amber"><b>Evidence standard:</b> Pilot economics show low/base/high modeled ranges, break-even PMPM and equivalent avoided events. Replace every benchmark with payer claims before proposal.</div>
+      <pre id="pilotOutput" class="briefout">Complete the fields to build the pilot.</pre>
+      <div class="buttons">
+        <button id="copyPilot" class="ghost">Copy</button>
+        <button id="downloadPilot" class="ghost">Download .txt</button>
+        <button id="onePagerPilot" class="primary">Buyer one-pager (appears below)</button>
+      </div>
+      <div id="onePagerMount" class="reportMount"></div>
+    </article>
+  </div>
+  <article class="card topgap">
+    <h2>CookUnity's Real Medicaid Programs — The Comps This Pilot Is Modeled On</h2>
+    <p class="muted">Publicly documented CookUnity healthcare programs as of July 2026. Louisiana has none yet — a Louisiana pilot is a first-in-state application of a playbook CookUnity already runs.</p>
+    <div id="cookunityLaNote" class="callout amber"></div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Program</th><th>Launched</th><th>Funding mechanism</th><th>Documented design</th><th>Not disclosed</th><th>Source</th></tr></thead>
+        <tbody id="cookunityProgramRows"></tbody>
+      </table>
+    </div>
+  </article>
+  <article class="card topgap">
+    <h2>Pitch Economics Comparison</h2>
+    <p class="muted">Every preset has a different design and therefore a different program PMPM, required gross reduction, target net PMPM and total pilot value. The base column is a commercial performance target, not a promised result.</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Pitch</th><th>State</th><th>Members / weeks</th><th>Meals / week</th><th>Meal price</th><th>Program PMPM</th><th>Base target BCR</th><th>Required gross PMPM</th><th>Target net PMPM</th><th>Total pilot net</th></tr></thead>
+        <tbody id="presetComparisonRows"></tbody>
+      </table>
+    </div>
+  </article>
+</section>
+
+<section id="playbook" class="panel">
+  <article class="card">
+    <h2>National Playbook — Where to Attack First, and Why</h2>
+    <p class="muted" id="playbookUpdated"></p>
+    <div id="playbookWeather" class="callout amber"></div>
+    <div class="tablewrap topgap">
+      <table>
+        <thead><tr><th>State</th><th>Funding mechanism</th><th>Published meal rate</th><th>CookUnity presence</th><th>Why now</th><th>The play</th></tr></thead>
+        <tbody id="playbookRows"></tbody>
+      </table>
+    </div>
+    <div class="callout topgap"><b>How to read the tiers:</b> Tier 1 = a live, paying mechanism where CookUnity already operates — expansion, not persuasion. Tier 2 = a funded or signaled path that rewards early positioning (premium rate, restart window, or a relationship moat). Tier 3 = authority not yet stable — watch, don't spend cycles. This is the answer to "how would you prioritize states?" — mechanism first, evidence second, relationships as the tiebreaker.</div>
+  </article>
+</section>
+
+<section id="dealdesk" class="panel">
+  <div class="grid split">
+    <article class="card">
+      <h2>Pipeline — The Working Book</h2>
+      <p class="muted">Every mapped account across the four states, seeded automatically and tracked through the sales motion. Edits save on this machine (browser storage). <b>Once inside a company: the corporate CRM is the system of record — this is the personal thinking layer, and the CSV below is the import bridge.</b> (A corporate "deal desk" is something different — the cross-functional approval function for pricing/terms exceptions; this tab deliberately doesn't claim that name.)</p>
+      <div id="pipelineStats" class="callout"></div>
+      <div class="grid two">
+        <div><label>Assumed win rate (%) — Medicaid enterprise runs 15–25</label><input id="pipelineWinRate" type="number" min="1" max="100" value="20"></div>
+        <div><label>Coverage verdict</label><input id="pipelineCoverage" type="text" readonly></div>
+      </div>
+      <p class="muted">Coverage discipline: "3x pipeline" is a relic — required coverage = 1 ÷ win rate, stage-weighted. At sub-20% Medicaid win rates that means 4–7x, built through account DEPTH (multi-threading, MEDDPICC completeness), not volume — there are only ~20 named accounts.</p>
+      <div class="buttons">
+        <button id="pipelineReset" class="ghost">Re-seed missing accounts</button>
+        <button id="pipelineCsv" class="gold">Export CSV (CRM import bridge)</button>
+      </div>
+    </article>
+    <article class="card">
+      <h2>Stage Discipline</h2>
+      <ol class="checklist">
+        <li><b>Research</b> — map the mechanism, cohort and buying committee (this tool).</li>
+        <li><b>Outreach</b> — warm-door first; the hook is on the account's stakeholder map.</li>
+        <li><b>Discovery</b> — funding authority, highest-cost cohort, incumbent pain, data path.</li>
+        <li><b>Pilot Design</b> — build it in the Pilot Builder; send the one-pager.</li>
+        <li><b>Proposal / RFP</b> — the RFP Builder scaffold + compliance matrix.</li>
+        <li><b>Won / Parked</b> — won moves to implementation; parked gets a revisit date, never a silent death.</li>
+      </ol>
+      <div class="callout amber"><b>Rule:</b> no account sits without a next action and a date. An empty "next action" is a parked deal you haven't admitted to.</div>
+    </article>
+  </div>
+  <article class="card topgap">
+    <h2>MEDDPICC Per Account — What "Depth" Means on a 20-Account Book</h2>
+    <p class="muted">Run every pipeline review on these eight, not on close dates. Work them into each account's notes field.</p>
+    <div class="grid two">
+      <div>
+        <ul>
+          <li><b>M — Metrics:</b> the plan's own numbers — PMPM trend, readmission penalties, HEDIS SNS-E gap, meal-benefit engagement (often &lt;8%).</li>
+          <li><b>E — Economic buyer:</b> plan CMO / CFO / VP population health (named on the Stakeholder Map, with source + date).</li>
+          <li><b>D — Decision criteria:</b> evidence standard, price band, delivery reliability, reporting.</li>
+          <li><b>D — Decision process:</b> committee, clinical sign-off, pilot-first vs. RFP.</li>
+        </ul>
+      </div>
+      <div>
+        <ul>
+          <li><b>P — Paper process:</b> procurement, security review, BAA, contracting — <b>where Medicaid deals actually stall.</b> Map it early.</li>
+          <li><b>I — Identify pain:</b> the cohort bleeding money (post-discharge CHF, high-acuity complex).</li>
+          <li><b>C — Champion:</b> who sells when you're not in the room.</li>
+          <li><b>C — Competition:</b> Mom's Meals, Instacart Health, NourishedRx, regional nonprofits — sell adherence, never price.</li>
+        </ul>
+      </div>
+    </div>
+  </article>
+  <article class="card topgap">
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Account</th><th>State</th><th>Stage</th><th>Next action</th><th>By when</th><th>Notes</th></tr></thead>
+        <tbody id="pipelineRows"></tbody>
+      </table>
+    </div>
+  </article>
+
+
+  <div class="grid split">
+    <article class="card">
+      <h2>Medicaid Opportunity Score</h2>
+      <p class="muted">Scores whether the account is ready for research, discovery, pilot design or proposal.</p>
+      <div class="grid two">
+        <div><label>State</label><select id="oppState"></select></div>
+        <div><label>Account / MCO</label><input id="oppAccount" placeholder="Example: any Medicaid MCO — Anthem CalAIM, Healthfirst NY, Aetna Better Health"></div>
+      </div>
+      <div id="opportunityQuestions"></div>
+      <div class="buttons">
+        <button id="scoreOpportunity" class="primary">Score Opportunity</button>
+        <button id="saveOpportunity" class="gold">Save Scorecard</button>
+      </div>
+    </article>
+    <article class="card">
+      <h2>Result & Next Best Action</h2>
+      <div id="opportunityResult" class="empty">Complete the eight opportunity factors.</div>
+    </article>
+  </div>
+</section>
+
+<section id="saleskit" class="panel">
+  <div class="grid split">
+    <article class="card">
+      <h2>Outreach Composer — The First Touch</h2>
+      <p class="muted">Generates a plain-text, money-first opener from the account's live hook. Edit before sending — a template you didn't personalize is a template they can smell.</p>
+      <div class="grid three">
+        <div><label>State</label><select id="orState"></select></div>
+        <div><label>Account</label><select id="orAccount"></select></div>
+        <div><label>Persona</label><select id="orPersona"></select></div>
+      </div>
+      <label>Channel</label>
+      <select id="orChannel">
+        <option value="email">Email — first touch</option>
+        <option value="linote">LinkedIn connection note (~300 chars)</option>
+        <option value="limsg">LinkedIn message (connected)</option>
+      </select>
+      <div class="buttons">
+        <button id="orBuild" class="primary">Compose Draft</button>
+        <button id="orCopy" class="ghost">Copy</button>
+      </div>
+      <textarea id="orOutput" style="min-height:220px" placeholder="The draft appears here — edit it before it goes anywhere."></textarea>
+    </article>
+    <article class="card">
+      <h2>The Outreach Rules</h2>
+      <ol class="checklist" id="orRules"></ol>
+    </article>
+  </div>
+  <article class="card topgap">
+    <h2>Discovery Question Bank — By Persona</h2>
+    <p class="muted">Ask 3–4 per call, in their language. Every answer maps to a MEDDPICC letter and a Deal Desk next action.</p>
+    <div id="discoveryBank" class="grid two"></div>
+  </article>
+  <article class="card topgap">
+    <h2>Objection Responses</h2>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>The objection</th><th>The response</th></tr></thead>
+        <tbody id="objectionRows"></tbody>
+      </table>
+    </div>
+  </article>
+  <article class="card topgap">
+    <h2>Competitor Battlecards — Sell Adherence, Never Price</h2>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Competitor</th><th>Their strength (concede it)</th><th>Their gap</th><th>The counter</th></tr></thead>
+        <tbody id="battlecardRows"></tbody>
+      </table>
+    </div>
+  </article>
+
+
+  <div class="grid split">
+    <article class="card">
+      <h2>AE Account Brief Builder</h2>
+      <label>Account / MCO</label><input id="briefAccount" placeholder="Example: any Medicaid MCO — Anthem CalAIM, Healthfirst NY, Aetna Better Health">
+      <label>State</label><select id="briefState"></select>
+      <label>Priority cohort</label><select id="briefCohort"></select>
+      <label>Known relationship or trigger</label><textarea id="briefTrigger"></textarea>
+      <label>Confirmed facts</label><textarea id="briefFacts"></textarea>
+      <label>Assumptions</label><textarea id="briefAssumptions"></textarea>
+      <label>Open questions</label><textarea id="briefQuestions"></textarea>
+      <div class="buttons">
+        <button id="buildBrief" class="primary">Build Brief</button>
+        <button id="saveBrief" class="gold">Save Brief</button>
+      </div>
+    </article>
+    <article class="card">
+      <h2>CRM-Ready Brief</h2>
+      <pre id="briefOutput" class="briefout">Complete the fields to build a discovery brief.</pre>
+      <div class="buttons">
+        <button id="copyBrief" class="ghost">Copy</button>
+        <button id="downloadBrief" class="ghost">Download .txt</button>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section id="health" class="panel">
+  <div class="grid split">
+    <article class="card">
+      <h2>Account Health — The Report That Wins the Renewal</h2>
+      <p class="muted">Renewals die on unprovable value: meal benefits are often used by fewer than 8% of eligible members, and vendors can show shipments but not engagement. This generator turns program data into the renewal story — in the account team's language, per book of business.</p>
+      <label>Report mode</label>
+      <select id="ahMode">
+        <option value="ma">MA Renewal Defense — D-SNP / supplemental benefit (retention + Stars story)</option>
+        <option value="scn">Medicaid Evidence Pack — SCN / 1115 program (waiver-renewal readiness)</option>
+      </select>
+      <div id="ahModeNote" class="callout"></div>
+      <div class="grid two">
+        <div><label>Account / program name</label><input id="ahAccount" placeholder="Example: Gulf Coast Health Plan (DEMO)"></div>
+        <div><label>Reporting period</label><input id="ahPeriod" placeholder="Q2 2026"></div>
+      </div>
+      <div class="grid three">
+        <div><label>Eligible members</label><input id="ahEligible" type="number" min="1" value="12400"></div>
+        <div><label>Activated (%)</label><input id="ahActivated" type="number" min="0" max="100" value="34"></div>
+        <div><label>Reorder rate (%)</label><input id="ahReorder" type="number" min="0" max="100" value="81"></div>
+      </div>
+      <div class="grid three">
+        <div><label>Satisfaction (out of 5)</label><input id="ahSat" type="number" min="0" max="5" step="0.1" value="4.6"></div>
+        <div><label>Members screened</label><input id="ahScreened" type="number" min="0" value="4216"></div>
+        <div><label>Positive screens (%)</label><input id="ahPositive" type="number" min="0" max="100" value="37"></div>
+      </div>
+      <div class="grid two">
+        <div><label>Intervention ≤ 30 days of positive screen (%)</label><input id="ahIntervened" type="number" min="0" max="100" value="96"></div>
+        <div><label>Non-food referrals routed to care mgmt</label><input id="ahReferrals" type="number" min="0" value="388"></div>
+      </div>
+      <div class="buttons">
+        <button id="ahBuild" class="primary">Generate report (appears below)</button>
+      </div>
+      <div id="ahReportMount" class="reportMount"></div>
+      <div class="callout amber"><b>Data honesty:</b> defaults are DEMONSTRATION numbers (say so out loud in any room). The production version runs on real program data; the &lt;8% utilization benchmark is industry/company-reported context, labeled as such in the report.</div>
+    </article>
+    <article class="card">
+      <h2>Why This Wins Each Book</h2>
+      <div class="callout"><b>MA mode (the retention seat):</b> renewals are decided by the plan's benefit-value review. The two numbers institutional food can't show — <b>activation vs. the &lt;8% norm and the reorder rate</b> (adherence) — are the two numbers this report leads with. The activation plan rides the mid-year unused-benefit notices (first wave mailed June 30–July 31, 2026): the letters that threaten low-utilization benefits become the campaign that fixes them. <b>The competitor evidence bar:</b> Mom's Meals markets its own survey claiming 97% of members who used the meal benefit were likelier to STAY with the plan (vendor-stated — label it) — this report answers a survey claim with program data, and upgrades the story to DOUBLE retention: the benefit retains the member; the report retains the contract.</div>
+      <div class="callout"><b>Medicaid/SCN mode (the waiver cliff):</b> New York's 1115 authority expires <b>March 31, 2027</b> — every SCN-funded program's future depends on renewal-proof evidence generated NOW. This pack converts a program's quarter into the evidence a state and CMS conversation needs: enrollment, completion, loop closure, and documented follow-through against the NC HOP $164 PMPM reference point.</div>
+      <div class="callout"><b>Stars mechanics (the revenue WHY behind MA retention, statutory and stable):</b> plans at <b>4.0+ stars earn a 5% quality bonus</b> on their benchmark, and the rebate share plans keep rises by rating tier (50% → 65% → 70%). Member-experience measures are scored from real member surveys — which is why a benefit members actually use, love and mention by name is Stars ammunition, and why this report captures satisfaction and reorder behavior every quarter. <b>Weighting precision (2026 Stars):</b> CMS cut member-experience/CAHPS measure weight from 4x to 2x — experience is now ≈22% of the overall rating, down from ≈33% — so <b>activation and adherence evidence leads; satisfaction supports</b>. And the Health Equity Index replaces the reward factor starting with 2027 Stars, making documented reach into high-need members (LIS/dual/disabled) a rated asset — exactly the population a D-SNP meal benefit touches and this report documents. The dollar math is county- and plan-specific — the plan's Stars team owns it; this report feeds it.</div>
+      <div class="callout amber"><b>CONCEPT BUILT (v1 skeleton):</b> Provider Referral &amp; Dual-Trigger Documentation Helper — a clinic-facing order sheet capturing the nutrition-sensitive condition + screened need + Z-code in one pass, so referrals arrive clean and medical necessity is documented from day one. <a href="Provider_Referral_Helper.html" target="_blank">Open the working concept</a>. The clinical edges — RDN assessment content, the condition list, coder Z-code preference — are deliberately left open for clinical partners to shape: those calls belong to the clinical team. It also refuses to generate an MTM order when the dual trigger isn't met.</div>
+    </article>
+  </div>
+</section>
+
+<section id="rfp" class="panel">
+  <article class="card">
+    <h2>RFP Shredder — paste the document, get the compliance matrix + response shell</h2>
+    <p class="muted">Step 1 of any response: paste the RFP / RFI / solicitation text below (copy straight from the PDF). The shredder extracts every requirement sentence, flags mandatory forms and deadlines, pulls the scoring criteria so you write to the rubric, builds the compliance matrix with suggested owners, and maps each narrative requirement to a draft block from the response library. <b>The parser flags requirement language — a human verifies every row against the actual document. The matrix IS the audit trail.</b></p>
+    <textarea id="shredInput" rows="9" placeholder="Paste the full RFP text here..."></textarea>
+    <div class="buttons">
+      <button id="shredBtn" class="primary">Shred it (matrix + shell appear below)</button>
+      <button id="shredSample" class="ghost">Load sample RFP excerpt (demo)</button>
+    </div>
+    <div id="shredMount" class="reportMount"></div>
+  </article>
+  <div class="grid split">
+    <article class="card">
+      <h2>RFP Response Builder</h2>
+      <p class="muted">Generates a draft response scaffold from the selected state model, your pilot design, the published rate anchors and CookUnity's public case studies. A scaffold, not a submission — every section gets edited against the actual RFP document.</p>
+      <label>Opportunity type</label>
+      <select id="rfpType"></select>
+      <div id="rfpTypeNote" class="callout amber"></div>
+      <div class="grid two">
+        <div><label>Issuing entity / opportunity name</label><input id="rfpEntity" placeholder="Example: state or MCO nutrition-services RFP — any market"></div>
+        <div><label>Response deadline</label><input id="rfpDeadline" type="date"></div>
+      </div>
+      <div class="grid two">
+        <div><label>State</label><select id="rfpState"></select></div>
+        <div><label>Priority cohort</label><select id="rfpCohort"></select></div>
+      </div>
+      <div class="grid three">
+        <div><label>Members</label><input id="rfpMembers" type="number" min="1" value="200"></div>
+        <div><label>Weeks</label><input id="rfpWeeks" type="number" min="1" value="12"></div>
+        <div><label>Meals / week</label><input id="rfpMeals" type="number" min="1" value="10"></div>
+      </div>
+      <div class="grid two">
+        <div><label>Price per meal ($)</label><input id="rfpPrice" type="number" min="0" step="0.01" value="11.15"></div>
+        <div><label>&nbsp;</label><button id="rfpLoadPilot" class="ghost wide">Load current Pilot Builder design</button></div>
+      </div>
+      <label>Differentiators to emphasize</label>
+      <div class="grid two">
+        <div><label><input type="checkbox" id="rfpD1" checked> Chef quality → adherence → outcomes</label></div>
+        <div><label><input type="checkbox" id="rfpD2" checked> Registered-dietitian clinical oversight</label></div>
+        <div><label><input type="checkbox" id="rfpD3" checked> Cultural relevance of menus</label></div>
+        <div><label><input type="checkbox" id="rfpD4" checked> National fresh-delivery logistics</label></div>
+        <div><label><input type="checkbox" id="rfpD5" checked> Adherence / outcomes reporting to the payer</label></div>
+        <div><label><input type="checkbox" id="rfpD6" checked> Community trusted-messenger enrollment layer</label></div>
+      </div>
+      <label>Custom win themes / account-specific notes (optional)</label>
+      <textarea id="rfpThemes" placeholder="What this buyer cares about most; incumbent pain; local proof points..."></textarea>
+      <div class="buttons">
+        <button id="buildRfp" class="primary">Generate Draft Response</button>
+        <button id="saveRfp" class="gold">Save Draft</button>
+      </div>
+    </article>
+    <article class="card">
+      <h2>Draft Response Scaffold</h2>
+      <div class="callout amber"><b>Draft standard:</b> every generated claim traces to the tool's source registry; every section still requires human editing, format compliance and verification against the actual RFP.</div>
+      <pre id="rfpOutput" class="briefout">Choose the opportunity settings and click Generate.</pre>
+      <div class="buttons">
+        <button id="copyRfp" class="ghost">Copy</button>
+        <button id="downloadRfp" class="ghost">Download .txt</button>
+      </div>
+    </article>
+  </div>
+  <article class="card topgap">
+    <h2>Procurement Readiness Checklist — Capture → Write → Protest-Proof → Submit</h2>
+    <ol class="checklist" id="rfpChecklist"></ol>
+  </article>
+  <article class="card topgap">
+    <h2>Where Procurements Post — The Revenue-Event Watchlist</h2>
+    <p class="muted">The Reg Watch tab tracks policy; these portals announce the money. Check the priority-state portals weekly.</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Portal</th><th>What to watch</th></tr></thead>
+        <tbody id="rfpPortalRows"></tbody>
+      </table>
+    </div>
+  </article>
+</section>
+
+<section id="regwatch" class="panel">
+  <article class="card">
+    <h2>Morning Intelligence — live federal data, refreshed nightly at 7:30 AM by the same task that updates the feed below</h2>
+    <div id="v15Brief" class="empty">Morning intelligence not generated yet — it appears automatically after the next 7:30 AM run (or run Update_Regulatory_Watch_Silent.bat).</div>
+  </article>
+
+  <article class="card">
+    <h2>Food-is-Medicine Champions — the legislators moving the mechanisms (all bill numbers verified 7/21/2026)</h2>
+    <p class="muted">Mechanisms don't appear — legislators build them. These are the people currently carrying food-is-medicine policy, each anchored to a verifiable action. Why it's a sales tab: a champion's bill advancing = a mechanism being born = a trigger event; and champions' offices are door-openers into agencies and plans.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Who</th><th>Verified anchor action</th><th>Why it matters to this sale</th></tr></thead>
+      <tbody>
+        <tr><td><b>Sen. Cory Booker (D-NJ)</b></td><td>Lead sponsor, <b>S.2834 Medically Tailored Home-Delivered Meals Program Pilot Act</b> (9/17/2025, Senate Finance); "Food is Medicine: HEAL America" agenda (5/19/2026); 2/23/2026 letter urging CMS to pilot MTM</td><td>The loudest federal MTM champion — his bill is a Medicare MTM pilot at ~40 hospital sites</td></tr>
+        <tr><td><b>Sen. Roger Marshall, MD (R-KS)</b></td><td>Original cosponsor S.2834; co-led the 2/23/2026 CMS letter with Booker</td><td>The Republican physician half of the standing bipartisan FiM pair</td></tr>
+        <tr><td><b>Sen. Bill Cassidy, MD (R-LA)</b></td><td>Original cosponsor S.2834 (own release 9/22/2025: "Nutrition can determine how long patients stay out of the hospital"); chairs Senate HELP</td><td><b>LOUISIANA'S senior senator on the federal MTM bill — the LA-to-federal bridge in one person</b></td></tr>
+        <tr><td><b>Rep. Jim McGovern (D-MA-02)</b></td><td>Lead sponsor, <b>H.R.5439</b> (House companion, 9/17/2025, Ways &amp; Means); has refiled the MTM pilot every Congress since 2020</td><td>Dean of congressional food policy; Massachusetts home of Community Servings</td></tr>
+        <tr><td><b>Rep. Nicole Malliotakis (R-NY-11)</b></td><td>Republican co-lead, H.R.5439; sits on Ways &amp; Means — the committee of referral</td><td>Procedural leverage where the bill actually lives</td></tr>
+        <tr><td><b>Rep. Robin Kelly (D-IL-02)</b></td><td><b>H.R.7906 FOOD for Health Act</b> (3/12/2026): $20M USDA pilot grants for FiM incl. MTM; bipartisan (Kiggans R-VA) + bicameral (Heinrich D-NM)</td><td>The newest federal FiM money vehicle — grant dollars for CBO/provider programs</td></tr>
+        <tr><td><b>Sen. Gustavo Rivera (D-NY, Bronx)</b></td><td><b>S.1912-A — Medicaid coverage of medically tailored meals — PASSED the NY Senate 46–7 on 4/16/2026</b>; now in Assembly Health (companion: Asm. Tony Simone, A.7365)</td><td><b>A mechanism being BORN in CookUnity's home state: if enacted, NY Medicaid MTM coverage becomes statutory — bigger than any waiver. He also chairs Senate Health: champion + gatekeeper in one</b></td></tr>
+        <tr><td><b>Asm. Mia Bonta (D-CA, Oakland)</b></td><td>Author, AB 1975 (Medi-Cal medically supportive food) — passed the Legislature, vetoed 9/25/2024; now co-leading the DHCS advisory-workgroup budget path with Sen. Susan Rubio (2025–26)</td><td>THE CalAIM permanent-benefit champion; the workgroup is the road to making MTM a permanent Medi-Cal benefit</td></tr>
+        <tr><td><b>Sen. Julian Cyr (D-MA)</b></td><td>Senate lead of the MA Food &amp; Health Pilot bills (2020–22 sessions) — <b>legacy champion; no verified 2025–26 refile</b></td><td>MA's FiM energy now runs through the MassHealth waiver benefit (administrative, not legislative) — engage the agency, not the statehouse</td></tr>
+        <tr><td><b>Sen. Patrick McMath (R-LA, Covington)</b></td><td>Author, SB 14 — signed 6/25/2025: school-meal ingredient bans + physician nutrition continuing-education mandate</td><td>Louisiana's nutrition reformer (MAHA-aligned); not MTM-specific, but proof the LA statehouse is moving on nutrition</td></tr>
+        <tr><td><b>Reps. Mandie Landry (D-New Orleans) + Tehmi Chassion (D-Lafayette)</b></td><td>Authors, HR 246 (adopted 5/28/2024, 75–24): directs LDH to study <b>Medicaid investment in CBOs addressing health-related social needs incl. nutrition — final policy recommendations were due to House Health &amp; Welfare 2/27/2026</b></td><td><b>The live Louisiana hook: a Medicaid-nutrition policy report delivered into the committee chaired by Rep. Dustin Miller.</b> Chassion is Lafayette-based — home turf</td></tr>
+        <tr><td><b>Rep. Dustin Miller (D-Opelousas)</b></td><td>Chairs House Health &amp; Welfare (verified); the only nurse in the Legislature. <b>No FiM-specific action of his own on record — never attribute one</b></td><td>The LA gatekeeper: the HR 246 recommendations land in HIS committee. Pitch him as the access point, not as a champion on record</td></tr>
+        <tr><td><b>Rep. Kristine Reeves (D-WA) + Sen. T'wina Nobles (D-WA)</b></td><td><b>HB 2211 — SIGNED INTO LAW 3/24/2026</b> (House 93-0, Senate 46-2; effective 6/11/2026): statewide standards for medically tailored meals in state health programs — nutrition care plans, condition standards, WA-nonprofit vendor priority. Nobles carried the Senate companion (SB 5966)</td><td><b>The only ENACTED state MTM statute in the scan — Washington is now a standards-defined market. Read the law before any WA pursuit: the vendor-priority clause shapes who can win there</b></td></tr>
+        <tr><td><b>Sen. Troy Singleton (D-NJ)</b></td><td><b>S1829 (live 2026 session): the "Food is Medicine NJ Pilot Program" — $5,000,000 appropriation</b>: MTM for ~3,000 high-risk Medicaid members + produce Rx/nutrition ed for ~7,000 more; pending</td><td>A funded pilot bill moving NOW — if it passes, New Jersey becomes a named-dollar market overnight. (Asw. Tennille McCoy's Medicaid MTM coverage mandate died at session end 1/2026 — watch for refile)</td></tr>
+        <tr><td><b>Reps. Bridget Kosierowski (D-PA, an RN) + Natalie Mihalek (R-PA)</b></td><td>Bipartisan co-sponsorship memo (filed 2/19/2026) for Medicaid coverage of prescribed medically tailored meals — running parallel to <b>Gov. Shapiro's proposed $900K FY2026-27 "Food is Medicine" MTM pilot</b></td><td>Pennsylvania has BOTH a bipartisan legislative channel and an executive budget line — a market warming from two directions at once</td></tr>
+        <tr><td><b>Sen. Lakesia Collins (D-IL) + Rep. Norma Hernandez (D-IL)</b></td><td>SB2374 (Medicaid medical-nutrition-therapy pilot) + HB3434 (Medicaid nutrition-care coverage mandate) — both introduced 2025, <b>both currently stalled in committee</b></td><td>Champions-in-progress, not wins — Illinois's actual food benefits run through its waiver today; track the bills as future triggers</td></tr>
+        <tr><td><b>Rep. Kyle Brown (D-CO) + Sen. Barbara Kirkmeyer (R-CO)</b></td><td><b>HB24-1322 — SIGNED 6/3/2024</b>: directed Colorado Medicaid to study and seek federal authorization for HRSN nutrition services incl. MTM — produced the 2025 HRSN amendment to Colorado's waiver</td><td>An enacted mechanism-builder law with a REPUBLICAN prime sponsor — the bipartisan proof point for any red-state conversation</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout"><b>Where NO legislative champion exists (verified honestly):</b> Oregon (new OHP food benefits launched July 2026 — executive/waiver-driven, no bill sponsor), Hawai'i (QUEST waiver extension, agency-driven), Arizona (its FiM champion left the legislature). Lesson: in those states you engage the MEDICAID AGENCY, not the statehouse — the mechanism lives in the waiver office.</div>
+    <h2 style="margin-top:16px">Champion channels — every name ships with a proven line (all from official legislature pages, verified 7/21/2026)</h2>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Champion</th><th>Office phone</th><th>Official email</th></tr></thead>
+      <tbody>
+        <tr><td>Sen. Booker (D-NJ)</td><td>DC (202) 224-3224 · Newark (973) 639-8700</td><td>Webform (booker.senate.gov)</td></tr>
+        <tr><td>Sen. Marshall (R-KS)</td><td>DC (202) 224-4774</td><td>Webform (marshall.senate.gov)</td></tr>
+        <tr><td>Sen. Cassidy (R-LA)</td><td>DC (202) 224-5824 · <b>Baton Rouge (225) 929-7711 · Lafayette (337) 261-1400</b></td><td>Webform (cassidy.senate.gov)</td></tr>
+        <tr><td>Rep. McGovern (D-MA)</td><td>DC (202) 225-6101 · Worcester (508) 831-7356</td><td>Webform (mcgovern.house.gov)</td></tr>
+        <tr><td>Rep. Malliotakis (R-NY)</td><td>DC (202) 225-3371 · Staten Island (718) 568-2870</td><td>Webform (malliotakis.house.gov)</td></tr>
+        <tr><td>Rep. Kelly (D-IL)</td><td>DC (202) 225-0773 · Matteson (708) 679-0078</td><td>Webform (robinkelly.house.gov)</td></tr>
+        <tr><td>Sen. Rivera (D-NY)</td><td>Albany (518) 455-3395 · Bronx (718) 933-2034</td><td><b>grivera@nysenate.gov</b></td></tr>
+        <tr><td>Asm. Simone (D-NY)</td><td>Albany (518) 455-4941 · Manhattan (212) 807-7900</td><td><b>simonet@nyassembly.gov</b></td></tr>
+        <tr><td>Asm. Bonta (D-CA)</td><td>Capitol (916) 319-2018 · Oakland (510) 286-1670</td><td>Webform (CA Assembly publishes no member emails)</td></tr>
+        <tr><td>Sen. Cyr (D-MA)</td><td>State House (617) 722-1570</td><td><b>julian.cyr@masenate.gov</b></td></tr>
+        <tr><td>Sen. McMath (R-LA)</td><td>Mandeville (985) 900-6278</td><td><b>sen11@legis.la.gov</b></td></tr>
+        <tr><td>Rep. Landry (D-LA)</td><td>New Orleans (504) 383-3836</td><td><b>hse091@legis.la.gov</b></td></tr>
+        <tr><td>Rep. Chassion (D-LA)</td><td><b>Lafayette (337) 262-2368</b></td><td><b>hse044@legis.la.gov</b></td></tr>
+        <tr><td>Rep. Miller (D-LA)</td><td>Opelousas (337) 943-2900</td><td><b>millerd@legis.la.gov</b> (personalized alias — the page publishes this, not the hse040 pattern)</td></tr>
+        <tr><td>Rep. Reeves (D-WA)</td><td>Olympia (360) 786-7830</td><td><b>Kristine.Reeves@leg.wa.gov</b></td></tr>
+        <tr><td>Sen. Nobles (D-WA)</td><td>Olympia (360) 786-7654</td><td><b>twina.nobles@leg.wa.gov</b></td></tr>
+        <tr><td>Sen. Singleton (D-NJ)</td><td>Moorestown (856) 234-2790</td><td>Webform (NJ publishes no member emails)</td></tr>
+        <tr><td>Rep. Kosierowski (D-PA)</td><td>Capitol (717) 783-4874 · Scranton (570) 562-2350</td><td><b>RepKosierowski@pahouse.net</b></td></tr>
+        <tr><td>Rep. Mihalek (R-PA)</td><td>Capitol (717) 783-1522 · Pittsburgh (724) 942-2045</td><td>NOT PUBLISHED — webform only</td></tr>
+        <tr><td>Rep. Brown (D-CO)</td><td>Capitol (303) 866-2920</td><td><b>kyle.brown.house@coleg.gov</b></td></tr>
+        <tr><td>Sen. Kirkmeyer (R-CO)</td><td>Capitol (303) 866-4876</td><td><b>barbara.kirkmeyer.senate@coleg.gov</b></td></tr>
+        <tr><td>Sen. Collins (D-IL)</td><td>Springfield (217) 782-6252 · Chicago (312) 298-9181</td><td>NOT PUBLISHED on ilga.gov — phone is the proven channel</td></tr>
+        <tr><td>Rep. Hernandez (D-IL)</td><td>Springfield (217) 782-3374 · Melrose Park (708) 365-8498</td><td><b>district@repnormahernandez.com</b> (published on ilga.gov)</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout amber"><b>How to use this list:</b> track the two live vehicles (NY S.1912-A in Assembly Health; the federal S.2834/H.R.5439 pair in committee) as trigger events — either advancing changes the market map same-week. Champions' public statements are citable third-party validation in any deck ("a bipartisan Senate bill proposes exactly this model"). Channel note: federal offices take constituent webforms and coalition letters — the district-office phone is the human door (Cassidy's Baton Rouge and Lafayette offices are LOCAL calls for a Louisiana constituent). And the integrity rail: cite only the anchored actions above — a wrong attribution to a legislator is the fastest credibility kill in a statehouse-literate room.</div>
+  </article>
+
+  <article class="card">
+    <h2>Medicaid Regulatory Watch</h2>
+    <p class="muted" id="regwatchStamp"></p>
+    <div class="callout"><b>Refresh is AUTOMATIC on the author's machine</b> (a Windows scheduled task runs the updater every morning at 7:30, or on next wake) — check the stamp below to confirm today's run, then reload this page. <b>If you received this tool as a copy:</b> double-click <b>Update_Regulatory_Watch.bat</b> in the tool folder to refresh manually. Feed items are LEADS — click through and verify before citing anything.</div>
+    <div id="regwatchErrors"></div>
+  </article>
+  <article class="card topgap">
+    <h2>Standing Policy Baseline (verified July 16–17, 2026)</h2>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>The fact</th><th>Why it matters commercially</th><th>Source</th></tr></thead>
+        <tbody id="regBaselineRows"></tbody>
+      </table>
+    </div>
+  </article>
+  <article class="card topgap">
+    <h2>Live Feed</h2>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Bucket</th><th>Date</th><th>Item</th><th>Source</th></tr></thead>
+        <tbody id="regFeedRows"></tbody>
+      </table>
+    </div>
+  </article>
+  <article class="card topgap">
+    <h2>What This Watches</h2>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Source</th><th>What it covers</th></tr></thead>
+        <tbody id="regSourcesRows"></tbody>
+      </table>
+    </div>
+  </article>
+</section>
+
+<section id="sdoh" class="panel">
+  <div class="grid split">
+    <article class="card">
+      <h2>High-Acuity Service-Need Screener</h2>
+      <p class="muted">Use the questions below to identify a likely high-priority nutrition-service profile quickly. This does not create Medicaid eligibility, replace clinical judgment or authorize service.</p>
+      <div class="grid two">
+        <div><label>State</label><select id="screenState"></select></div>
+        <div><label>Account / program</label><input id="screenAccount" placeholder="Example: any Medicaid MCO — Anthem CalAIM, Healthfirst NY, Aetna Better Health"></div>
+      </div>
+      <label>Case reference — do not enter a name, Medicaid ID or PHI</label>
+      <input id="screenReference" placeholder="Example: Demo case A or cohort segment 1">
+      <div class="callout amber">
+        <b>Rapid high-priority rule:</b> recent acute utilization + a diet-sensitive medical need + a documented inability to obtain or prepare appropriate food + safe delivery readiness.
+      </div>
+      <div id="screenQuestions"></div>
+      <label>Additional non-PHI notes</label>
+      <textarea id="screenNotes" placeholder="Document only the facts needed to explain the service need."></textarea>
+      <div class="buttons">
+        <button id="scoreScreen" class="primary">Score Service Need</button>
+        <button id="loadDemoScreen" class="gold">Load High-Acuity Demo</button>
+        <button id="resetScreen" class="ghost">Reset</button>
+      </div>
+    </article>
+
+    <article class="card">
+      <h2>Qualification Result</h2>
+      <div id="screenResult" class="empty">Complete the questions to identify the likely service tier.</div>
+      <pre id="screenSummary" class="briefout compactout">The referral-ready summary will appear here.</pre>
+      <div class="buttons">
+        <button id="saveScreen" class="gold">Save Screen</button>
+        <button id="copyScreen" class="ghost">Copy Summary</button>
+        <button id="useScreenInPilot" class="primary">Use in Pilot Builder</button>
+      </div>
+    </article>
+  </div>
+
+  <article class="card topgap">
+    <h2>Field Version for Community Partners &amp; Clinics</h2>
+    <p class="muted">A standalone, mobile-first <b>HRSN field screener</b> ships with this tool — built on the CMS Accountable Health Communities HRSN core questions + the Hunger Vital Sign, sized for a phone, works offline. (HRSN — health-related social needs — is the individual, payable need a plan can act on; the population-level "SDOH" framing stays out of payer rooms.)</p>
+    <div class="grid three">
+      <div class="proofcard"><h3>De-identified by design</h3><p>No PHI fields; case-reference codes only. Data stays on the device until the screener exports it into the organization's own secure, authorized system.</p></div>
+      <div class="proofcard"><h3>Validated instruments</h3><p>AHC-HRSN core domains (food, housing, transportation, utilities, safety) with standard scoring, plus meal-program-fit questions that route members to the right service tier.</p></div>
+      <div class="proofcard"><h3>Deployment path</h3><p>For identified (PHI) use, host inside BAA-covered infrastructure — the form's built-in compliance checklist lists exactly what that requires. A form is only as compliant as the system around it.</p></div>
+    </div>
+    <div class="callout amber"><b>Distribution:</b> send the single HTML file to a partner (email/text/AirDrop) — it opens in any phone browser with no install. <a class="sourceurl" href="SDOH_Field_Screener_Mobile.html" target="_blank" rel="noopener">Open the field screener</a></div>
+    <div class="callout"><b>Modality architecture (evidence-ranked — see Sources):</b> Lead with <b>self-administered digital at a moment of engagement</b> (SMS link, not portal — ~28% of under-$30K households are smartphone-dependent; self-administration yields ~1.3x more honest disclosure of sensitive needs than an interviewer). Backstop with <b>point-of-care self-administration</b> (tablet screening surfaced 35.6% positive vs. 19.6% by portal — the portal misses the neediest members; UPenn JGIM 2024). Reserve <b>CHW/trusted-messenger face-to-face</b> for the positive-dense, digitally-unreachable tail (CMS AHC Model: 1.1M+ screened in person, 37% positive, $200M+ net savings). Phone = warm scheduled follow-up ONLY (~75% never answer unknown numbers; never promise above 20–30% telephonic completion). Realistic contract bands: ~35–55% digital-first, <b>60–75%+ with the in-person backstop</b>. Report three metrics: completion BY MODALITY, positive rate, and intervention-within-30-days (SNS-E). Passive data (ADI/SVI ≤42% sensitivity; Z-codes on 0.5–2.4% of encounters) targets outreach — it never satisfies the measure.</div>
+  </article>
+  <article class="card topgap">
+    <h2>What the Questions Are Proving</h2>
+    <div class="grid three">
+      <div class="proofcard"><h3>1. Medical urgency</h3><p>Recent acute use, clinical instability or a serious diet-sensitive condition creates a reason to act now.</p></div>
+      <div class="proofcard"><h3>2. Nutrition barrier</h3><p>The member cannot reliably obtain, prepare or follow the food plan required for the medical condition.</p></div>
+      <div class="proofcard"><h3>3. Intervention fit</h3><p>The member can safely receive the service, agrees to participate and is not already receiving a duplicative benefit.</p></div>
+    </div>
+  </article>
+</section>
+
+<section id="saved" class="panel">
+  <div class="grid two">
+    <article class="card"><h2>Saved Scenarios & Opportunities</h2><div id="savedScenarios"></div></article>
+    <article class="card"><h2>Screens, Maps, Pilots & Briefs</h2><div id="savedKnowledge"></div></article>
+  </div>
+  <article class="card topgap">
+    <h2>Backup & Restore</h2>
+    <div class="buttons">
+      <button id="exportData" class="primary">Export JSON</button>
+      <label class="filebtn">Import JSON<input id="importData" type="file" accept="application/json" hidden></label>
+      <button id="clearData" class="dangerbtn">Clear Saved Data</button>
+    </div>
+  </article>
+
+
+  <article class="card">
+    <h2>Source & Assumption Registry</h2>
+    <p class="muted">Each source records what it supports, its date and its limitations. Values labeled “starter estimate” must be replaced with state or payer-specific data.</p>
+    <div class="callout amber"><b>Claims discipline (healthcare selling is regulated speech):</b> everything in this registry is for internal planning and buyer-education use. Any figure that reaches external marketing, member-facing material, or a binding proposal needs the company's marketing/legal claims-approval process first — the FTC's substantiation standard for health-benefit claims is "competent and reliable scientific evidence," and implied claims are held to the same bar as express ones. The registry's job is to make that review easy: every claim already carries its source, date and limitation.</div>
+    <div class="tablewrap">
+      <table><thead><tr><th>Source</th><th>Supports</th><th>Date</th><th>Confidence</th><th>Important limitation</th><th>Link</th></tr></thead><tbody id="sourceTable"></tbody></table>
+    </div>
+  </article>
+</section>
+</main>
+
+<footer><div class="wrap">Medicaid Market Intelligence & AE Enablement Engine · Standalone local edition · Data stays in this browser unless exported.</div></footer>
+<script src="regwatch_data.js?v=15"></script>
+<script src="v15_data.js?v=15"></script>
+<script src="data.js?v=15"></script>
+<script src="app.js?v=15"></script>
+</body>
+</html>

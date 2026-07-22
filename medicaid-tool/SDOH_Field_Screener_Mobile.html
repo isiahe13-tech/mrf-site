@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>HRSN Field Screener — Community Partner Edition</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  :root{--teal:#0e7d6f;--ink:#16212b;--dim:#5b6b7a;--line:#dfe7ec;--bg:#f4f7f9;--amber:#b45309;--red:#b3261e;--green:#1e7d46}
+  body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;padding:14px;max-width:640px;margin:0 auto}
+  h1{font-size:1.25rem;letter-spacing:-.3px}
+  .sub{color:var(--dim);font-size:.9rem;margin:2px 0 10px}
+  .mode{background:#0e2a26;color:#9fe8db;border-radius:12px;padding:12px 14px;font-size:.95rem;margin-bottom:12px}
+  .mode b{color:#fff}
+  .card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px}
+  .card h2{font-size:1.02rem;color:var(--teal);margin-bottom:2px}
+  .inst{font-size:.8rem;color:var(--dim);margin-bottom:10px}
+  label{display:block;font-weight:600;font-size:.95rem;margin:12px 0 6px}
+  label:first-of-type{margin-top:4px}
+  input[type=text],input[type=date]{width:100%;font-size:16px;padding:12px;border:1px solid var(--line);border-radius:10px;background:#fbfdfe}
+  .opts{display:flex;flex-direction:column;gap:8px}
+  .opt{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:10px;padding:12px;font-size:.95rem;font-weight:400;cursor:pointer;background:#fbfdfe}
+  .opt input{width:20px;height:20px;flex:none}
+  .opt.on{border-color:var(--teal);background:#eaf6f4}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .note{font-size:.82rem;color:var(--dim);margin-top:6px}
+  .safety{background:#fff8f2;border-color:#f0d9c0}
+  .btn{display:block;width:100%;font-size:1.05rem;font-weight:700;padding:15px;border-radius:12px;border:none;background:var(--teal);color:#fff;margin-top:6px;cursor:pointer}
+  .btn.ghost{background:#fff;color:var(--teal);border:1.5px solid var(--teal)}
+  .btnrow{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+  .btnrow .btn{margin-top:0;font-size:.95rem;padding:13px}
+  #result{display:none}
+  .flag{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding:9px 2px;font-size:.95rem}
+  .pill{font-size:.78rem;font-weight:800;padding:3px 12px;border-radius:999px}
+  .pos{background:#fdecec;color:var(--red)} .neg{background:#e9f7ef;color:var(--green)} .unk{background:#eef2f5;color:var(--dim)}
+  pre{white-space:pre-wrap;background:#f7fafb;border:1px solid var(--line);border-radius:10px;padding:12px;font-size:.82rem;margin-top:10px;font-family:ui-monospace,Consolas,monospace}
+  details{margin-top:10px;font-size:.85rem;color:var(--dim)}
+  summary{font-weight:700;color:var(--ink);cursor:pointer;padding:6px 0}
+  .foot{font-size:.78rem;color:var(--dim);text-align:center;margin:16px 0 30px;line-height:1.6}
+</style>
+</head>
+<body>
+  <h1>HRSN Field Screener</h1>
+  <p class="sub">Community Partner Edition · built on the CMS Accountable Health Communities (AHC) HRSN core questions + the Hunger Vital Sign™ (validated, public instruments)</p>
+
+  <div class="mode"><b>DE-IDENTIFIED MODE.</b> Do not enter a name, date of birth, address, phone number, or Medicaid ID anywhere on this form. Use the case reference your organization assigns. Screening data stays on this device until you export it into your organization's secure system.</div>
+
+  <div class="card">
+    <h2>Screening context</h2>
+    <p class="inst">Non-identifying context only.</p>
+    <div class="grid2">
+      <div><label>Site / organization code</label><input type="text" id="site" placeholder="e.g., CAA-07 or CLINIC-3"></div>
+      <div><label>Screener initials</label><input type="text" id="screener" placeholder="e.g., JD"></div>
+    </div>
+    <div class="grid2">
+      <div><label>Case reference (non-PHI)</label><input type="text" id="caseref" placeholder="e.g., 2026-0451"></div>
+      <div><label>Date</label><input type="date" id="sdate"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>A. Food — Hunger Vital Sign™</h2>
+    <p class="inst">"Within the past 12 months…"</p>
+    <label>1. You worried that your food would run out before you got money to buy more.</label>
+    <div class="opts" data-q="hvs1">
+      <label class="opt"><input type="radio" name="hvs1" value="often">Often true</label>
+      <label class="opt"><input type="radio" name="hvs1" value="sometimes">Sometimes true</label>
+      <label class="opt"><input type="radio" name="hvs1" value="never">Never true</label>
+    </div>
+    <label>2. The food you bought just didn't last and you didn't have money to get more.</label>
+    <div class="opts" data-q="hvs2">
+      <label class="opt"><input type="radio" name="hvs2" value="often">Often true</label>
+      <label class="opt"><input type="radio" name="hvs2" value="sometimes">Sometimes true</label>
+      <label class="opt"><input type="radio" name="hvs2" value="never">Never true</label>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>B. Housing</h2>
+    <label>3. What is your living situation today?</label>
+    <div class="opts" data-q="house">
+      <label class="opt"><input type="radio" name="house" value="steady">I have a steady place to live</label>
+      <label class="opt"><input type="radio" name="house" value="worried">I have a place today, but I am worried about losing it</label>
+      <label class="opt"><input type="radio" name="house" value="none">I do not have a steady place to live</label>
+    </div>
+    <label>4. Problems where you live (check all that apply)</label>
+    <div class="opts" id="houseprob">
+      <label class="opt"><input type="checkbox" value="Pests">Pests (bugs, mice)</label>
+      <label class="opt"><input type="checkbox" value="Mold">Mold</label>
+      <label class="opt"><input type="checkbox" value="Lead">Lead paint or pipes</label>
+      <label class="opt"><input type="checkbox" value="No heat">Lack of heat</label>
+      <label class="opt"><input type="checkbox" value="Stove not working">Oven or stove not working</label>
+      <label class="opt"><input type="checkbox" value="No smoke detector">Smoke detectors missing or not working</label>
+      <label class="opt"><input type="checkbox" value="Water leaks">Water leaks</label>
+      <label class="opt"><input type="checkbox" value="None" id="probNone">None of these</label>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>C. Transportation</h2>
+    <label>5. Has a lack of reliable transportation kept you from medical appointments, meetings, work, or getting things needed for daily living?</label>
+    <div class="opts" data-q="transport">
+      <label class="opt"><input type="radio" name="transport" value="yes">Yes</label>
+      <label class="opt"><input type="radio" name="transport" value="no">No</label>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>D. Utilities</h2>
+    <label>6. Has the electric, gas, oil, or water company threatened to shut off services in your home?</label>
+    <div class="opts" data-q="utility">
+      <label class="opt"><input type="radio" name="utility" value="yes">Yes</label>
+      <label class="opt"><input type="radio" name="utility" value="already">Already shut off</label>
+      <label class="opt"><input type="radio" name="utility" value="no">No</label>
+    </div>
+  </div>
+
+  <div class="card safety">
+    <h2>E. Personal safety</h2>
+    <p class="inst">Ask privately, only when safe to do so. A member may skip this section. "How often does anyone, including family and friends…"</p>
+    <div id="safetyQs"></div>
+    <label class="opt" style="margin-top:8px"><input type="checkbox" id="safetySkip">Section skipped (not safe / member declined)</label>
+    <p class="note">If the safety score is elevated, follow your organization's safety protocol. Do not document incident details on this form. <b>Louisiana mandatory reporting:</b> screeners providing health/social services are likely mandatory reporters — suspected child abuse/neglect goes to DCFS (1-855-452-5437, written follow-up within 5 days); suspected elder/adult abuse to Elderly Protective Services (1-800-898-4910). Train every screener on this before field use.</p>
+  </div>
+
+  <div class="card">
+    <h2>F. Meal-program fit (supplemental)</h2>
+    <label>Does the member have a medical condition where food is part of the treatment plan (diabetes, heart failure, kidney disease, etc.)?</label>
+    <div class="opts" data-q="dietcond">
+      <label class="opt"><input type="radio" name="dietcond" value="yes">Yes</label>
+      <label class="opt"><input type="radio" name="dietcond" value="no">No</label>
+      <label class="opt"><input type="radio" name="dietcond" value="unknown">Unknown</label>
+    </div>
+    <label>Can the member reliably shop for and prepare appropriate food?</label>
+    <div class="opts" data-q="prep">
+      <label class="opt"><input type="radio" name="prep" value="yes">Yes</label>
+      <label class="opt"><input type="radio" name="prep" value="no">No</label>
+      <label class="opt"><input type="radio" name="prep" value="unknown">Unknown</label>
+    </div>
+    <label>Is there a safe delivery location with food storage (refrigerator) and a way to reheat meals?</label>
+    <div class="opts" data-q="delivery">
+      <label class="opt"><input type="radio" name="delivery" value="yes">Yes</label>
+      <label class="opt"><input type="radio" name="delivery" value="no">No</label>
+      <label class="opt"><input type="radio" name="delivery" value="unknown">Unknown</label>
+    </div>
+    <label>Is the member interested in receiving home-delivered meals or food support?</label>
+    <div class="opts" data-q="interest">
+      <label class="opt"><input type="radio" name="interest" value="yes">Yes</label>
+      <label class="opt"><input type="radio" name="interest" value="no">No</label>
+      <label class="opt"><input type="radio" name="interest" value="unknown">Unknown</label>
+    </div>
+  </div>
+
+  <button class="btn" id="score">Score the Screen</button>
+
+  <div class="card" id="result">
+    <h2>Result</h2>
+    <div id="flags"></div>
+    <pre id="summary"></pre>
+    <div class="btnrow">
+      <button class="btn ghost" id="copy">Copy summary</button>
+      <button class="btn ghost" id="dljson">Download JSON</button>
+    </div>
+    <button class="btn" id="share" style="display:none">Share via secure channel…</button>
+    <p class="note">Export goes into YOUR organization's secure, authorized system. Nothing is transmitted by this form itself.</p>
+  </div>
+
+  <div class="card">
+    <h2>Closed-Loop Referral Log <span style="font-weight:400;font-size:.8rem;color:var(--dim)">(this device · de-identified)</span></h2>
+    <p class="inst">A referral isn't help until it lands. Log each referral by case reference, then update its status when you follow up. The loop-closure rate — and interventions within 30 days of a positive screen, the HEDIS SNS-E numerator plans are measured on — is the number payers actually buy.</p>
+    <div class="grid2">
+      <div><label>Case reference</label><input type="text" id="refCase" placeholder="e.g., 2026-0451"></div>
+      <div><label>Referred to</label>
+        <select id="refDest" style="width:100%;font-size:16px;padding:12px;border:1px solid var(--line);border-radius:10px;background:#fbfdfe">
+          <option>Medically tailored meal program</option>
+          <option>Food pantry / food bank</option>
+          <option>SNAP / WIC navigation</option>
+          <option>Housing agency</option>
+          <option>Transportation assistance</option>
+          <option>Utility assistance (LIHEAP etc.)</option>
+          <option>Primary care / clinic</option>
+          <option>Behavioral health</option>
+          <option>Community action agency</option>
+          <option>Other</option>
+        </select>
+      </div>
+    </div>
+    <label>Note (non-PHI)</label>
+    <input type="text" id="refNote" placeholder="e.g., warm handoff to intake line">
+    <button class="btn" id="refAdd" style="margin-top:10px">Log Referral</button>
+    <div id="refStats" class="note" style="margin-top:10px"></div>
+    <div id="refList" style="margin-top:6px"></div>
+    <div class="btnrow" style="margin-top:8px">
+      <button class="btn ghost" id="refExport">Export log (JSON)</button>
+      <button class="btn ghost" id="refClear">Clear log</button>
+    </div>
+    <button class="btn ghost" id="refDemo" style="margin-top:8px">Load DEMO data (labeled — for presentations)</button>
+  </div>
+
+  <details>
+    <summary>Compliance architecture — read before deploying with real members (Louisiana build)</summary>
+    <p style="margin-top:6px">This form runs in <b>de-identified mode</b>: no PHI fields, no transmission, data stays on the device until a user exports it. That design keeps the screening tool itself outside PHI flows and usable by community partners today.</p>
+    <p style="margin-top:6px"><b>The production architecture (identified/PHI use): operate INSIDE HIPAA as a Business Associate of the physician, clinic and FQHC partners — never as a standalone consumer health app.</b> A consumer app outside HIPAA falls under the FTC Health Breach Notification Rule (expanded July 2024), where even an unauthorized disclosure counts as a reportable breach. Inside HIPAA, provider-to-tool data flows ride the treatment/operations pathways under a signed BAA.</p>
+    <ol style="margin:6px 0 0 18px">
+      <li><b>BAA with every provider partner</b> (45 CFR 164.504(e)); encryption in transit and at rest, MFA, role-based access, immutable audit logs — built to the 2025 HIPAA Security Rule NPRM standard, which proposes making these mandatory.</li>
+      <li><b>The CBO leg needs layered patient authorization</b> (45 CFR 164.508: who discloses, who receives, what, why, expiration, signature — plus revocation rights). Most community-based organizations are NOT HIPAA-covered, so HIPAA protection ends when data reaches them: use consent-per-referral (the findhelp model) plus a data-use agreement imposing HIPAA-equivalent safeguards on the CBO.</li>
+      <li><b>Sensitive-data segmentation:</b> this form deliberately asks NO substance-use questions. If a deployment adds them, 42 CFR Part 2 applies (enforcement live since February 16, 2026) — separate consent and tagged, limited-visibility handling.</li>
+      <li><b>Louisiana breach law</b> (La. R.S. 51:3071 et seq.): consumer notice within 60 days and Attorney General notice within 10 days of consumer notice, on top of the HIPAA 60-day clock; plus reasonable-security and data-destruction duties.</li>
+      <li><b>Minimum necessary by design:</b> referral partners receive only the flagged domains and program-fit fields — never the full instrument responses unless the receiving clinician needs them.</li>
+    </ol>
+    <p style="margin-top:6px"><b>Why these instruments:</b> the CMS AHC-HRSN core tool (LOINC 96777-8) and Hunger Vital Sign™ are free, validated, public instruments — deliberately chosen over PRAPARE, which requires a NACHC license for any digital/platform build and forbids unapproved question changes. Export fields are structured for Gravity Project / HL7 FHIR SDOH alignment.</p>
+    <p style="margin-top:6px"><b>Why this can also pay for itself (Louisiana):</b> Louisiana Medicaid has reimbursed community health worker services incident-to a supervising physician/APRN/PA since January 1, 2022 (CPT 98960–98962 professional; T1015/H2020 FQHC/RHC; qualifying E/M within 30 days; 2 hrs/day, 10 hrs/month caps; CHW qualified via Louisiana CHW Workforce Coalition-recognized training or 3,000 documented hours). Medicare added CHI codes G0019/G0022 and PIN codes G0023/G0024 in 2024. Screening done by CHWs under clinical supervision is a billable service line — with strict False Claims Act discipline: documented supervision, the initiating visit, time logs, consent and Z-codes (Z55–Z65). Note: G0136 stopped being an SDOH code on 1/1/2026.</p>
+    <p style="margin-top:6px" class="note">Framework, not legal advice — engage Louisiana healthcare counsel to paper the BAAs, CBO agreements and consent forms before any PHI deployment.</p>
+  </details>
+
+  <p class="foot">Part of the Medicaid Market Intelligence &amp; AE Enablement Engine · De-identified field edition · Works offline on any phone</p>
+
+<script>
+(() => {
+"use strict";
+const $ = id => document.getElementById(id);
+$("sdate").value = new Date().toISOString().slice(0,10);
+
+// Safety (HITS-style, AHC core 7–10): Never..Frequently scored 1..5, positive if total >= 11
+const SAFETY = [
+  ["saf1","…physically hurt you?"],
+  ["saf2","…insult or talk down to you?"],
+  ["saf3","…threaten you with harm?"],
+  ["saf4","…scream or curse at you?"]
+];
+const SCALE = [["1","Never"],["2","Rarely"],["3","Sometimes"],["4","Fairly often"],["5","Frequently"]];
+$("safetyQs").innerHTML = SAFETY.map(([id,q],i)=>`
+  <label>${i+7}. ${q}</label>
+  <div class="opts" data-q="${id}">${SCALE.map(([v,t])=>`<label class="opt"><input type="radio" name="${id}" value="${v}">${t}</label>`).join("")}</div>`).join("");
+
+// visual selection state
+document.addEventListener("change", e => {
+  const opt = e.target.closest(".opt");
+  if(!opt) return;
+  if(e.target.type === "radio"){
+    opt.parentElement.querySelectorAll(".opt").forEach(o=>o.classList.remove("on"));
+    opt.classList.add("on");
+  } else if(e.target.type === "checkbox"){
+    opt.classList.toggle("on", e.target.checked);
+  }
+});
+
+const val = name => document.querySelector(`input[name="${name}"]:checked`)?.value || "unanswered";
+
+$("score").addEventListener("click", () => {
+  const hvs1=val("hvs1"), hvs2=val("hvs2");
+  const foodAnswered = hvs1!=="unanswered" && hvs2!=="unanswered";
+  const foodPos = ["often","sometimes"].includes(hvs1) || ["often","sometimes"].includes(hvs2);
+  const house=val("house");
+  const probs=[...document.querySelectorAll("#houseprob input:checked")].map(i=>i.value).filter(v=>v!=="None");
+  const housePos = ["worried","none"].includes(house) || probs.length>0;
+  const houseAnswered = house!=="unanswered";
+  const transport=val("transport"), utility=val("utility");
+  const skipped=$("safetySkip").checked;
+  let safTotal=0, safAnswered=0;
+  SAFETY.forEach(([id])=>{ const v=val(id); if(v!=="unanswered"){safTotal+=+v; safAnswered++;} });
+  const safPos = !skipped && safAnswered===4 && safTotal>=11;
+  const dietcond=val("dietcond"), prep=val("prep"), delivery=val("delivery"), interest=val("interest");
+
+  const domains = [
+    ["Food insecurity (Hunger Vital Sign)", foodAnswered ? (foodPos?"POSITIVE":"Negative") : "Incomplete"],
+    ["Housing instability / quality", houseAnswered ? (housePos?"POSITIVE":"Negative") : "Incomplete"],
+    ["Transportation barrier", transport==="unanswered" ? "Incomplete" : (transport==="yes"?"POSITIVE":"Negative")],
+    ["Utility insecurity", utility==="unanswered" ? "Incomplete" : (utility!=="no"?"POSITIVE":"Negative")],
+    ["Personal safety", skipped ? "Skipped" : (safAnswered<4 ? "Incomplete" : (safPos?"ELEVATED":"Not elevated"))]
+  ];
+  $("flags").innerHTML = domains.map(([d,s])=>{
+    const cls = /POSITIVE|ELEVATED/.test(s) ? "pos" : /Negative|Not elevated/.test(s) ? "neg" : "unk";
+    return `<div class="flag"><span>${d}</span><span class="pill ${cls}">${s}</span></div>`;
+  }).join("");
+
+  const mealFit = (foodPos || prep==="no") && dietcond==="yes" && delivery==="yes" && interest==="yes";
+  const mealLine = mealFit
+    ? "LIKELY MEDICALLY-TAILORED-MEAL CANDIDATE: diet-sensitive condition + food/preparation barrier + delivery-ready + interested. Route for clinical review and payer eligibility."
+    : "Route by flagged domains. A food-insecure member without a diet-sensitive condition may fit groceries/produce or SNAP navigation better than intensive medically tailored meals.";
+
+  const summary =
+`HRSN FIELD SCREEN (de-identified)
+Site: ${$("site").value||"-"} | Screener: ${$("screener").value||"-"} | Case ref: ${$("caseref").value||"-"} | Date: ${$("sdate").value}
+Instruments: AHC-HRSN core + Hunger Vital Sign
+
+DOMAIN RESULTS
+${domains.map(([d,s])=>`- ${d}: ${s}`).join("\n")}
+${!skipped && safAnswered===4 ? `- Safety score: ${safTotal}/20 (elevated at 11+)` : ""}
+
+MEAL-PROGRAM FIT
+- Diet-sensitive condition: ${dietcond} | Can shop/prepare: ${prep} | Delivery-ready: ${delivery} | Interested: ${interest}
+- ${mealLine}
+
+NEXT STEP
+Enter this result into your organization's authorized system and follow its referral protocol. This screen identifies need; it does not determine Medicaid eligibility or authorize services.`;
+
+  $("summary").textContent = summary;
+  $("result").style.display = "block";
+  if(navigator.share){ $("share").style.display="block"; $("share").onclick = () => navigator.share({title:"HRSN screen "+($("caseref").value||""), text: summary}).catch(()=>{}); }
+  window.currentScreen = {summary, json:{
+    mode:"de-identified", instruments:["AHC-HRSN core","Hunger Vital Sign"],
+    site:$("site").value, screener:$("screener").value, caseRef:$("caseref").value, date:$("sdate").value,
+    food:{hvs1,hvs2,positive:foodAnswered?foodPos:null},
+    housing:{situation:house,problems:probs,positive:houseAnswered?housePos:null},
+    transportation:{answer:transport,positive:transport==="unanswered"?null:transport==="yes"},
+    utilities:{answer:utility,positive:utility==="unanswered"?null:utility!=="no"},
+    safety:{skipped, score: skipped||safAnswered<4?null:safTotal, elevated: skipped||safAnswered<4?null:safPos},
+    mealFit:{dietCondition:dietcond,canPrepare:prep,deliveryReady:delivery,interested:interest,likelyMtmCandidate:mealFit}
+  }};
+  $("result").scrollIntoView({behavior:"smooth"});
+});
+
+$("copy").addEventListener("click", async () => {
+  try{ await navigator.clipboard.writeText(window.currentScreen.summary); alert("Copied."); }
+  catch{ alert("Copy blocked — select the text and copy manually."); }
+});
+$("dljson").addEventListener("click", () => {
+  const blob = new Blob([JSON.stringify(window.currentScreen.json,null,2)],{type:"application/json"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "sdoh_screen_" + ($("caseref").value||"case") + ".json";
+  a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),500);
+});
+
+// ---------------- Closed-loop referral log (device-local, de-identified) ----------------
+const REF_KEY = "sdoh-referral-log";
+const REF_STATUSES = ["Sent","Accepted","Service started","Completed","Declined","Unreachable"];
+const REF_INTERVENED = new Set(["Accepted","Service started","Completed"]);
+const REF_OUTCOME = new Set(["Completed","Declined","Unreachable"]);
+function refLoad(){ try { return JSON.parse(localStorage.getItem(REF_KEY)||"[]"); } catch { return []; } }
+function refSave(list){ localStorage.setItem(REF_KEY, JSON.stringify(list)); refRender(); }
+function daysBetween(a,b){ return Math.round((new Date(b)-new Date(a))/86400000); }
+function refStatsText(list){
+  if(!list.length) return "No referrals logged yet.";
+  const closed = list.filter(r=>REF_OUTCOME.has(r.status)).length;
+  const snse = list.filter(r=>REF_INTERVENED.has(r.status) && r.statusDate && daysBetween(r.date, r.statusDate)<=30).length;
+  const demo = list.some(r=>r.demo) ? " · CONTAINS DEMO DATA (say so when presenting)" : "";
+  return `${list.length} referral(s) · Loop closed (outcome known): ${closed} (${Math.round(closed/list.length*100)}%) · Intervention within 30 days of referral (SNS-E-style): ${snse} (${Math.round(snse/list.length*100)}%)${demo}`;
+}
+function refRender(){
+  const list = refLoad();
+  $("refStats").textContent = refStatsText(list);
+  $("refList").innerHTML = list.slice().reverse().map(r=>`
+    <div style="border:1px solid var(--line);border-radius:10px;padding:10px;margin-top:8px;background:#fbfdfe${r.demo?";border-style:dashed":""}">
+      <div style="font-weight:600;font-size:.92rem">${r.demo?"[DEMO] ":""}${r.caseRef} · ${r.dest}</div>
+      <div style="font-size:.8rem;color:var(--dim);margin:2px 0 6px">Referred ${r.date}${r.statusDate&&r.statusDate!==r.date?` · status updated ${r.statusDate}`:""}${r.note?` · ${r.note}`:""}</div>
+      <select data-refid="${r.id}" style="width:100%;font-size:16px;padding:10px;border:1px solid var(--line);border-radius:8px;background:#fff">
+        ${REF_STATUSES.map(s=>`<option ${s===r.status?"selected":""}>${s}</option>`).join("")}
+      </select>
+    </div>`).join("");
+  $("refList").querySelectorAll("select[data-refid]").forEach(sel=>sel.addEventListener("change",e=>{
+    const list2 = refLoad();
+    const rec = list2.find(x=>String(x.id)===e.target.dataset.refid);
+    if(rec){ rec.status = e.target.value; rec.statusDate = new Date().toISOString().slice(0,10); refSave(list2); }
+  }));
+}
+$("refAdd").addEventListener("click", () => {
+  const caseRef = ($("refCase").value || $("caseref").value || "").trim();
+  if(!caseRef){ alert("Enter a case reference (non-PHI) first."); return; }
+  const list = refLoad();
+  list.push({id: Date.now(), date: new Date().toISOString().slice(0,10), statusDate: new Date().toISOString().slice(0,10), caseRef, dest: $("refDest").value, note: ($("refNote").value||"").trim(), status: "Sent"});
+  refSave(list);
+  $("refCase").value=""; $("refNote").value="";
+});
+$("refExport").addEventListener("click", () => {
+  const blob = new Blob([JSON.stringify({generated:new Date().toISOString(), mode:"de-identified", entries: refLoad()},null,2)],{type:"application/json"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "sdoh_referrals_" + new Date().toISOString().slice(0,10) + ".json";
+  a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),500);
+});
+$("refClear").addEventListener("click", () => { if(confirm("Clear the entire referral log on this device?")) refSave([]); });
+$("refDemo").addEventListener("click", () => {
+  if(refLoad().length && !confirm("Replace the current log with clearly-labeled DEMO data?")) return;
+  const today = new Date();
+  const d = n => new Date(today - n*86400000).toISOString().slice(0,10);
+  refSave([
+    {id:1,date:d(42),statusDate:d(38),caseRef:"DEMO-001",dest:"Medically tailored meal program",note:"post-discharge CHF",status:"Completed",demo:true},
+    {id:2,date:d(35),statusDate:d(30),caseRef:"DEMO-002",dest:"Food pantry / food bank",note:"",status:"Completed",demo:true},
+    {id:3,date:d(28),statusDate:d(24),caseRef:"DEMO-003",dest:"SNAP / WIC navigation",note:"warm handoff",status:"Service started",demo:true},
+    {id:4,date:d(21),statusDate:d(21),caseRef:"DEMO-004",dest:"Transportation assistance",note:"",status:"Unreachable",demo:true},
+    {id:5,date:d(14),statusDate:d(9),caseRef:"DEMO-005",dest:"Medically tailored meal program",note:"diabetes + food barrier",status:"Accepted",demo:true},
+    {id:6,date:d(10),statusDate:d(10),caseRef:"DEMO-006",dest:"Housing agency",note:"",status:"Sent",demo:true},
+    {id:7,date:d(7),statusDate:d(4),caseRef:"DEMO-007",dest:"Community action agency",note:"utility + food flags",status:"Service started",demo:true},
+    {id:8,date:d(3),statusDate:d(3),caseRef:"DEMO-008",dest:"Primary care / clinic",note:"",status:"Declined",demo:true}
+  ]);
+});
+refRender();
+})();
+</script>
+</body>
+</html>
