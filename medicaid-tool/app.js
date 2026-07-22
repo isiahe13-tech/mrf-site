@@ -1280,6 +1280,31 @@ function renderRateAnchors(){
   if(!anchors.length){el.style.display="none";return;}
   el.innerHTML=`<b>What real programs pay per meal (published anchors — contracted CookUnity pricing replaces this field):</b><div class="tablewrap"><table><thead><tr><th>Program</th><th>Rate</th><th>As of</th><th>Note</th></tr></thead><tbody>${anchors.map(a=>`<tr><td><a class="sourceurl" href="${escapeHtml(a.url)}" target="_blank" rel="noopener">${escapeHtml(a.program)}</a></td><td><b>${escapeHtml(a.rate)}</b></td><td>${escapeHtml(a.date)}</td><td class="mini">${escapeHtml(a.note)}</td></tr>`).join("")}</tbody></table></div>`;
 }
+/* ===== v15 Morning Intelligence — renders live-feed data if the nightly engine has run ===== */
+function renderV15(){
+  const mount=$("v15Brief");
+  if(!mount || typeof window.V15_DATA==="undefined") return;
+  const d=window.V15_DATA;
+  const enr=d.enrollment&&d.enrollment.states?d.enrollment.states:{};
+  const stateBlocks=Object.keys(enr).sort().map(st=>`
+    <h4 style="margin:10px 0 4px">${escapeHtml(st)} — top comprehensive plans (federal file, ${d.enrollment.dataYear} report year)</h4>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Plan</th><th>Parent</th><th>Total enrollment</th><th>Duals</th></tr></thead>
+      <tbody>${enr[st].map(p=>`<tr><td>${escapeHtml(p.plan)}</td><td>${escapeHtml(p.parent||"—")}</td><td>${p.total.toLocaleString()}</td><td>${p.duals.toLocaleString()}</td></tr>`).join("")}</tbody>
+    </table></div>`).join("");
+  const bills=(d.bills||[]).map(b=>`<li>${b.changed?"<b style='color:#b45309'>STATUS CHANGED: </b>":""}<b>${escapeHtml(b.bill)}</b> — ${escapeHtml(b.status)}${b.date?` (as of ${escapeHtml(b.date)})`:""}${b.changed&&b.prior?` — was: ${escapeHtml(b.prior)}`:""}</li>`).join("");
+  const kff=d.kff&&d.kff.changed
+    ?`<b style="color:#b45309">THE KFF WAIVER TRACKER CHANGED since the last run</b> — open it and review (mechanism map may have moved). Checked ${escapeHtml(d.kff.lastChecked||"")}.`
+    :`KFF waiver tracker: unchanged as of ${escapeHtml((d.kff&&d.kff.lastChecked)||"—")}.`;
+  const errs=(d.errors&&d.errors.length)?`<div class="callout amber"><b>Feed issues last run (reported honestly, never hidden):</b> ${d.errors.map(escapeHtml).join(" · ")}</div>`:"";
+  mount.classList.remove("empty");
+  mount.innerHTML=`
+    <p class="muted">Generated ${escapeHtml(d.generatedAt||"")}. Sources: the federal managed-care enrollment file (data.medicaid.gov API), GovTrack bill tracking, and KFF tracker change-detection. Enrollment is the latest PUBLISHED federal report year — treat as directional TAM (Louisiana note: the ${d.enrollment.dataYear||""} file predates UnitedHealthcare's 4/1/2026 exit).</p>
+    <h4 style="margin:8px 0 4px">Bill watch — the mechanisms being born</h4><ul>${bills||"<li>No bill data last run.</li>"}</ul>
+    <p style="margin:8px 0">${kff}</p>
+    ${stateBlocks}
+    ${errs}`;
+}
 function renderSources(){
   $("sourceTable").innerHTML=TOOL_DATA.sources.map(s=>`<tr><td><b>${escapeHtml(s.name)}</b></td><td>${escapeHtml(s.supports)}</td><td>${escapeHtml(s.date)}</td><td>${escapeHtml(s.confidence)}</td><td>${escapeHtml(s.limitation)}</td><td><a class="sourceurl" href="${escapeHtml(s.url)}" target="_blank" rel="noopener">Open source</a></td></tr>`).join("");
 }
@@ -1323,7 +1348,7 @@ function applyEvidenceDefaults(){
   ["matchCohort","cohort","pilotCohort","briefCohort"].forEach(id=>{ if($(id) && [...$(id).options].some(o=>o.value==="complex")) $(id).value="complex"; });
 }
 function init(){
-  applyEvidenceDefaults(); renderCohortTable(); renderOpportunityQuestions(); renderHighAcuityScreen(); renderSources(); renderRateAnchors(); renderCookunityPrograms(); renderStatePlaybook(); initRfp(); initRfpShredder(); renderRegWatch(); initDealDesk(); initSalesKit(); initAccountHealth();
+  applyEvidenceDefaults(); renderCohortTable(); renderOpportunityQuestions(); renderHighAcuityScreen(); renderSources(); renderRateAnchors(); renderCookunityPrograms(); renderStatePlaybook(); initRfp(); initRfpShredder(); renderRegWatch(); try{renderV15();}catch(e){} initDealDesk(); initSalesKit(); initAccountHealth();
   refreshCompanyDropdown(); applyPilotPreset(); renderPresetComparison(); loadEconomicDefaults(); renderFunding(); calculateTam(); renderSaved();
 }
 init();

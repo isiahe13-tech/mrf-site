@@ -792,3 +792,23 @@ the BRPCC governance door
   774-1120. Positioned honestly: community-trust node and plan-funded
   pilot referral partner, never a direct-pay target. No private
   numbers anywhere in the tool.
+
+V15.0 (July 21, 2026) - MORNING INTELLIGENCE: the tool now feeds itself
+- New nightly engine (v15_intel.py) runs in the SAME 7:30 AM scheduled
+  task as Reg Watch and writes v15_data.js; the Reg Watch tab renders
+  a "Morning Intelligence" card from it. Everything additive and
+  graceful-fail: if any feed breaks, the error prints IN the card and
+  the rest of the platform is untouched.
+- Three live feeds (all endpoint-verified before wiring):
+  1. FEDERAL ENROLLMENT (data.medicaid.gov datastore API, keyless):
+     top comprehensive MCOs per target state (CA/NY/MA/NC/LA) with
+     parent org, total enrollment, and DUALS - latest published
+     report year, deduped, dental/transport/behavioral carve-outs
+     excluded; honest footnote that the file predates UHC's LA exit.
+  2. BILL WATCH (GovTrack API): S.2834 + H.R.5439 status with
+     change-detection - if either MTM bill moves, the card flags
+     "STATUS CHANGED" the next morning.
+  3. KFF WAIVER TRACKER change-detection (content hash): "changed
+     since last run" review flag on the mechanism map of record.
+- State persisted in v15_state.json; both folders stay in sync via
+  the updated scheduled BAT (runs both engines, copies back).
