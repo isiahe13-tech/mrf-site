@@ -113,11 +113,63 @@ def feed_kff(prior, errors):
             "lastChecked": datetime.date.today().isoformat()}
 
 
+TRIGGER_RULES = [
+    ("RFP / PROCUREMENT POSTED",
+     r"\b(rfp|request for proposals?|solicitation|procurement|invitation to bid|vendor selection|contract award)\b",
+     "Shred it same-day (RFP tab) — bid/no-bid decision within 48 hours."),
+    ("WAIVER / MECHANISM ACTION",
+     r"\b(1115|waiver|in lieu of|ilos|community supports?|hrsn)\b",
+     "The mechanism map may have moved — check the state row (Targeting tab) and open evidence-pack conversations with programs on that authority."),
+    ("PLAN EXIT / ENTRY / RE-PROCUREMENT",
+     r"\b(exits?|withdraws?|terminat\w+|re-?procurement|awarded contract|new mco|plan selection)\b",
+     "Member churn window — receiving plans need engagement wins; land the reassigned-member pitch inside 90 days."),
+    ("LEADERSHIP CHANGE",
+     r"\b(appoints?|names?|hires?|new (?:ceo|cmo|president|director)|steps? down|resigns?|succeeds?)\b",
+     "New priorities, no incumbent loyalty — congratulations + market-intel note within 2 weeks (Targeting tab owns the map)."),
+    ("COMPETITOR / FOOD-AS-MEDICINE MOVE",
+     r"\b(mom'?s meals|instacart|season health|nourishedrx|foodsmart|medically tailored|food as medicine|food is medicine|produce prescription)\b",
+     "Validated budget or a bar to beat — ladder pitch; pull the battlecard (Sales Kit tab)."),
+    ("BILL / STATUTE MOVEMENT",
+     r"\b(passes|passed|enacted|signed into law|advances|committee approv\w+|markup)\b",
+     "A mechanism being born — check the Champions card below and the bill watch above."),
+    ("STARS / QUALITY EVENT",
+     r"\b(star ratings?|cahps|hedis|quality bonus)\b",
+     "Renewal-defense conversation opener (Account Health tab)."),
+]
+
+
+def feed_triggers(errors):
+    """Classify today's Reg Watch feed items against the Targeting tab's trigger doctrine."""
+    path = os.path.join(HERE, "regwatch_data.js")
+    with open(path, encoding="utf-8") as f:
+        raw = f.read()
+    data = json.loads(raw.replace("window.REGWATCH_DATA =", "").rstrip("; \n"))
+    hits, seen = [], set()
+    for item in data.get("items", []):
+        text = (str(item.get("title", "")) + " " + str(item.get("bucket", ""))).lower()
+        for name, pattern, move in TRIGGER_RULES:
+            m = re.search(pattern, text, re.I)
+            if m and item.get("title") not in seen:
+                seen.add(item.get("title"))
+                hits.append({"trigger": name, "title": str(item.get("title", ""))[:160],
+                             "url": item.get("url", ""), "date": item.get("date", ""),
+                             "source": item.get("source", ""), "move": move,
+                             "why": f"matched \"{m.group(0)}\""})
+                break
+    return {"scanned": data.get("itemCount", len(data.get("items", []))),
+            "feedGenerated": data.get("generated", ""), "hits": hits[:12],
+            "capped": len(hits) > 12}
+
+
 def main():
     errors = []
     prior = load_state()
     data = {"generatedAt": datetime.datetime.now().strftime("%A, %B %d, %Y at %I:%M %p"),
-            "enrollment": {}, "bills": [], "kff": {}, "errors": errors}
+            "enrollment": {}, "bills": [], "kff": {}, "triggers": {}, "errors": errors}
+    try:
+        data["triggers"] = feed_triggers(errors)
+    except Exception as e:
+        errors.append(f"trigger classifier: {e}")
     try:
         data["enrollment"] = feed_enrollment(errors)
     except Exception as e:

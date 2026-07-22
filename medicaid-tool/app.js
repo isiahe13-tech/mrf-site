@@ -1297,11 +1297,22 @@ function renderV15(){
     ?`<b style="color:#b45309">THE KFF WAIVER TRACKER CHANGED since the last run</b> — open it and review (mechanism map may have moved). Checked ${escapeHtml(d.kff.lastChecked||"")}.`
     :`KFF waiver tracker: unchanged as of ${escapeHtml((d.kff&&d.kff.lastChecked)||"—")}.`;
   const errs=(d.errors&&d.errors.length)?`<div class="callout amber"><b>Feed issues last run (reported honestly, never hidden):</b> ${d.errors.map(escapeHtml).join(" · ")}</div>`:"";
+  const trg=d.triggers||{};
+  const trgRows=(trg.hits||[]).map(h=>`<tr><td><b>${escapeHtml(h.trigger)}</b></td><td><a href="${escapeHtml(h.url)}" target="_blank" rel="noopener">${escapeHtml(h.title)}</a><br><span class="muted" style="font-size:.78rem">${escapeHtml(h.source)} · ${escapeHtml(h.date)} · classifier: ${escapeHtml(h.why)} — click the headline to verify</span></td><td>${escapeHtml(h.move)}</td></tr>`).join("");
+  const trgBlock = trg.scanned
+    ? (trgRows
+        ? `<h4 style="margin:8px 0 4px">Triggers detected in today's feed — the doctrine (Targeting tab) applied to the news automatically</h4>
+           <div class="tablewrap"><table><thead><tr><th>Trigger</th><th>Item (with match reason — verify with one click)</th><th>The move</th></tr></thead><tbody>${trgRows}</tbody></table></div>
+           ${trg.capped?'<p class="muted">More matches were found than shown (capped at 12) — scan the full feed below.</p>':""}`
+        : `<p style="margin:8px 0"><b>Trigger scan:</b> ${trg.scanned} feed items checked against the trigger doctrine — no matches today. (The classifier ran; nothing actionable. Every match, when found, shows its rule and source link.)</p>`)
+    : "";
   mount.classList.remove("empty");
   mount.innerHTML=`
-    <p class="muted">Generated ${escapeHtml(d.generatedAt||"")}. Sources: the federal managed-care enrollment file (data.medicaid.gov API), GovTrack bill tracking, and KFF tracker change-detection. Enrollment is the latest PUBLISHED federal report year — treat as directional TAM (Louisiana note: the ${d.enrollment.dataYear||""} file predates UnitedHealthcare's 4/1/2026 exit).</p>
+    <p class="muted">Generated ${escapeHtml(d.generatedAt||"")}. Sources: the federal managed-care enrollment file (data.medicaid.gov API), GovTrack bill tracking, KFF tracker change-detection — and the trigger classifier, which reads every morning's Reg Watch feed against the trigger-event doctrine from the Targeting tab. Nothing here is generated blind: every claim links to its source.</p>
+    ${trgBlock}
     <h4 style="margin:8px 0 4px">Bill watch — the mechanisms being born</h4><ul>${bills||"<li>No bill data last run.</li>"}</ul>
     <p style="margin:8px 0">${kff}</p>
+    <p class="muted">Enrollment below is the latest PUBLISHED federal report year — directional TAM (Louisiana note: the ${d.enrollment.dataYear||""} file predates UnitedHealthcare's 4/1/2026 exit).</p>
     ${stateBlocks}
     ${errs}`;
 }

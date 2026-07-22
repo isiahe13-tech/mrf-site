@@ -812,3 +812,24 @@ V15.0 (July 21, 2026) - MORNING INTELLIGENCE: the tool now feeds itself
      since last run" review flag on the mechanism map of record.
 - State persisted in v15_state.json; both folders stay in sync via
   the updated scheduled BAT (runs both engines, copies back).
+
+V15.1 (July 22, 2026) - THE SYSTEM WIRES ITSELF TOGETHER
+- TRIGGER CLASSIFIER: the nightly engine now reads every morning's
+  Reg Watch feed (43 items today) against the Targeting tab's
+  trigger-event doctrine and posts matches on the Morning
+  Intelligence card - trigger type, prescribed move, match reason,
+  one-click source link. 12 real matches on day one. Nothing
+  generates blind; everything is verifiable. The Targeting tab
+  carries a LIVE badge explaining the wiring.
+- LOUISIANA BUYING COMMITTEES card (Targeting tab): all five MCOs'
+  verified officers w/ source + tier from LDH penalty notices, MAC
+  minutes, and plan newsrooms - incl. Nikesha Rodrigue (Aetna
+  side door, PROVEN via news coverage of the $400K Food-is-Medicine
+  mobile-market relaunch 5/20/2026); three succession alerts (ACLA
+  CMO watch, LHCC CEO transition w/ Sullivan+Wilson power pair,
+  Humana officer opacity); Aetna care-mgmt vacancy flagged as a
+  door; all-plan context: contracts extended thru CY2026, next-gen
+  MCO RFP in drafting = quality officers pre-RFP-sensitive now.
+- Integrity: prior "Kim Sonnier-Wimberly = LHCC CEO" note flagged
+  UNVERIFIED (no public source); demo-discipline note added (roles
+  in the room, DEMO account in the map, never screen-share live).
