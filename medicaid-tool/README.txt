@@ -640,3 +640,23 @@ V14.4 (July 20, 2026) - RFP SHREDDER (the "days not weeks" engine)
   matrix is the audit trail; pricing = finance sign-off, never sales.
 - Includes a labeled SYNTHETIC sample RFP for demos. Renders inline
   (no pop-ups) with Print/Save-PDF + Download.
+
+V14.5 (July 21, 2026) - HUNTING ENGINE tab (self-sourced pipeline doctrine)
+- New tab between Pipeline and Sales Kit: the prospecting system for a
+  zero-inherited-book seat.
+- Two-door persona grid: named buyers (CMO / VP Care Mgmt / Chief
+  Health Equity Officer / Medicaid Director) + the SIDE DOOR
+  (community-development, quality/Stars, population-health leaders -
+  they answer, and they walk you upstairs). Side-door rule: learning
+  call, never a pitch.
+- Trigger-event table: plan exits, RFP posts, waiver renewals,
+  leadership changes, competitor launches, mid-year notice waves -
+  money moves first, you move second.
+- Person-finding stack in evidence order: first-party sources,
+  association layer, copy-paste LinkedIn search recipes, and the
+  no-naked-names enrichment discipline (channel + tier + source).
+- Parent-org ladder: 8 national Medicaid parents and why one state
+  relationship = a national door; honest Louisiana framing (doors,
+  not near-term revenue).
+- Live-proof line kept roles-only - no contact names anywhere in the
+  demoable artifact.
