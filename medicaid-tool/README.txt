@@ -774,3 +774,21 @@ check-writing recipe
 - "How the check actually gets written" callout added to the FQHC/
   340B area: FQHC direct deal = small-business sale (three yeses +
   a board nod); size like a grant program; seed-capital exit frame.
+
+V14.9c (July 21, 2026) - No naked names anywhere: champion channels +
+the BRPCC governance door
+- CHAMPION CHANNELS table (Reg Watch): official office phone + email
+  for all 23 champions, every row from the legislature's own pages
+  (7/21/2026). Direct emails where published (NY Rivera/Simone, WA
+  Reeves/Nobles, CO Brown/Kirkmeyer, PA Kosierowski, MA Cyr, IL
+  Hernandez, LA McMath/Landry/Chassion/Miller - note Miller's
+  personalized millerd@ alias); honest webform-only flags (federal,
+  CA, NJ) and NOT PUBLISHED flags (Mihalek, Collins). Cassidy's
+  Baton Rouge + Lafayette district lines flagged as local calls.
+- FQHC layer: Baton Rouge Primary Care Collaborative added as the
+  Louisiana GOVERNANCE DOOR - Board Chairperson Eldridge Etienne
+  verified on the org's own IRS Form 990 (FY2025, filed 5/2026; 8
+  consecutive board years), CEO Dr. Stacie Bland, main line (225)
+  774-1120. Positioned honestly: community-trust node and plan-funded
+  pilot referral partner, never a direct-pay target. No private
+  numbers anywhere in the tool.
