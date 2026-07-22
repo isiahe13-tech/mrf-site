@@ -680,3 +680,23 @@ V14.6 (July 21, 2026) - Stakeholder tab NATIONALIZED + fully enriched
   retitled as the pilot model of a method that runs on any state.
 - Reg Watch hardened: daily 7:30am task verified running (exit 0);
   updater now syncs BOTH the demo folder and the source folder.
+
+V14.7 (July 21, 2026) - THE 340B WALLET card (FQHC direct-pay economics)
+- Answers "how does an FQHC actually buy food": 340B margin is the
+  one discretionary budget inside an FQHC that can fund a direct meal
+  pilot - and it must be reinvested in patient services.
+- Public-filing economics for all 5 anchor FQHCs (IRS 990s + audited
+  statements): AltaMed $123.4M pharmacy revenue; Sun River $24.9M
+  340B revenue vs $14.1M expense (~$10.8M net, labeled arithmetic);
+  NeighborHealth $38.1M pharmacy revenue; Kintegra expense-side only
+  ($23.2M drug supplies, ~10 in-house pharmacies); Access Health LA
+  audited Note 13: $4.2M vs $2.6M (~$1.6M net, +67% YoY).
+- Two named 340B doors found: Dr. Sebastian Hamilton (NeighborHealth
+  VP & Chief Pharmacy Officer) and Shikenya Johnson (Access Health LA
+  340B Coordinator).
+- Pilot sizing tied to disclosed economics (Sun River ~2% of net;
+  Access Health 50-75 members = 4-6%); honesty rails: revenue is not
+  savings, computed numbers labeled as arithmetic, JAMA 2024 median
+  FQHC ~$334K/yr = direct-pay pitch fits LARGE programs only.
+- No CA/NY/MA/NC/LA state 340B disclosure law exists (MN-style
+  transparency has not reached these states) - filings are the source.
