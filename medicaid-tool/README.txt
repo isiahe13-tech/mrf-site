@@ -700,3 +700,35 @@ V14.7 (July 21, 2026) - THE 340B WALLET card (FQHC direct-pay economics)
   FQHC ~$334K/yr = direct-pay pitch fits LARGE programs only.
 - No CA/NY/MA/NC/LA state 340B disclosure law exists (MN-style
   transparency has not reached these states) - filings are the source.
+
+V14.8 (July 21, 2026) - THE MECHANISM GATE (from the 2026 operator
+playbooks: MCO/D-SNP + FQHC targeting)
+- Hunting Engine: new Mechanism Gate card - the binary that decides
+  every MCO deal (ILOS/CS/1115 food = in the capitation rate + MLR
+  numerator as incurred claims = margin-neutral; value-added food =
+  plan margin draw = dies in actuarial review). Qualify mechanism
+  FIRST. MLR-floor remittance tailwind noted.
+- Persona grid: Chief Actuary added as GATEKEEPER (rate assumptions
+  lock 3-6mo pre-period; engage 9-12mo out; the one-sentence opener);
+  Quality/Stars upgraded to "strongest champion" with the public
+  pain-map play (EQRO reports + Core Set: 2024 median HbA1c>9% =
+  38.8% - deviation above median = citable gap).
+- Pain-map source table: EQRO technical reports, CMS Core Set
+  dashboard, CMS PBP benefit files (the "already buys" list), CalAIM
+  Community Supports Elections by MCP/County (county gaps = named
+  pipeline), OPAIS Covered Entity Daily Report (contract-pharmacy
+  counts + FREE Authorizing Official/Primary Contact names/phones for
+  every FQHC), job postings as in-market signals.
+- Five qualifying questions added (mechanism, rate/MLR treatment,
+  measure gaps, parent-vs-market contracting, rate-lock timing).
+- 340B Wallet card CORRECTED: 340B = capacity signal, never the
+  stated funding source (program income, scope-of-project, Change in
+  Scope); two budgets/two champions rule (neutralize pharmacy, sell
+  Population Health); plan-funded beats self-funded wherever a
+  mechanism exists.
+- GTM PLAYBOOK (NATIONAL) updated with the full Mechanism Gate
+  section: kill modes, timing calendar (rate lock 9-12mo, MA bids
+  first-Monday-June, Stars 15mo lead, RFP influence 12-24mo),
+  signature authority (market president vs parent master agreement;
+  Centene FiM ~30 states), NC HOP summative stats (food = 84% of
+  services, 61% of spend; restart one-time and undersized).
