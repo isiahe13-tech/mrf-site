@@ -660,3 +660,23 @@ V14.5 (July 21, 2026) - HUNTING ENGINE tab (self-sourced pipeline doctrine)
   not near-term revenue).
 - Live-proof line kept roles-only - no contact names anywhere in the
   demoable artifact.
+
+V14.6 (July 21, 2026) - Stakeholder tab NATIONALIZED + fully enriched
+- National Parent Accounts grid: verified CURRENT Medicaid leadership
+  at all 8 parents (UHC Mike Cotton + Bobby Hunter; Aetna Katerina
+  Guerraz; Humana John Barger; Centene Daniel Finke; Elevance Aimee
+  Dailey; Molina Debra Bacon; CareSource Erhardt Preitauer;
+  AmeriHealth Caritas Gregg MacDonald INTERIM) - every name with
+  source + date + succession context; freshness rule on the card.
+- State-Level Targets card: all 5 state Medicaid directors PROVEN
+  against official state sources (CA Baass/Sadwith, NY Bassiri, MA
+  Schwarz - NEW June 2026, NC Bush, LA Gold) with published office
+  channels.
+- FQHC Layer card: largest community health center per state, sized
+  from HRSA's federal UDS 2024 dataset (AltaMed 295K, Sun River 241K,
+  NeighborHealth 88K, Kintegra 103K, Access Health LA 55K) with CEO +
+  main channel + stale-claim corrections (Goshen, DePaul).
+- Louisiana-only framing swept: placeholders nationalized, funnel
+  retitled as the pilot model of a method that runs on any state.
+- Reg Watch hardened: daily 7:30am task verified running (exit 0);
+  updater now syncs BOTH the demo folder and the source folder.

@@ -1,7 +1,39 @@
 window.REGWATCH_DATA = {
- "generated": "2026-07-17 16:15",
+ "generated": "2026-07-21 07:30",
  "itemCount": 43,
  "items": [
+  {
+   "bucket": "Federal rulemaking (official)",
+   "source": "Federal Register",
+   "title": "Agency Information Collection Activities: Proposed Collection; Comment Request",
+   "date": "2026-07-21",
+   "url": "https://www.federalregister.gov/documents/2026/07/21/2026-14699/agency-information-collection-activities-proposed-collection-comment-request",
+   "note": "Notice Health and Human Services Department"
+  },
+  {
+   "bucket": "Federal rulemaking (official)",
+   "source": "Federal Register",
+   "title": "Medicare Program; Inflation Reduction Act of 2022 (IRA) Medicare Drug Price Negotiation Program Draft Guidance; Comment Request",
+   "date": "2026-07-20",
+   "url": "https://www.federalregister.gov/documents/2026/07/20/2026-14583/medicare-program-inflation-reduction-act-of-2022-ira-medicare-drug-price-negotiation-program-draft",
+   "note": "Notice Health and Human Services Department"
+  },
+  {
+   "bucket": "Federal rulemaking (official)",
+   "source": "Federal Register",
+   "title": "Public Charge Ground of Inadmissibility",
+   "date": "2026-07-20",
+   "url": "https://www.federalregister.gov/documents/2026/07/20/2026-14539/public-charge-ground-of-inadmissibility",
+   "note": "Rule Homeland Security Department"
+  },
+  {
+   "bucket": "Louisiana",
+   "source": "WBRZ",
+   "title": "Denham Springs family moves to Ohio after Louisiana Medicaid gaps disrupt 11-year-old's brain tumor trial - WBRZ",
+   "date": "2026-07-20",
+   "url": "https://news.google.com/rss/articles/CBMizAFBVV95cUxPZ2lwazdYRDdpa1hhSm1xT1ZkTWFkRHI3UjlZNVdBc3hKUURLM1BaV2dHT3hzWHowbG8zT1pfenFRdF9GbkVBX1FodzZfOEZrZ3V1THFsRVMzSFBFMW1pQnA4LUpzY2tHSzV6dGZydmhtQnpwbmYxRmZobk9YSXlMNGlRM1VrUWk3aVpBM2EzOFNNbk9DMjV4bUpRRVllcWZZRjMxUEgzWk9JaVBaSmJIV3dOVkpudDRNeUxxVzJXM1BJZGl3ZWxaUTUxZ2c?oc=5",
+   "note": "News lead - click through and verify before citing."
+  },
   {
    "bucket": "Federal rulemaking (official)",
    "source": "Federal Register",
@@ -99,14 +131,6 @@ window.REGWATCH_DATA = {
    "note": "Notice Health and Human Services Department"
   },
   {
-   "bucket": "New York",
-   "source": "Bronx Times",
-   "title": "SOMOS Social Care Network, Fordham University host Summer Mercado to connects Bronx families with food, housing and healthcare resources - Bronx Times",
-   "date": "2026-07-09",
-   "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTFBwLVhtZVN2b2lPVHlQX0hldlpDRFpMX1pBOWV5MFJCMUtpR0l4YXRkWU1SbXdidXVxNVU2aGJ4dkQ2V0t6Z3Y3UlJPNzV3ZjFYTlNkRnBOcktoWkRmV25tRmlXNzVYMnpFMmt2RHNaUG8wcVN5cUN5U05oZ25BZw?oc=5",
-   "note": "News lead - click through and verify before citing."
-  },
-  {
    "bucket": "Federal rulemaking (official)",
    "source": "Federal Register",
    "title": "Medicare Program; Announcement of the Advisory Panel on Hospital Outpatient Payment Meeting-August 24, 2026",
@@ -120,38 +144,6 @@ window.REGWATCH_DATA = {
    "title": "Medical Device User Fee Amendments; Public Meeting; Request for Comments",
    "date": "2026-07-08",
    "url": "https://www.federalregister.gov/documents/2026/07/08/2026-13778/medical-device-user-fee-amendments-public-meeting-request-for-comments",
-   "note": "Notice Health and Human Services Department"
-  },
-  {
-   "bucket": "New York",
-   "source": "Yahoo Finance Singapore",
-   "title": "WholeYouNYC, New York's largest designated Social Care Network, screens nearly 600,000 Medicaid members for health-related social needs - Yahoo Finance Singapore",
-   "date": "2026-07-08",
-   "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxNRE5OM2M3NWpHYll4NDRzSW1OdTQzNTF2c3JHYVpTRmtJTTBKYnlJSWc5UVE5TG0yU1JZZ213T2k1T2RMMHhBWGJKcVNnYU9fcHJkeEJVNllzT2JhYlRBbHJqMF9kMGd6UG9LajFnc2hLTGRHcXlrY0tUYVVDWUZmeng2V0F5UUllTGZOSF9SRC1XWk5LN0VF?oc=5",
-   "note": "News lead - click through and verify before citing."
-  },
-  {
-   "bucket": "Federal rulemaking (official)",
-   "source": "Federal Register",
-   "title": "Privacy Act of 1974; Matching Program",
-   "date": "2026-07-07",
-   "url": "https://www.federalregister.gov/documents/2026/07/07/2026-13671/privacy-act-of-1974-matching-program",
-   "note": "Notice Health and Human Services Department"
-  },
-  {
-   "bucket": "Federal rulemaking (official)",
-   "source": "Federal Register",
-   "title": "Medicare Program: Hospital Outpatient Prospective Payment and Ambulatory Surgical Center Payment Systems; and Quality Reporting Programs; Including the Hospital Outpatient Quality Reporting Program and Ambulatory Surgical Center Quality Program; Request for Information on Strengthening the Standardization and Comparability of Hospital Price Transparency (HPT) Data; Prior Authorization; Accrediting Organization (AO) Deeming for Emergency Medical Treatment and Labor Act (EMTALA); and Notices of Closure of Teaching Hospitals and Opportunities To Apply for Available Slots",
-   "date": "2026-07-07",
-   "url": "https://www.federalregister.gov/documents/2026/07/07/2026-13656/medicare-program-hospital-outpatient-prospective-payment-and-ambulatory-surgical-center-payment",
-   "note": "Proposed Rule Health and Human Services Department"
-  },
-  {
-   "bucket": "Federal rulemaking (official)",
-   "source": "Federal Register",
-   "title": "Agency Information Collection Activities: Submission for OMB Review; Comment Request",
-   "date": "2026-07-06",
-   "url": "https://www.federalregister.gov/documents/2026/07/06/2026-13603/agency-information-collection-activities-submission-for-omb-review-comment-request",
    "note": "Notice Health and Human Services Department"
   },
   {
@@ -187,14 +179,6 @@ window.REGWATCH_DATA = {
    "note": "News lead - click through and verify before citing."
   },
   {
-   "bucket": "Louisiana",
-   "source": "WWLTV.com",
-   "title": "Louisiana AG announces 21 arrests in Medicaid fraud crackdown, creates new fraud division - WWLTV.com",
-   "date": "2026-07-01",
-   "url": "https://news.google.com/rss/articles/CBMi-gFBVV95cUxOSVh5YThiVGtOWEFkbHJYTGQ3blA1cDN3b25qdElmRF9aUFB0UHFNMS16SnZSZjV5Vl9lT3pZeEs0bTNjb2tkaGxSLUhhOVBEN3ZROWp5ZnZYOTdQUGdnT3dVd0txSTljbEhyR1VZaTVWU0JnZEJlOEM0bE1pSVBmejJ2ZDFhZEFpcmpramRfbW01b2FlaUhGY1FSZEZfV1BxbC1Udk9Gb2xDZ0tfYWtLNmtCYmJ3Ri1FXzNqRGxIRmVPbUttb2trbVpJSGVxanB6LVBhNHc3NnZFWWdYeVVsUVRoamhFRHE1b1R1OF83emVFWW9tZm5Xa1Bn?oc=5",
-   "note": "News lead - click through and verify before citing."
-  },
-  {
    "bucket": "North Carolina",
    "source": "North Carolina Health News",
    "title": "NC\u2019s first full budget since 2023 reflects transformed health policy landscape - North Carolina Health News",
@@ -211,14 +195,6 @@ window.REGWATCH_DATA = {
    "note": "News lead - click through and verify before citing."
   },
   {
-   "bucket": "North Carolina",
-   "source": "HealthLeaders Media",
-   "title": "North Carolina's Healthy Opportunities Offer a Medicaid Roadmap for CFOs\u2014Even as the Program Remains on Pause - HealthLeaders Media",
-   "date": "2026-06-15",
-   "url": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxOVDNFSUcwRHFWYVQ4V2ZoNUJQYlpuV3FXMGFkOHVLN2VUVGZpRG9Ed3ZGbDZJdDJhXzZZU1YzNy1xcnNrR1hxSDYzUGpuSWh0MTVOeDJIRDdUMFZ1NGtoZ284VVdrLTByZnMtUmZUUzlsTnlBb0JNNzkyTi1XTHFqZUYzVVpNVXI4X21lR2JsaUE1QXJxclNaMWprWFJiLUh5UkdQb1BpeWo5SlR4bXYtMWhCUWRrVzhiMmVuNmM5SDR3STVVZ0YtcUk5S0pKdG9pWHFlcTJR?oc=5",
-   "note": "News lead - click through and verify before citing."
-  },
-  {
    "bucket": "Food-as-Medicine news",
    "source": "The Hill",
    "title": "America\u2019s public health programs must cover medically tailored meals - The Hill",
@@ -228,10 +204,10 @@ window.REGWATCH_DATA = {
   },
   {
    "bucket": "Food-as-Medicine news",
-   "source": "Nutrition Insight",
-   "title": "Medically tailored meals cut costs and health emergencies, study finds - Nutrition Insight",
-   "date": "2026-06-04",
-   "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxQdlBqQlFLNEFrOXJMWFB3a2ZjcENkY1BGYnZydGtYcmJlYkZocUdMX09yS0R4NC04cEpzTlZkRjFrSDhEVDRPbUt4WVZDMk1SclhuaHU4d3VYWEg0NjVlLXQ5NjByOUxKT2dMMnZsQk1yTXZBUWoyMzdQQWpLYWpxNk0zODJLSEFBaWUxeXRaWFZPMUJKQ2pVZHJ3ei0tdlV1ZkNj?oc=5",
+   "source": "UMass Chan Medical School",
+   "title": "UMass Chan research finds Medicaid-funded nutrition, housing programs linked to improved health outcomes, lower costs - UMass Chan Medical School",
+   "date": "2026-06-10",
+   "url": "https://news.google.com/rss/articles/CBMi9gFBVV95cUxPT1ZEbWh1UExCSG1KQkFxQzJLbldZNFhYeDI3R1NKMDJ4UmhTU2cxMFJFNnBzWVhHOUhjSDhKMTNlUXprZWJfZVRQODJDSTYxMEp3amZvSU9TTDJVMGh0SEVlbVdJblJmbG12WU93MTRuZnVab19JREZNZDlMTXd6Z1h2QXZrLTNqZnRXdFRlUnNMUVNiYUtDZUZ4MTY1N0J0eHRpZFJKeDFiQk5ySERSS0dIUXlJb2plT3FFMEM0N0YzZGRuRHJaRDdRTUxrbVExNkM2S3pXU2dQTExVT2hjazMzMmhZbFJEcS1sN2IxRkEwXzN3SGc?oc=5",
    "note": "News lead - click through and verify before citing."
   },
   {
@@ -259,11 +235,19 @@ window.REGWATCH_DATA = {
    "note": "News lead - click through and verify before citing."
   },
   {
+   "bucket": "North Carolina",
+   "source": "WCTI",
+   "title": "Healthy Opportunities Pilots study shows Medicaid savings, but operations suspended - WCTI",
+   "date": "2026-06-02",
+   "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxOWjVMSlRPcFlLdXZsYU1nVHc3dmFZampZVVdNSHdTTDloQkM1SW9sZ1NwRTRaOWdOY2lhT0hVQktFRWpHd3hpaDY0Rzdqc2xOQlhwWmY5aVBmZEVENjFqcFBkb0hkRXZzdm5MV3d4enl3UVpEVklFWmxaRFRSUHhwbjFrOWRFcXVGUUFWcmlsQWU0eF8yY1lxZE1WOGUwb0h6czBuVjZzMVRSZ0lRdnduWTZR?oc=5",
+   "note": "News lead - click through and verify before citing."
+  },
+  {
    "bucket": "New York",
-   "source": "SILive.com",
-   "title": "This Staten Island program is tops in state; leaders now taking on Brooklyn and Queens - SILive.com",
-   "date": "2026-05-17",
-   "url": "https://news.google.com/rss/articles/CBMixAFBVV95cUxNUU9JNGl2c1FmUlYxU2VIN19Jc3Y1WjVidThSdlNzdjFHdGtHUF8xVDNodlhGaUk3LW9HV2xLalJkTXZRRU1CdGgwN1BhOWk4dm1FV3BGUFBOM2JDMnhqM2pMcFhKbWRCeVRJbUhyek9BVGVLVVVMN29lMFN0MUxfamxMd1V3QjdYejRQXzFJMTJWbnZzWm4zWHFpMG5LMWZ2V21yb2paT1FkV0xOcEJRNE9UTF9wd2E4bTNPcnFSRllzNl9n0gHYAUFVX3lxTFBGWUpiUTFlcDZlWHhYSUs1WjNwSTZYUG9IcTk4ZHlpa2ZYSWJ5clNhWWlRRUNTaFBpNUpvRGtTdjRHMWRVSjlseldxUjdVejNzbWd2LS13MXdSdmFBZ0VUcUMxMGpLOFVNcS1oc2x3NEpwaFQ2VDN2SFJJV1JxMVROb0FZODNSa0p6UWk3dElnaXpraThsX1N1NG91S1hRTmN0SW5WVjlLLV9reG1Ec0xwOFl2MjZxN0xyNnFOQmtCem41V2M1QUVJSUVCTHBzckVzeXp5Q2E1eA?oc=5",
+   "source": "Yahoo Finance",
+   "title": "Scaling Success: The Medicaid Model New York Can't Afford to Ignore - Yahoo Finance",
+   "date": "2026-03-31",
+   "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxPQkx4SkdzZ3RYVTctYldUb0tqWlBFSDIteTZKZktoTVZRREhsNnV0d1VpWTB1dE1uVFNwODNxYkNOTUpMN1QyVXlMak1GbXo3Ry1RUURSdjJtSFBUU3MwOXRRampVcWtoVE4zUlZMZ1dfRE0yWTlCNVJGLUtfQnFJRnl5WktNUjcwQ0MtdDNIODZqcVlHVzBJM2tkaU5meng4Sjh2T1E4Yw?oc=5",
    "note": "News lead - click through and verify before citing."
   },
   {
@@ -291,19 +275,19 @@ window.REGWATCH_DATA = {
    "note": "News lead - click through and verify before citing."
   },
   {
+   "bucket": "New York",
+   "source": "ny.gov",
+   "title": "Healthcare Access Loan Repayment (HEALR) Program - ny.gov",
+   "date": "2026-01-31",
+   "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE91SWRVUW13cDZkc3pjMVFSUXl1T0NLVzBaaTRFNlJ1S3BWdk0tTUVZVFZxREJVaE1Ia29yMjFoUEN2elJRTDhDMEZVbHlBczNQa0pRd0RBN3AxeDNseGRaR3pPLWM0U0M2Z3pfYTdaNXlFTkZlTFQ1M0hZTQ?oc=5",
+   "note": "News lead - click through and verify before citing."
+  },
+  {
    "bucket": "California",
    "source": "California Health Care Foundation",
    "title": "Housing-Related Community Supports Implementation Tools - California Health Care Foundation",
    "date": "2026-01-09",
    "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxQX0ZiRE9INUVfc09IMmZ2NjdSSGpwNy1PZW1wVGlOWXNHbkRwSE5aVzhTZzNqaWdiMnJISWhxZ2xDc2dmcUdZSEFISDVYbDFEdzRGMlZ2eWN6WDBqZTVIS3l6UVlHN0lnaGhQSzRkQnVCWml3NkRielI4Zy1LWDVzM21peDJoUWp0cERWcE85dw?oc=5",
-   "note": "News lead - click through and verify before citing."
-  },
-  {
-   "bucket": "1115 / HRSN policy",
-   "source": "New York State Department of Health (.gov)",
-   "title": "New York State Medicaid 1115 Waiver - New York State Department of Health (.gov)",
-   "date": "2025-12-19",
-   "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTE5kbE9FcXV4RGt4U1ZTRnhJa3AwcURvSE1kelBqSVVaU1pCeS0tMHpCMmxUclI5MzFsV0l5bmxPRXh4MHB2X0N1RXlEWDM3dGVBeFBnNFF0QUhza2tNb3RBeUtJWV9pVXlxc1o0WUFmR2ZsRnVSSlpj?oc=5",
    "note": "News lead - click through and verify before citing."
   },
   {
@@ -320,6 +304,14 @@ window.REGWATCH_DATA = {
    "title": "Season Health and Albertsons Cos. unveil Community Supports service in California - Mass Market Retailers",
    "date": "2025-12-01",
    "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxNNzQ1QkF3RWI2cmVja01fdXFCa01pQmY1SUFYYk4tbmZwZlVVcmRpc0lsakVJOGkxZm5lcm81ZnB5SVBfQzZod2Qxazh1RW9LeVF6dXY0MWMwQmZOM3Q4MEpFM0pBV21PQXBaTGdTc29Va2NRVG9uTXFzeGlGdlJKM09sWkpQdTdsZmNzSmRNdzN5aVlzb3J0ZXlnQld1WUhPc3ZQalVCbzZmc0RjUHR1YUI1WQ?oc=5",
+   "note": "News lead - click through and verify before citing."
+  },
+  {
+   "bucket": "New York",
+   "source": "Fierce Healthcare",
+   "title": "Trio of partners in NYC share data to expand social services screenings, referrals - Fierce Healthcare",
+   "date": "2025-11-21",
+   "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxOVUUzeXNtMFR0X0tFQ0cxZ0RVdXNmX3NDMjZDeEM3T1J6V3B3bE43OUxfcVllQm1tRG95NWozOUZRbTUySXdxbFJiUEpVNUQ1TERVejVmSWlvR2E4R1Z4Wm1VWDhiNWg0aWdna1E5S2NEYUswWjNzcGF6ZndzZERYa0c2QmRwY3hGQTZxVl9NOHMtQWhzUkt1czhxZE96MzZZMGY5WTZKazQ?oc=5",
    "note": "News lead - click through and verify before citing."
   },
   {
@@ -344,6 +336,14 @@ window.REGWATCH_DATA = {
    "title": "Section 1115 Medicaid Waiver Watch: A Closer Look at Recent Approvals to Address Health-Related Social Needs (HRSN) - KFF",
    "date": "2024-03-04",
    "url": "https://news.google.com/rss/articles/CBMi2gFBVV95cUxPVi14VFNHc0Jsa3hma3RoRW8zU1FKZlRuVG1aNk0zRlRHU3dheG44TEhOZkNNNkV3LTZxV0pLNGFRbExIbExwaGR5LUVtS1ZraXRmdnVTaV9qREh3TGhIQlBCTktXLTZ2YzVqMW91WWlJdUVLMWl3Qk5Td0NUQXA5Q0puSTA0WFBRUTFrNDhQb01ENlBzXzFWOVI3S0d2TWdHQktnNVg1ZDNVbkZqZmdtN284X013TXdKdTFnSmZ5ZmJKS1ZrU1R1TUduNXZtY1JTLW1TdW00dWZEZw?oc=5",
+   "note": "News lead - click through and verify before citing."
+  },
+  {
+   "bucket": "1115 / HRSN policy",
+   "source": "Commonwealth Fund",
+   "title": "CMS Approves Groundbreaking Section 1115 Demonstrations - Commonwealth Fund",
+   "date": "2022-12-07",
+   "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxPT2lQdVVBSlZTbnhkbUJGOUV3XzROSzV1eXRwVzdYd2l5dE9pUzRXdFFlLTBDUm5NZUU2dmxfMVRlSEczaGFnQlRCSld0NngwdVU5SUdpa3U1eGI0enBJTmZkN045ZXQyT0F6eUhCVFJIUWV6NlVmaHdRSGJrOU1OSEdXZXdhUThrUV9qelpQNnZzMTlCVmVTWUVPUWcybmc?oc=5",
    "note": "News lead - click through and verify before citing."
   }
  ],
